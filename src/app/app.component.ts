@@ -18,11 +18,7 @@ export class AppComponent implements OnInit {
   mobileNavigation = true;
 
   constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
-    if (localStorage.getItem("token")) {
-      this._authenticationService.isLoggedin.next(true);
-    } else {
-      this._authenticationService.isLoggedin.next(false);
-    }
+    this._authenticationService.checkUser();
 
     this._authenticationService.isLoggedin.subscribe(result => {
       this.loggedIn = result;

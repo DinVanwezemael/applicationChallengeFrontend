@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user.model';
-import { UserLogin } from '../models/user-login.model';
 import { UserRegister } from '../models/user-register.model';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,7 @@ export class AuthenticateService {
 
   isLoggedin = new BehaviorSubject(false);
 
-  constructor(private _httpClient: HttpClient) {
-    if (localStorage.getItem("token")) {
-      this.isLoggedin.next(true);
-    } else {
-      this.isLoggedin.next(false);
-    }
+  constructor(private _httpClient: HttpClient, public jwtHelper: JwtHelperService) {
    }
 
    setUser(result: User) {
@@ -47,7 +42,9 @@ export class AuthenticateService {
   }
 
   checkUser() {
-    if (localStorage.getItem("token")) {
+    const token = localStorage.getItem('token')
+
+    if (!this.jwtHelper.isTokenExpired(token)) {
       this.isLoggedin.next(true);
     } else {
       this.isLoggedin.next(false);
