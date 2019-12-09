@@ -9,11 +9,11 @@ import * as $ from 'jquery';
 export class AppComponent implements OnInit {
 
   title = 'applicationChallenge';
-
+  loggedIn = true;
 
 
   public ngOnInit(){
-    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+      $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
       if ($(".sidebar").hasClass("toggled")) {
