@@ -1,2 +1,50 @@
-<p>admin works!</p>
-<p *ngFor="let m of makers">{{m.nickname}}</p>
+<ngb-tabset>
+    <ngb-tab title="Makers">
+        <ng-template ngbTabContent>
+            <div class="form-group">
+                <label >Email</label>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Nickname</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let maker of makers">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{maker.email}}</td>
+                        <td>{{maker.nickname}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Bedrijven">
+        <ng-template ngbTabContent>
+                <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Naam</th>
+                                <th scope="col">Foto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bedrijf of bedrijven">
+                                <th scope="row">{{ i + 1 }}</th>
+                                <td>{{bedrijf.naam}}</td>
+                                <td>{{bedrijf.foto}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Reviews">
+        <ng-template ngbTabContent>
+            <p>test3</p>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>
