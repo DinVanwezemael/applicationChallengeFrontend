@@ -20,9 +20,11 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './authentication/guards/auth.guard';
 import { JwtModule, JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { RoleGuard } from './authentication/guards/role.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  // Role restriction example: { path: '', component: HomeComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'} }, ### Admin, Maker, Bedrijf
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'userdetail', component: UserDetailComponent },
