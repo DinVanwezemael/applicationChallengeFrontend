@@ -5,10 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { LoginModule } from './login/login.module';
+import { LoginComponent } from './login/login/login.component';
 
 
 const appRoutes: Routes = [
   //{ path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent }
   ];
 
 @NgModule({
@@ -17,6 +20,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    LoginModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes, {enableTracing: false}),
     NgbModule
