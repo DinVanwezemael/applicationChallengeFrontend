@@ -11,16 +11,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginModule } from './login/login.module';
 import { LoginComponent } from './login/login/login.component';
 import { RegisterModule } from './register/register.module';
+import { UserDetailComponent } from './user-detail/user-detail.component';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'userdetail',component:UserDetailComponent}
 ]
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RegisterComponent,
+    UserDetailComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
