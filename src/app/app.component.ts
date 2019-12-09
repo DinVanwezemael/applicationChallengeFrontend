@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticateService } from './authentication/services/authenticate.service';
 declare var $ : any;
 
 @Component({
@@ -10,10 +11,20 @@ declare var $ : any;
 export class AppComponent implements OnInit {
 
   title = 'applicationChallenge';
-  loggedIn = true;
+  loggedIn = false;
   userType = 1;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private _authenticationService: AuthenticateService) {
+    if (localStorage.getItem("token")) {
+      this._authenticationService.isLoggedin.next(true);
+    } else {
+      this._authenticationService.isLoggedin.next(false);
+    }
+
+    this._authenticationService.isLoggedin.subscribe(result => {
+      this.loggedIn = result;
+    }) 
+  }
   
   public ngOnInit(){
     
