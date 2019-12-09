@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 declare var $ : any;
 
 @Component({
@@ -12,8 +13,8 @@ export class AppComponent implements OnInit {
   loggedIn = true;
   userType = 1;
 
-
-
+  constructor(private router: Router) {}
+  
   public ngOnInit(){
     
       $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
@@ -59,6 +60,11 @@ export class AppComponent implements OnInit {
       }, 1000, 'easeInOutExpo');
       e.preventDefault();
     });
+
+  }
+
+  toUserDetails() {
+    this.router.navigate(['userdetail'])
   }
 }
 
