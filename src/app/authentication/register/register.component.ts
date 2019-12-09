@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -7,12 +7,16 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-
+  @Output() login = new EventEmitter<boolean>();
   constructor(private fb: FormBuilder) { }
   registerForm: FormGroup;
 
   onSubmit(){
     console.log(this.registerForm.value);
+  }
+
+  disableRegister() {
+    this.login.emit(true);
   }
 
   ngOnInit() {

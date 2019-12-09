@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { RegisterComponent } from './register/register.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { AdminComponent} from './admin/admin/admin.component'
@@ -14,10 +13,15 @@ import { AuthenticateService } from './authentication/services/authenticate.serv
 import { InterceptorService } from './authentication/services/interceptor.service';
 import { LoggerService } from './authentication/services/logger-service.service';
 import { ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginComponent } from './authentication/login/login.component';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { RegisterComponent } from './authentication/register/register.component';
+import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './authentication/guards/auth.guard';
 
 const appRoutes: Routes = [
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'userdetail',component:UserDetailComponent},
@@ -31,6 +35,7 @@ const appRoutes: Routes = [
     FileSelectDirective,
     RegisterComponent,
     LoginComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,12 +45,13 @@ const appRoutes: Routes = [
     NgbModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AuthenticationModule
   ],
-  providers: [
-    AuthenticateService,
-    InterceptorService,
-    LoggerService
-  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticateService } from './authentication/services/authenticate.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 declare var $ : any;
 
 @Component({
@@ -9,12 +10,12 @@ declare var $ : any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
+  searchForm: FormGroup;
   title = 'applicationChallenge';
   loggedIn = false;
   userType = 1;
 
-  constructor(private router: Router, private _authenticationService: AuthenticateService) {
+  constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
     if (localStorage.getItem("token")) {
       this._authenticationService.isLoggedin.next(true);
     } else {
@@ -26,8 +27,7 @@ export class AppComponent implements OnInit {
     }) 
   }
   
-  public ngOnInit(){
-    
+  public ngOnInit(){    
       $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
@@ -72,10 +72,19 @@ export class AppComponent implements OnInit {
       e.preventDefault();
     });
 
+    this.searchForm = this.fb.group({
+    })
+
   }
 
   toUserDetails() {
-    this.router.navigate(['userdetail'])
+    this.router.navigate(['userdetail']);
+  }
+
+  onLogout() {
+      localStorage.removeItem("token");
+      this._authenticationService.isLoggedin.next(false);
+      this.router.navigate(['/login']);
   }
 }
 
