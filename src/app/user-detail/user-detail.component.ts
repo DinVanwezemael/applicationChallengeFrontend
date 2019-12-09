@@ -9,6 +9,7 @@ import { FileUploader } from 'ng2-file-upload';
 export class UserDetailComponent implements OnInit {
   triggered: Boolean = false;
   uploader:FileUploader;
+  profielfoto = "https://localhost:44341/images/jelle.jpeg"
   constructor() { 
   }
 
