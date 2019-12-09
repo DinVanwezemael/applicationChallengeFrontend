@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 declare var $ : any;
 
 @Component({
@@ -10,16 +9,11 @@ declare var $ : any;
 export class AppComponent implements OnInit {
 
   title = 'applicationChallenge';
-<<<<<<< HEAD
-  loggedIn = false;
-=======
   loggedIn = true;
   userType = 1;
->>>>>>> authentication added
 
-  constructor(private router: Router) {
 
-  }
+
   public ngOnInit(){
     
       $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
@@ -65,9 +59,6 @@ export class AppComponent implements OnInit {
       }, 1000, 'easeInOutExpo');
       e.preventDefault();
     });
-  }
-  toUserDetails(){
-    this.router.navigate(['userdetail'])
   }
 }
 

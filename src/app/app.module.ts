@@ -15,6 +15,7 @@ import { AuthenticateService } from './authentication/services/authenticate.serv
 import { InterceptorService } from './authentication/services/interceptor.service';
 import { LoggerService } from './authentication/services/logger-service.service';
 import { ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
