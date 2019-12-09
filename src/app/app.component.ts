@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 declare var $ : any;
 
 @Component({
@@ -9,11 +10,13 @@ declare var $ : any;
 export class AppComponent implements OnInit {
 
   title = 'applicationChallenge';
+  loggedIn = false;
 
+  constructor(private router: Router) {
 
-
+  }
   public ngOnInit(){
-    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+      $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
       if ($(".sidebar").hasClass("toggled")) {
@@ -56,6 +59,9 @@ export class AppComponent implements OnInit {
       }, 1000, 'easeInOutExpo');
       e.preventDefault();
     });
+  }
+  toUserDetails(){
+    this.router.navigate(['userdetail'])
   }
 }
 
