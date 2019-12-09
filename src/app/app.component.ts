@@ -10,12 +10,18 @@ declare var $ : any;
 export class AppComponent implements OnInit {
 
   title = 'applicationChallenge';
+<<<<<<< HEAD
   loggedIn = false;
+=======
+  loggedIn = true;
+  userType = 1;
+>>>>>>> authentication added
 
   constructor(private router: Router) {
 
   }
   public ngOnInit(){
+    
       $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
