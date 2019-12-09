@@ -18,35 +18,35 @@
             </div>
             <form class="user" [formGroup]="loginForm" (ngSubmit)="onLogin()">
               <div class="form-group row">
-                <div class="col">
-                  <input type="text" name="username" class="form-control form-control-user col-7 mx-auto" id="username"
-                    placeholder="Username" formControlName="Username">
+                <div class="col-12">
+                  <input type="text" name="username" class="form-control form-control-user col-12 mx-auto" id="username"
+                    placeholder="Email of gebruikersnaam" formControlName="Username">
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col">
-                  <input type="password" name="password" class="form-control form-control-user col-7 mx-auto"
-                    id="password" placeholder="Password" formControlName="Password">
+                  <input type="password" name="password" class="form-control form-control-user col-12 mx-auto"
+                    id="password" placeholder="Wachtwoord" formControlName="Password">
                 </div>
               </div>
               <button (click)="onLogin()" [disabled]="submitted"
-                class="btn btn-primary btn-user btn-block col-5 mx-auto">
+                class="btn btn-primary btn-user btn-block col-12 mx-auto">
                 Login
               </button>
-              <hr>
-              <a href="index.html" class="btn btn-google btn-user btn-block col-5 mx-auto">
+             <!--  <hr>
+              <a href="index.html" class="btn btn-google btn-user btn-block col-12 mx-auto">
                 <i class="fab fa-google fa-fw"></i> Login with Google
               </a>
-              <a href="index.html" class="btn btn-facebook btn-user btn-block col-5 mx-auto">
+              <a href="index.html" class="btn btn-facebook btn-user btn-block col-12 mx-auto">
                 <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-              </a>
+              </a> -->
             </form>
             <hr>
             <div class="text-center">
-              <a class="small" href="#">Forgot Password?</a>
+              <a class="small" href="#">Ik ben mijn wachtwoord vergeten</a>
             </div>
             <div class="text-center">
-              <a class="small" role="button" (click)="enableRegister()">Don't have an account? Register!</a>
+              <a class="small" role="button" (click)="enableRegister()">Ik heb nog geen account</a>
             </div>
           </div>
         </div>

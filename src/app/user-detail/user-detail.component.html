@@ -1,30 +1,52 @@
+<div class="container">
 <div class="row">
     <div class="col-md-3 text-center">
         <img [src]="profielfoto" alt="Alternate Text" class="img-responsive text-center"
             width="240" height="240" />
         <p class="text-center small">
             <a (click)="openFotoUpload()">Verander foto</a></p>
+
+
     </div>
     <div class="col-md-4 text-muted small">
-        <span>Jelle Van Langendonck / Student1</span>
-        <p>
-            Geb. datum: 13/11/1998</p>
-        <p>
-            E-mailadres: r0705177@student.thomasmore.be</p>
-        <p>
-            www.linkedin.com/in/jelle-van-langendonck/</p>
-        <p>
-            Gsm: +32494692400</p>
-        <p>
-            Jaren Ervaring: 3</p>
-        <p>
+        <h2>Jelle Van Langendonck</h2>
+        <div>
+           <span class="font-weight-bold font-italic">Geb. datum:</span> 13/11/1998
+        </div>
+
+
+        <div class="info">
+            <span class="font-weight-bold font-italic">E-mailadres:</span> r0705177@student.thomasmore.be
+        </div>
+
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">LinkedIn:</span>
+            www.linkedin.com/in/jelle-van-langendonck/
+        
+        </div>
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">Gsm:</span> +32494692400
+        </div>
+
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">Jaren Ervaring:</span> 3
+        </div>
+
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">Info:</span>
             Hallo ik ben Jelle Van Langendonck, student IT-Factory aan Thomas More in Geel. Mijn hobbies zijn uitgaan
             met vrienden en opstap gaan, tevens ben ik actief als Stagecoördinator en Hoofd-Animator op de
             speelpleinwerking van Lommel.
-        </p>
-        <div class="divider">
         </div>
-        <a href="#" class="btn btn-primary btn-sm active">Pas gegevens aan</a>
+
+        <div class="divider"></div>
+        <br>
+        <button href="#" class="btn btn-primary btn-lg btn-block btn-sm active">Bewerken</button>
+        <br>
     </div>
 
 </div>
@@ -33,4 +55,5 @@
         <input  type="file" ng2FileSelect [uploader]="uploader" />
         <button (click)="uploader.uploadAll()" class="btn btn-primary btn-sm active mt-1">Upload</button>
     </div>
+</div>
 </div>

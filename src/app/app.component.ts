@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticateService } from './authentication/services/authenticate.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-declare var $ : any;
+//declare var $ : any;
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   title = 'applicationChallenge';
   loggedIn = false;
   userType = 1;
+  mobileNavigation = true;
 
   constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
     if (localStorage.getItem("token")) {
@@ -26,9 +28,19 @@ export class AppComponent implements OnInit {
       this.loggedIn = result;
     }) 
   }
+
+  mobileNav(){
+    console.log('test');
+    if(this.mobileNavigation == true){
+      this.mobileNavigation = false;
+    }
+    else{
+      this.mobileNavigation = true
+    }
+  }
   
-  public ngOnInit(){    
-      $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+  public ngOnInit(){   
+      /* $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
       if ($(".sidebar").hasClass("toggled")) {
@@ -70,7 +82,7 @@ export class AppComponent implements OnInit {
         scrollTop: ($($anchor.attr('href')).offset().top)
       }, 1000, 'easeInOutExpo');
       e.preventDefault();
-    });
+    }); */
 
     this.searchForm = this.fb.group({
     })
