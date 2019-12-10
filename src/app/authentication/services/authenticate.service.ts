@@ -53,4 +53,12 @@ export class AuthenticateService {
       this.isLoggedin.next(false);
     }
   }
+
+  getUserInfo(){
+    return this._httpClient.get<User>("https://localhost:5001/api/User/")
+  }
+
+  editUser(user: User){
+    return this._httpClient.put<User>("https://localhost:5001/api/Maker/" + user.userID, user);
+  }
 }

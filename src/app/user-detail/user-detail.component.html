@@ -1,14 +1,21 @@
 <div class="container">
 <div class="row">
-    <div class="col-md-3 text-center">
+    <div *ngIf="!triggered" class="col-md-3 text-center">
         <img [src]="profielfoto" alt="Alternate Text" class="img-responsive text-center"
             width="240" height="240" />
         <p class="text-center small">
             <a (click)="openFotoUpload()">Verander foto</a></p>
-
-
     </div>
-    <div class="col-md-4 text-muted small">
+
+    <div *ngIf="triggered" class="row">
+            <div class="col-md-3 text-center" *ngIf="triggered == true">
+                <input  type="file" ng2FileSelect [uploader]="uploader" />
+                <button (click)="uploader.uploadAll()" class="btn btn-primary btn-sm active mt-1">Upload</button>
+            </div>
+        </div>
+
+
+    <div *ngIf="!edit" class="col-md-4 text-muted small">
         <h2>Jelle Van Langendonck</h2>
         <div>
            <span class="font-weight-bold font-italic">Geb. datum:</span> 13/11/1998
@@ -45,15 +52,64 @@
 
         <div class="divider"></div>
         <br>
-        <button href="#" class="btn btn-primary btn-lg btn-block btn-sm active">Bewerken</button>
+        <button (click)="editUserDetails()" class="btn btn-primary btn-lg btn-block btn-sm active">Bewerken</button>
         <br>
     </div>
 
-</div>
-<div class="row">
-    <div class="col-md-3 text-center" *ngIf="triggered == true">
-        <input  type="file" ng2FileSelect [uploader]="uploader" />
-        <button (click)="uploader.uploadAll()" class="btn btn-primary btn-sm active mt-1">Upload</button>
+    <div *ngIf="edit" class="col-md-4 text-muted small">
+        <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
+        
+        <div class="form-group">
+            <label for="">Gebruikersnaam:</label>
+            <input type="text" [(ngModel)]="user.nickname" class="form-control" placeholder="Gebruikersnaam" formControlName="Nickname">
+        </div>
+
+        <div class="form-group">
+            <label for="">Voornaam:</label>
+            <input type="text" [(ngModel)]="user.voornaam" class="form-control" placeholder="Voornaam" formControlName="Voornaam">
+        </div>
+
+
+        <div class="form-group">
+            <label for="Achternaam">Achternaam:</label>
+            <input type="text" [(ngModel)]="user.achternaam" class="form-control" placeholder="Achternaam" formControlName="Achternaam">
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Email:</label>
+            <input type="text" [(ngModel)]="user.email" class="form-control" placeholder="Email" formControlName="Email">
+        </div>
+
+        <div class="form-group">
+                <label for="">Gsm:</label>
+                <input type="text" [(ngModel)]="user.gsmNr" class="form-control" placeholder="Gsm" formControlName="GsmNr">
+            </div>
+
+
+            <div class="form-group">
+                    <label for="">Begin ervaring:</label>
+                    <input type="text"[(ngModel)]="user.ervaring" class="form-control" placeholder="Begin ervaring" formControlName="Ervaring">
+                </div>
+
+                <div class="form-group">
+                        <label for="">LinkedIn profiel:</label>
+                        <input type="text" [(ngModel)]="user.LinkedInLink" class="form-control" placeholder="LinkedIn profiel" formControlName="LinkedInLink">
+                    </div>
+
+
+                <div class="form-group">
+                        <label for="">Info:</label>
+                        <input type="text" [(ngModel)]="user.biografie" class="form-control" placeholder="Info" formControlName="Biografie">
+                    </div>
+
+        <div class="divider"></div>
+        <br>
+        <button type="submit" class="btn btn-primary btn-lg btn-block btn-sm active">Bewerken</button>
+        <br>
+        </form>
     </div>
+
 </div>
+
 </div>
