@@ -11,22 +11,17 @@ import { Maker } from '../models/maker.model';
 })
 export class UserDetailComponent implements OnInit {
   triggered: Boolean = false;
-  uploader:FileUploader;
-  profielfoto = "https://localhost:44341/images/jelle.jpeg"
+  profielfoto;
+  fileToUpload: File = null;
   Maker:Maker;
+  nieuweFotoNaam;
   constructor(private _MakerService: MakerService) { 
+    
   }
 
   ngOnInit() {
     this.triggered=false;
-    const token = localStorage.getItem('token')
-    const tokenPayload : any = jwtDecode(token);
-    if(tokenPayload.role = "Maker"){
-      this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
-        this.Maker = result;
-        console.log(result)
-      });
-    }
+this.haalMakerOp();
   }
   openFotoUpload(){
     if(this.triggered===true){
@@ -36,4 +31,28 @@ export class UserDetailComponent implements OnInit {
 
     }
   }
+  handleFileInput(files: FileList) {
+    this._MakerService.uploadFoto(files.item(0)).subscribe(data => {
+      }, error => {
+        console.log("upload ok")
+        this.nieuweFotoNaam= error.error.text
+        this._MakerService.deleteOldFoto(this.Maker.foto).subscribe(result =>{
+          console.log("delete ok")
+        });
+          
+this._MakerService.updateMaker(this.Maker,this.nieuweFotoNaam).subscribe(result=>{
+this.haalMakerOp();
+});
+      });
+}
+haalMakerOp(){
+  const token = localStorage.getItem('token')
+  const tokenPayload : any = jwtDecode(token);
+  if(tokenPayload.role = "Maker"){
+    this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
+      this.Maker = result;
+      this.profielfoto = "https://localhost:44341/images/"+this.Maker.foto;
+    });
+  }
+}
 }

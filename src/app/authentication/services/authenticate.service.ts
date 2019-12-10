@@ -48,10 +48,6 @@ export class AuthenticateService {
     if (!this.jwtHelper.isTokenExpired(token)) {
       this.isLoggedin.next(true);
       const tokenPayload : any = jwtDecode(token);
-      console.log(tokenPayload.role);
-      console.log(tokenPayload.GebruikerId);
-      console.log(tokenPayload.Username);
-      console.log(tokenPayload)
     } else {
       this.isLoggedin.next(false);
     }

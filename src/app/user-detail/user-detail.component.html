@@ -5,8 +5,6 @@
             width="240" height="240" />
         <p class="text-center small">
             <a (click)="openFotoUpload()">Verander foto</a></p>
-
-
     </div>
     <div class="col-md-4 text-muted small">
         <h2>Jelle Van Langendonck</h2>
@@ -52,8 +50,10 @@
 </div>
 <div class="row">
     <div class="col-md-3 text-center" *ngIf="triggered == true">
-        <input  type="file" ng2FileSelect [uploader]="uploader" />
-        <button (click)="uploader.uploadAll()" class="btn btn-primary btn-sm active mt-1">Upload</button>
+        <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
     </div>
 </div>
 </div>
