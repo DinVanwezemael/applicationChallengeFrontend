@@ -18,10 +18,10 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link">
+      <li *ngIf="soortGebruiker == 'Bedrijf'" class="nav-item">
+        <a class="nav-link" (click)=naarOpdrachten()>
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Naar Opdrachten</span></a>
       </li>
 
       <!-- Divider -->

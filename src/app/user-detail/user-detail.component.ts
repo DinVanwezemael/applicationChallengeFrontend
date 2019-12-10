@@ -42,6 +42,7 @@ this.haalMakerOp();
           
 this._MakerService.updateMaker(this.Maker,this.nieuweFotoNaam).subscribe(result=>{
 this.haalMakerOp();
+this.triggered= false;
 });
       });
 }
