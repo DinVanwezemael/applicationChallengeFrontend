@@ -1,7 +1,6 @@
 <ngb-tabset>
     <ngb-tab title="Makers">
         <ng-template ngbTabContent>
-
             <form>
                 <button (click)="addMaker()" class="btn btn-primary btn-user">
                     Maker toevoegen
@@ -76,7 +75,7 @@
                 </ngb-rating>
                 <br />
                 <label>Review:</label>
-                <textarea style="height:50px" class="form-control input-lg" type="text"
+                <textarea formControlName="reviewTekst" style="height:50px" class="form-control input-lg" type="text"
                     [value]="review.reviewTekst"></textarea>
             </div>
         </form>

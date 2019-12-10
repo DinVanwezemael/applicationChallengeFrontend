@@ -20,11 +20,12 @@ export class AdminComponent implements OnInit {
   emailFilter: any = { email: '' };
   gebruiksnaamFilter: any = { nickname: '' };
   bedrijfFilter: any = { naam: '' };
-  reviewerFilter =  { maker: {nickname: '' }};
+  reviewerFilter =  { maker: {nickname: '' }, reviewTekst: ''};
   closeResult: string;
   review: Review;
 
   reviewForm = this.fb.group({
+    reviewTekst: ['']
   });
 
   constructor(private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal) {
