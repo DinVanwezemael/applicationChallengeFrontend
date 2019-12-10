@@ -4,7 +4,7 @@ import { AdminComponent } from './admin/admin.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from './admin.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-//import { FilterPipeModule } from 'ngx-filter-pipe';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 @NgModule({
   declarations: [AdminComponent],
@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     NgbModule,
     FormsModule,
-    //FilterPipeModule,
+    FilterPipeModule,
     ReactiveFormsModule
   ],
   providers: [
