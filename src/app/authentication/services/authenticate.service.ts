@@ -5,6 +5,7 @@ import { UserRegister } from '../models/user-register.model';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as jwtDecode from 'jwt-decode';
+import { Maker } from 'src/app/models/maker.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class AuthenticateService {
   }
   
   register(userRegister: UserRegister): Observable<Object> {
-    return this._httpClient.post<Object>("https://localhost:5001/api/User/register", userRegister);
+    return this._httpClient.post<Object>("https://localhost:44341/api/User/register", userRegister);
   }
 
   checkUser() {
@@ -51,5 +52,17 @@ export class AuthenticateService {
     } else {
       this.isLoggedin.next(false);
     }
+  }
+
+  getUserInfo(){
+    return this._httpClient.get<User>("https://localhost:44341/api/User/")
+  }
+
+  editUser(userid: number, user: Maker){
+    return this._httpClient.put<Maker>("https://localhost:44341/api/Maker/" + userid, user);
+  }
+
+  editUsername(userid: number, user: User){
+    return this._httpClient.put<User>("https://localhost:44341/api/userLogin/" + userid, user);
   }
 }

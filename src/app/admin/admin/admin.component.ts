@@ -42,9 +42,9 @@ export class AdminComponent implements OnInit {
       this.bedrijven = result;
     })
 
-    this._adminService.getReviews().subscribe(result => {
+    /* this._adminService.getReviews().subscribe(result => {
       this.reviews = result;
-    })
+    }) */
   }
 
   open(content, r: Review) {
