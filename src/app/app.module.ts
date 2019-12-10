@@ -20,7 +20,9 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './authentication/guards/auth.guard';
 import { JwtModule, JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { MakerFormComponent } from './admin/maker-form/maker-form.component';
 import { RoleGuard } from './authentication/guards/role.guard';
+import { BedrijfOpdrachtenComponent } from './bedrijf-opdrachten/bedrijf-opdrachten.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -28,7 +30,9 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'userdetail', component: UserDetailComponent },
-  { path: 'adminHome', component: AdminComponent }
+  { path: 'adminHome', component: AdminComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
+  { path: 'makerForm', component: MakerFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
+  { path: 'bedrijfOpdrachten', component: BedrijfOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}}
 ]
 
 @NgModule({
@@ -39,6 +43,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     LoginComponent,
     HomeComponent,
+    MakerFormComponent,
+    BedrijfOpdrachtenComponent
   ],
   imports: [
     BrowserModule,

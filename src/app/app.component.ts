@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticateService } from './authentication/services/authenticate.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import * as jwtDecode from 'jwt-decode';
 //declare var $ : any;
 import * as $ from 'jquery';
 
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   userType = 1;
   mobileNavigation = true;
+  soortGebruiker;
 
   constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
     this._authenticationService.checkUser();
@@ -36,6 +38,13 @@ export class AppComponent implements OnInit {
   }
   
   public ngOnInit(){   
+    if( localStorage.getItem('token')!= null){
+      const token = localStorage.getItem('token')
+    const tokenPayload : any = jwtDecode(token);
+      this.soortGebruiker = tokenPayload.role;
+      console.log(tokenPayload.role)
+    }
+    
       /* $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
@@ -87,6 +96,9 @@ export class AppComponent implements OnInit {
 
   toUserDetails() {
     this.router.navigate(['userdetail']);
+  }
+  naarOpdrachten() {
+    this.router.navigate(['bedrijfOpdrachten']);
   }
 
   onLogout() {

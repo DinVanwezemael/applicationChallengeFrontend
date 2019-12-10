@@ -1,50 +1,87 @@
 <ngb-tabset>
     <ngb-tab title="Makers">
         <ng-template ngbTabContent>
-            <div class="form-group">
-                <label >Email</label>
+
+            <form>
+                <button (click)="addMaker()" class="btn btn-primary btn-user">
+                    Maker toevoegen
+                </button>
+                <input class="form-control" type="text" placeholder="email" name="search" aria-label="email"
+                    [(ngModel)]="emailFilter.email">
+                <input class="form-control" type="text" placeholder="gebruiksnaam" name="search"
+                    aria-label="gebruiksnaam" [(ngModel)]="gebruiksnaamFilter.nickname">
+            </form>
+            <div class="card" *ngFor="let maker of makers | filterBy:gebruiksnaamFilter | filterBy:emailFilter">
+                <div class="card-body">
+                    <h5 class="card-title">{{maker.nickname}}</h5>
+                    <p>{{maker.email}}</p>
+                </div>
             </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Nickname</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let maker of makers">
-                        <th scope="row">{{ i + 1 }}</th>
-                        <td>{{maker.email}}</td>
-                        <td>{{maker.nickname}}</td>
-                    </tr>
-                </tbody>
-            </table>
         </ng-template>
     </ngb-tab>
     <ngb-tab title="Bedrijven">
         <ng-template ngbTabContent>
-                <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Naam</th>
-                                <th scope="col">Foto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let bedrijf of bedrijven">
-                                <th scope="row">{{ i + 1 }}</th>
-                                <td>{{bedrijf.naam}}</td>
-                                <td>{{bedrijf.foto}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <form>
+                <button (click)="addBedrijf()" class="btn btn-primary btn-user">
+                    Bedrijf toevoegen
+                </button>
+                <input class="form-control" type="text" placeholder="Bedrijfsnaam" name="search"
+                    aria-label="bedrijfsnaam" [(ngModel)]="bedrijfFilter.naam">
+            </form>
+            <div class="card p-2" *ngFor="let bedrijf of bedrijven | filterBy: bedrijfFilter">
+                <div class="card-body">
+                    <h5 class="card-title">{{bedrijf.naam}}</h5>
+                    <p>{{bedrijf.biografie}}</p>
+                </div>
+            </div>
         </ng-template>
     </ngb-tab>
     <ngb-tab title="Reviews">
         <ng-template ngbTabContent>
-            <p>test3</p>
+            <form>
+                <input class="form-control" type="text" placeholder="Reviewer" name="search" aria-label="reviewer"
+                    [(ngModel)]="reviewerFilter.maker.nickname">
+            </form>
+            <div class="card" (click)="open(content, review)" *ngFor="let review of reviews | filterBy: reviewerFilter">
+                <div class="card-body">
+                    <h5 class="card-title">{{review.maker.nickname}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{review.maker.voornaam + " " + review.maker.achternaam}}
+                    </h6>
+                    <ngb-rating [(rate)]="review.score">
+                        <ng-template let-fill="fill">
+                            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                        </ng-template>
+                    </ngb-rating>
+                    <p>{{review.reviewTekst}}</p>
+                </div>
+            </div>
         </ng-template>
     </ngb-tab>
 </ngb-tabset>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Review van: {{review.maker.nickname}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label>Score: </label>
+                <ngb-rating [(rate)]="review.score">
+                    <ng-template let-fill="fill">
+                        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <br />
+                <label>Review:</label>
+                <textarea style="height:50px" class="form-control input-lg" type="text"
+                    [value]="review.reviewTekst"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Opslaan</button>
+    </div>
+</ng-template>

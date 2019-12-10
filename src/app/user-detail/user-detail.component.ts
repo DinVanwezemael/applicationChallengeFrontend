@@ -41,8 +41,14 @@ export class UserDetailComponent implements OnInit {
   constructor(private authenticateService: AuthenticateService, private fb: FormBuilder, private _MakerService: MakerService, private _BedrijfService: BedrijfService) { 
     this.getUsername();
   }
+
+  profielfoto;
+  fileToUpload: File = null;
+  Maker:Maker;
+  nieuweFotoNaam;
   userForm: FormGroup;
   bedrijfForm: FormGroup;
+
 
   
 
@@ -56,6 +62,11 @@ export class UserDetailComponent implements OnInit {
       this.editBedrijf = true;
     }
   }
+
+ /*  ngOnInit() {
+    this.triggered=false;
+this.haalMakerOp();
+  } */
 
   infoUser(){
     this.user = this.authenticateService.getUserInfo();
@@ -115,6 +126,7 @@ export class UserDetailComponent implements OnInit {
 
     }
   }
+
 
   getBedrijf(){
     this._BedrijfService.getBedrijfWhereId(this.tokenPayload.GebruikerId).subscribe();
@@ -200,6 +212,31 @@ export class UserDetailComponent implements OnInit {
   
   
 
+  /* handleFileInput(files: FileList) {
+    this._MakerService.uploadFoto(files.item(0)).subscribe(data => {
+      }, error => {
+        console.log("upload ok")
+        this.nieuweFotoNaam= error.error.text
+        this._MakerService.deleteOldFoto(this.Maker.foto).subscribe(result =>{
+          console.log("delete ok")
+        });
+          
+this._MakerService.updateMaker(this.Maker,this.nieuweFotoNaam).subscribe(result=>{
+this.haalMakerOp();
+this.triggered= false;
+});
+      });
+} */
+/* haalMakerOp(){
+  const token = localStorage.getItem('token')
+  const tokenPayload : any = jwtDecode(token);
+  if(tokenPayload.role = "Maker"){
+    this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
+      this.Maker = result;
+      this.profielfoto = "https://localhost:44341/images/"+this.Maker.foto;
+    });
+  }
+} */
 }
 
 

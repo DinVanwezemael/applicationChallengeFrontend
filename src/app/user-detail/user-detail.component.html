@@ -3,6 +3,7 @@
     <div *ngIf="!triggered" class="col-md-3 text-center">
         <img [src]="profilePicName" alt="Alternate Text" class="img-responsive text-center"
             width="240" height="240" />
+
             <br>
             <button *ngIf="editMaker || editBedrijf" class="btn btn-primary" (click)="openFotoUpload()">Verander foto</button>
     </div>
@@ -17,6 +18,12 @@
 
     <div *ngIf="!editMaker && vmaker" class="col-md-4 text-muted small">
         <h2>{{maker.voornaam}} {{maker.achternaam}} ({{username}})</h2>
+<!-- 
+        <p class="text-center small">
+            <a (click)="openFotoUpload()">Verander foto</a></p>
+    </div>
+    <div class="col-md-4 text-muted small">
+        <h2>Jelle Van Langendonck</h2> -->
         <div>
            <span class="font-weight-bold font-italic">Geb. datum:</span> {{maker.geboorteDatum}}
         </div>
@@ -53,6 +60,7 @@
         <button (click)="editUserDetails()" class="btn btn-primary btn-lg btn-block">Bewerken</button>
         <br>
     </div>
+
 
     <!-- maker aanpassen -->
     <div *ngIf="editMaker && vmaker" class="col-md-4 text-muted small">
@@ -119,6 +127,15 @@
         <button type="button" (click)="editUserDetails()" class="btn btn-danger btn-lg btn-block">Annuleer</button>
         <br>
         </form>
+
+</div>
+<!-- <div class="row">
+    <div class="col-md-3 text-center" *ngIf="triggered == true">
+        <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
+ -->
     </div>
 
     <div *ngIf="vbedrijf">
