@@ -1,8 +1,11 @@
 <ngb-tabset>
     <ngb-tab title="Makers">
         <ng-template ngbTabContent>
+            <button (click)="addMaker()" class="btn btn-primary btn-user">
+                Maker toevoegen
+            </button>
             <div class="form-group">
-                <label >Email</label>
+                <label>Email</label>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -24,27 +27,45 @@
     </ngb-tab>
     <ngb-tab title="Bedrijven">
         <ng-template ngbTabContent>
-                <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Naam</th>
-                                <th scope="col">Foto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let bedrijf of bedrijven">
-                                <th scope="row">{{ i + 1 }}</th>
-                                <td>{{bedrijf.naam}}</td>
-                                <td>{{bedrijf.foto}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <button (click)="addBedrijf()" class="btn btn-primary btn-user">
+                Bedrijf toevoegen
+            </button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Naam</th>
+                        <th scope="col">Foto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let bedrijf of bedrijven">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{bedrijf.naam}}</td>
+                        <td>{{bedrijf.foto}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </ng-template>
     </ngb-tab>
     <ngb-tab title="Reviews">
         <ng-template ngbTabContent>
-            <p>test3</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Verzender</th>
+                        <th scope="col">Review tekst</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let review of reviews">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{review.studentId}}</td>
+                        <td>{{review.reviewTekst}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </ng-template>
     </ngb-tab>
 </ngb-tabset>

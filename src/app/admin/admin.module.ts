@@ -4,8 +4,6 @@ import { AdminComponent } from './admin/admin.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from './admin.service';
 
-
-
 @NgModule({
   declarations: [AdminComponent],
   imports: [
