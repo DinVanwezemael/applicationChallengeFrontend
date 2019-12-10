@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   login = true;
   submitted = false;
+  invalid = false;
 
   constructor(private fb: FormBuilder, private _authenticationService: AuthenticateService, private router: Router) { }
   loginForm: FormGroup;
@@ -59,6 +60,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     this.submitted = true;
+    this.invalid = false;
     console.log(this.loginForm.value);
     this._authenticationService.authenticate(this.loginForm.value).subscribe(result => {
       this._authenticationService.setToken(result.token);
@@ -83,6 +85,9 @@ export class LoginComponent implements OnInit {
       this.submitted = false;
     }, err => {
       console.log(err);
+      if (err.error.message = "Username or password is incorrect") {
+        this.invalid = true;
+      }
       this.submitted = false;
     }
     );
