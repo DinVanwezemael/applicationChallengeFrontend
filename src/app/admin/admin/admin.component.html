@@ -40,11 +40,13 @@
         <ng-template ngbTabContent>
             <form>
                 <input class="form-control" type="text" placeholder="Reviewer" name="search" aria-label="reviewer"
-                    [(ngModel)]="reviewerFilter.makerId">
+                    [(ngModel)]="reviewerFilter.maker.nickname">
             </form>
-            <div class="card" *ngFor="let review of reviews | filterBy: reviewerFilter">
+            <div class="card" (click)="open(content, review)" *ngFor="let review of reviews | filterBy: reviewerFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{review.makerId}}</h5>
+                    <h5 class="card-title">{{review.maker.nickname}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{review.maker.voornaam + " " + review.maker.achternaam}}
+                    </h6>
                     <ngb-rating [(rate)]="review.score">
                         <ng-template let-fill="fill">
                             <span class="star" [class.filled]="fill === 100">&#9733;</span>
@@ -56,3 +58,30 @@
         </ng-template>
     </ngb-tab>
 </ngb-tabset>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Review van: {{review.maker.nickname}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label>Score: </label>
+                <ngb-rating [(rate)]="review.score">
+                    <ng-template let-fill="fill">
+                        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <br />
+                <label>Review:</label>
+                <textarea style="height:50px" class="form-control input-lg" type="text"
+                    [value]="review.reviewTekst"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Opslaan</button>
+    </div>
+</ng-template>

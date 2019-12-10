@@ -1,3 +1,5 @@
+import { Maker } from './maker.model';
+
 export class Review {
     constructor(
         public id: number,
@@ -5,6 +7,7 @@ export class Review {
         public bedrijfId: number,
         public score: number,
         public reviewTekst: string,
-        public naarBedrijf: boolean
+        public naarBedrijf: boolean,
+        public maker: Maker
     ){}
 }
