@@ -19,8 +19,8 @@
 
       <!-- Nav Item - Dashboard -->
       <li *ngIf="soortGebruiker == 'Bedrijf'" class="nav-item">
-        <a class="nav-link" (click)=naarOpdrachten()>
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+        <a class="nav-link" routerLink="/bedrijfOpdrachten">
+          <i class="fas fa-fw fa-tasks"></i>
           <span>Naar Opdrachten</span></a>
       </li>
 
@@ -282,7 +282,7 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" (click)="toUserDetails()">
+                <a class="dropdown-item" routerLink="/userdetail">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Mijn Profiel
                 </a>

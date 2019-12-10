@@ -1,1 +1,16 @@
-<p>bedrijf-opdrachten works!</p>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Opdracht</th>
+        <th scope="col">Locatie</th>
+        <th scope="col"><button class="btn btn-primary btn-lg btn-sm active">Nieuwe opdracht</button></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let opdracht of bedrijf.opdrachten">
+        <td>{{opdracht.titel}}</td>
+        <td>{{opdracht.locatie}}</td>
+        <td><button class="btn btn-primary btn-lg btn-sm active">Meer Info</button>
+            </td>
+      </tr>
+  </table>

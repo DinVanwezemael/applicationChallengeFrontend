@@ -93,14 +93,6 @@ export class AppComponent implements OnInit {
     })
 
   }
-
-  toUserDetails() {
-    this.router.navigate(['userdetail']);
-  }
-  naarOpdrachten() {
-    this.router.navigate(['bedrijfOpdrachten']);
-  }
-
   onLogout() {
       localStorage.removeItem("token");
       this._authenticationService.isLoggedin.next(false);
