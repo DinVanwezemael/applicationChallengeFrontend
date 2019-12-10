@@ -17,7 +17,6 @@ import { BedrijfService } from '../services/bedrijf.service';
 })
 export class UserDetailComponent implements OnInit {
   triggered: Boolean = false;
-  uploader:FileUploader;
 
   user: Observable<User>;
   editMaker = false;
@@ -27,7 +26,7 @@ export class UserDetailComponent implements OnInit {
   vmaker = false;
 
   profilePicName
-  maker:any;
+  //maker:any;
   bedrijf: Bedrijf;
   id
   username
@@ -39,69 +38,19 @@ export class UserDetailComponent implements OnInit {
   
 
   constructor(private authenticateService: AuthenticateService, private fb: FormBuilder, private _MakerService: MakerService, private _BedrijfService: BedrijfService) { 
-    this.getUsername();
   }
 
   profielfoto;
   fileToUpload: File = null;
-  Maker:Maker;
+  maker:Maker;
   nieuweFotoNaam;
   userForm: FormGroup;
   bedrijfForm: FormGroup;
 
 
+
+
   
-
-  editUserDetails(){
-    if(this.editMaker == true || this.editBedrijf == true){
-      this.editMaker = false;
-      this.editBedrijf = false;
-    }
-    else{
-      this.editMaker = true;
-      this.editBedrijf = true;
-    }
-  }
-
- /*  ngOnInit() {
-    this.triggered=false;
-this.haalMakerOp();
-  } */
-
-  infoUser(){
-    this.user = this.authenticateService.getUserInfo();
-  }
-
-
-  //gegevens van maker veranderen
-  saveChangesMaker(){
-
-    this.authenticateService.editUser(this.userForm.controls['Id'].value , this.userForm.value).subscribe(
-      result => {
-        this.editMaker = false;
-      },
-      err => {
-        alert("username bestaat al")
-      }
-    );
-
-      let user: User = {
-        userID: this.UserLoginId,
-        username: this.userForm.controls["Nickname"].value,
-        email: this.userForm.controls["Email"].value,
-        password: null,
-        token: null
-      } 
-
-    this.authenticateService.editUsername(this.UserLoginId, user).subscribe(
-      result => {
-        this.maker = result;
-      },
-      err => {
-        console.log("username fail");
-      }
-    );
-  }
 
 
   //gegevens van bedrijf veranderen
@@ -109,7 +58,6 @@ this.haalMakerOp();
     console.log(this.bedrijfForm.value);
     this._BedrijfService.updateBedrijf(this.bedrijfForm.controls['Id'].value , this.bedrijfForm.value).subscribe(
       result => {
-        this.getBedrijf();
         this.editBedrijf = false;
       },
       err => {
@@ -127,26 +75,27 @@ this.haalMakerOp();
     }
   }
 
-
-  getBedrijf(){
-    this._BedrijfService.getBedrijfWhereId(this.tokenPayload.GebruikerId).subscribe();
-  }
-
-  getMaker(){
-    this._MakerService.getMakerWhereId(this.tokenPayload.GebruikerId).subscribe();
-  }
-
-  getUsername(){
+  haalMakerOp(){
     const token = localStorage.getItem('token')
     const tokenPayload : any = jwtDecode(token);
-    this.username = tokenPayload.Username;
-    console.log(this.username);
-  }
+    if(tokenPayload.role = "Maker"){
+      this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
+        this.maker = result;
+        console.log(result);
+        this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+      });
+    }
+  } 
+
+
+  
 
   ngOnInit() {
     this.triggered=false;
 
-    const token = localStorage.getItem('token')
+    this.haalMakerOp();
+
+    /* const token = localStorage.getItem('token')
     const tokenPayload : any = jwtDecode(token);
     this.username = tokenPayload.Username;
     this.gebruikerid = tokenPayload.GebruikerId;
@@ -173,7 +122,7 @@ this.haalMakerOp();
           this.id = result.id;
           this.profilePicName = "https://localhost:44341/images/" + result.foto;
         });
-      }
+      } */
     
   
 
@@ -203,40 +152,28 @@ this.haalMakerOp();
       Id: new FormControl('', Validators.required),
       IdMaker: new FormControl('', Validators.required)
     })
-  
-    
-  
   }
   
 
-  
-  
-
-  /* handleFileInput(files: FileList) {
+   handleFileInput(files: FileList) {
     this._MakerService.uploadFoto(files.item(0)).subscribe(data => {
       }, error => {
         console.log("upload ok")
         this.nieuweFotoNaam= error.error.text
-        this._MakerService.deleteOldFoto(this.Maker.foto).subscribe(result =>{
+        this._MakerService.deleteOldFoto(this.maker.foto).subscribe(result =>{
           console.log("delete ok")
         });
           
-this._MakerService.updateMaker(this.Maker,this.nieuweFotoNaam).subscribe(result=>{
+this._MakerService.updateMaker(this.maker,this.nieuweFotoNaam).subscribe(result=>{
 this.haalMakerOp();
 this.triggered= false;
 });
-      });
-} */
-/* haalMakerOp(){
-  const token = localStorage.getItem('token')
-  const tokenPayload : any = jwtDecode(token);
-  if(tokenPayload.role = "Maker"){
-    this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
-      this.Maker = result;
-      this.profielfoto = "https://localhost:44341/images/"+this.Maker.foto;
-    });
-  }
-} */
+});
+} 
+
+
+
+
 }
 
 

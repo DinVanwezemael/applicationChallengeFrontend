@@ -23,6 +23,7 @@ import { JwtModule, JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { MakerFormComponent } from './admin/maker-form/maker-form.component';
 import { RoleGuard } from './authentication/guards/role.guard';
 import { BedrijfOpdrachtenComponent } from './bedrijf-opdrachten/bedrijf-opdrachten.component';
+import { MakerComponent } from './user-detail/maker/maker.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     LoginComponent,
     HomeComponent,
     MakerFormComponent,
-    BedrijfOpdrachtenComponent
+    BedrijfOpdrachtenComponent,
+    MakerComponent
   ],
   imports: [
     BrowserModule,
