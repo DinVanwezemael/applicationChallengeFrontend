@@ -8,7 +8,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class MakerFormComponent implements OnInit {
 
-  makerForm = this.fb.group({
+  registerForm = this.fb.group({
 
   });
 
