@@ -4,6 +4,9 @@ import { User } from '../authentication/models/user.model';
 import { AuthenticateService } from '../authentication/services/authenticate.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import * as jwtDecode from 'jwt-decode';
+import { MakerService } from '../services/maker.service';
+import { Maker } from '../models/maker.model';
 
 @Component({
   selector: 'app-user-detail',
@@ -13,14 +16,15 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class UserDetailComponent implements OnInit {
   triggered: Boolean = false;
   uploader:FileUploader;
+
   user: Observable<User>;
   edit = false;
   nameProfilePic = "";
-  profielfoto = "https://localhost:44341/images/" + this.nameProfilePic;
+  profielfoto = "https://localhost:44341/images/jelle.jpeg"
+  Maker:Maker;
   
 
-  constructor(private authenticateService: AuthenticateService, private fb: FormBuilder) { 
-
+  constructor(private authenticateService: AuthenticateService, private fb: FormBuilder, private _MakerService: MakerService) { 
   }
   userForm: FormGroup;
 
@@ -50,7 +54,7 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit() {
     this.triggered=false;
-
+  
     this.userForm = this.fb.group({
       Nickname: new FormControl('', Validators.required),
       Voornaam: new FormControl('', Validators.required),
@@ -65,7 +69,23 @@ export class UserDetailComponent implements OnInit {
       GeboorteDatum: new FormControl('', Validators.required),
       Id: new FormControl('', Validators.required),
     })
-
+  
+    this.triggered=false;
+    const token = localStorage.getItem('token')
+    const tokenPayload : any = jwtDecode(token);
+    if(tokenPayload.role = "Maker"){
+      this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
+        this.Maker = result;
+        console.log(result)
+      });
+    }
+  
   }
   
+
+  
+  
+
 }
+
+

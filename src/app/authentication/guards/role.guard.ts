@@ -22,6 +22,7 @@ export class RoleGuard implements CanActivate {
       this.router.navigate(['/login']);
       return false;
     } else {
+      console.log(tokenPayload.Username);
       return true;
     }
   }
