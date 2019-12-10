@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
       const token = localStorage.getItem('token')
     const tokenPayload : any = jwtDecode(token);
       this.soortGebruiker = tokenPayload.role;
-      console.log(tokenPayload.role)
     }
     
       /* $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {

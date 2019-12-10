@@ -3,14 +3,14 @@
       <tr>
         <th scope="col">Opdracht</th>
         <th scope="col">Locatie</th>
-        <th scope="col"><button class="btn btn-primary btn-lg btn-sm active">Nieuwe opdracht</button></th>
+        <th scope="col"><button class="btn btn-primary btn-lg btn-sm active" (click)="naarDetails()">Nieuwe opdracht</button></th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let opdracht of bedrijf.opdrachten">
+    <tbody *ngIf="bedrijf">
+      <tr *ngFor="let opdracht of bedrijf.opdrachten" >
         <td>{{opdracht.titel}}</td>
         <td>{{opdracht.locatie}}</td>
-        <td><button class="btn btn-primary btn-lg btn-sm active">Meer Info</button>
+        <td><button class="btn btn-primary btn-lg btn-sm active" (click)="naarDetails(opdracht.id)">Meer Info</button>
             </td>
       </tr>
   </table>
