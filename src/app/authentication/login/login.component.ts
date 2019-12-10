@@ -34,25 +34,25 @@ export class LoginComponent implements OnInit {
   devMode(id: number) {
     switch (id) {
       case (1):
-          this.loginForm.setValue({
-            Username: "Admin",
-            Password: "Admin1"
-          })
-          this.onLogin();
+        this.loginForm.setValue({
+          Username: "Admin",
+          Password: "Admin1"
+        })
+        this.onLogin();
         break;
       case (2):
-          this.loginForm.setValue({
-            Username: "Student",
-            Password: "Student1"
-          })
-          this.onLogin();
+        this.loginForm.setValue({
+          Username: "Student",
+          Password: "Student1"
+        })
+        this.onLogin();
         break;
       case (3):
-          this.loginForm.setValue({
-            Username: "Bedrijf",
-            Password: "Bedrijf1"
-          })
-          this.onLogin();
+        this.loginForm.setValue({
+          Username: "Bedrijf",
+          Password: "Bedrijf1"
+        })
+        this.onLogin();
         break;
     }
   }
@@ -62,8 +62,23 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
     this._authenticationService.authenticate(this.loginForm.value).subscribe(result => {
       this._authenticationService.setToken(result.token);
-      this._authenticationService.isLoggedin.next(true);
-      this.router.navigate(['']);
+      this._authenticationService.checkUser();
+
+      switch (this._authenticationService.currentRole.value) {
+        case ("Admin"):
+          this.router.navigate(['adminHome']);
+          break;
+        case ("Maker"):
+          this.router.navigate(['userdetail']);
+          break;
+        case ("Bedrijf"):
+          this.router.navigate(['bedrijfOpdrachten']);
+          break;
+        default:
+          this.router.navigate(['']);
+          break;
+
+      }
       console.log(result);
       this.submitted = false;
     }, err => {

@@ -15,15 +15,18 @@ export class AppComponent implements OnInit {
   searchForm: FormGroup;
   title = 'applicationChallenge';
   loggedIn = false;
-  userType = 1;
   mobileNavigation = true;
-  soortGebruiker;
+  currentRole;
 
   constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
     this._authenticationService.checkUser();
 
     this._authenticationService.isLoggedin.subscribe(result => {
       this.loggedIn = result;
+    }) 
+
+    this._authenticationService.currentRole.subscribe(result => {
+      this.currentRole = result;
     }) 
   }
 
@@ -37,12 +40,7 @@ export class AppComponent implements OnInit {
     }
   }
   
-  public ngOnInit(){   
-    if( localStorage.getItem('token')!= null){
-      const token = localStorage.getItem('token')
-    const tokenPayload : any = jwtDecode(token);
-      this.soortGebruiker = tokenPayload.role;
-    }
+  public ngOnInit(){
     
       /* $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
       $("body").toggleClass("sidebar-toggled");
