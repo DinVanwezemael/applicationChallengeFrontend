@@ -4,6 +4,7 @@ import { User } from '../models/user.model';
 import { UserRegister } from '../models/user-register.model';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import * as jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +44,11 @@ export class AuthenticateService {
 
   checkUser() {
     const token = localStorage.getItem('token')
-
+    
     if (!this.jwtHelper.isTokenExpired(token)) {
       this.isLoggedin.next(true);
+      const tokenPayload : any = jwtDecode(token);
+      console.log(tokenPayload.role);
     } else {
       this.isLoggedin.next(false);
     }
