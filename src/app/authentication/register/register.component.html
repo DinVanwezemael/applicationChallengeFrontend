@@ -1,31 +1,44 @@
 <!-- Register -->
 <div class="p-5">
   <div class="text-center">
-    <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+    <h1 class="h4 text-gray-900 mb-4">Welkom bij Centask!</h1>
   </div>
-  <form class="user" [formGroup]="registerForm">
+  <div class="row col-sm-6 mx-auto">
+    <div (click)="changeForm(1)" class="col h5 text-gray-500 mb-4 text-right formOption"
+      [ngClass]="{'studentActive': form == 1}">Student</div>
+    <div *ngIf="form == 1" class="col-2 text-center logoMini d-md-none d-lg-block"><img class="logoHalf"
+        src="assets/logo_transparent_half2.png"></div>
+    <div *ngIf="form == 2" class="col-2 text-center logoMini d-md-none d-lg-block"><img class="logoHalf"
+        src="assets/logo_transparent_half1.png"></div>
+    <div (click)="changeForm(2)" class="col h5 text-gray-500 mb-4 text-left formOption"
+      [ngClass]="{'bedrijfActive': form == 2}">Bedrijf</div>
+  </div>
+
+  <!-- Student Register Form -->
+  <form *ngIf="form == 1" class="user" [formGroup]="registerFormStudent">
     <div class="form-group row">
       <div class="col-sm-6 mb-3 mb-sm-0">
-        <input type="text" class="form-control form-control-user" id="firstName" placeholder="First Name">
+        <input type="text" class="form-control form-control-user" id="firstName" placeholder="Voornaam">
       </div>
       <div class="col-sm-6">
-        <input type="text" class="form-control form-control-user" id="lastName" placeholder="Last Name">
+        <input type="text" class="form-control form-control-user" id="lastName" placeholder="Achternaam">
       </div>
     </div>
     <div class="form-group row">
       <div class="col-sm-6 mb-3 mb-sm-0">
-        <input type="text" class="form-control form-control-user" id="userName" placeholder="Username">
+        <input type="text" class="form-control form-control-user" id="userName" placeholder="Gebruikersnaam">
       </div>
       <div class="col-sm-6">
-        <input type="email" class="form-control form-control-user" id="email" placeholder="Email Address">
+        <input type="email" class="form-control form-control-user" id="email" placeholder="Email">
       </div>
     </div>
     <div class="form-group row">
       <div class="col-sm-6 mb-3 mb-sm-0">
-        <input type="password" class="form-control form-control-user" id="password" placeholder="Password">
+        <input type="password" class="form-control form-control-user" id="password" placeholder="Wachtwoord">
       </div>
       <div class="col-sm-6">
-        <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="Repeat Password">
+        <input type="password" class="form-control form-control-user" id="repeatPassword"
+          placeholder="Herhaal Wachtwoord">
       </div>
     </div>
     <a href="login.html" class="btn btn-primary btn-user btn-block col-sm-6 mx-auto">
@@ -40,6 +53,50 @@
       <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
     </a> -->
   </form>
+
+  <!-- Bedrijf Register Form -->
+  <form *ngIf="form == 2" class="user" [formGroup]="registerFormBedrijf">
+    <div class="form-group row">
+      <div class="col-sm-12 mb-3 mb-sm-0">
+        <input type="text" class="form-control form-control-user" id="name" placeholder="Naam">
+      </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-12 mb-3 mb-sm-0">
+          <textarea type="text" class="form-control form-control-user form-control-textarea" rows="3" id="bio" placeholder="Biografie"></textarea>
+        </div>
+      </div>
+    <br>
+    <div class="form-group row">
+      <div class="col-sm-8 mb-3 mb-sm-0">
+        <input type="text" class="form-control form-control-user" id="street" placeholder="Straat">
+      </div>
+      <div class="col-sm-4">
+        <input type="text" class="form-control form-control-user" id="nr" placeholder="Nummer">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-8 mb-3 mb-sm-0">
+        <input type="text" class="form-control form-control-user" id="city" placeholder="Stad">
+      </div>
+      <div class="col-sm-4">
+        <input type="text" class="form-control form-control-user" id="postcode"
+          placeholder="Postcode">
+      </div>
+    </div>
+    <a href="login.html" class="btn btn-primary btn-user btn-block col-sm-6 mx-auto">
+      Registreer account
+    </a>
+    <!--
+    <hr>
+   <a href="index.html" class="btn btn-google btn-user btn-block col-5 mx-auto">
+      <i class="fab fa-google fa-fw"></i> Register with Google
+    </a>
+    <a href="index.html" class="btn btn-facebook btn-user btn-block col-5 mx-auto">
+      <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+    </a> -->
+  </form>
+
   <hr>
   <div class="text-center">
     <button class="small btn btn-link" role="button" (click)="disableRegister()">Heb je al een account? Log in!</button>
