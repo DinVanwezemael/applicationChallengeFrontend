@@ -6,13 +6,12 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserDetailComponent } from './user-detail/user-detail.component';
-import { FileSelectDirective } from 'ng2-file-upload';
 import { AdminComponent } from './admin/admin/admin.component'
 import { AdminModule } from './admin/admin.module'
 import { AuthenticateService } from './authentication/services/authenticate.service';
 import { InterceptorService } from './authentication/services/interceptor.service';
 import { LoggerService } from './authentication/services/logger-service.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './authentication/login/login.component';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -28,6 +27,8 @@ import { OpdrachtDetailComponent } from './opdracht-detail/opdracht-detail.compo
 import { BedrijfComponent } from './user-detail/bedrijf/bedrijf.component';
 import { UserOpdrachtenComponent } from './user-opdrachten/user-opdrachten.component';
 import { OpdrachtStemmenComponent } from './user-opdrachten/opdracht-stemmen/opdracht-stemmen.component';
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -47,7 +48,6 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     UserDetailComponent,
-    FileSelectDirective,
     RegisterComponent,
     LoginComponent,
     HomeComponent,
@@ -68,6 +68,9 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     AuthenticationModule,
+    TagInputModule, 
+    BrowserAnimationsModule,
+    FormsModule
 
   ],
   providers: [

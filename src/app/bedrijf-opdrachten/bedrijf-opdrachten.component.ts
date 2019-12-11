@@ -21,6 +21,6 @@ bedrijf:Bedrijf;
       });
     }
     naarDetails(opdrachtId:number){
-      this.router.navigate(['opdrachtDetail'], { queryParams: { opdrachtId:opdrachtId } })
+      this.router.navigate(['opdrachtDetail'], { queryParams: { opdrachtId:opdrachtId,bedrijfId:this.bedrijf.id } })
     }
 }
