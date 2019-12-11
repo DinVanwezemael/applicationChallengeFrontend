@@ -27,6 +27,7 @@ import { MakerComponent } from './user-detail/maker/maker.component';
 import { OpdrachtDetailComponent } from './opdracht-detail/opdracht-detail.component';
 import { BedrijfComponent } from './user-detail/bedrijf/bedrijf.component';
 import { UserOpdrachtenComponent } from './user-opdrachten/user-opdrachten.component';
+import { OpdrachtStemmenComponent } from './user-opdrachten/opdracht-stemmen/opdracht-stemmen.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
   { path: 'makerForm', component: MakerFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'bedrijfOpdrachten', component: BedrijfOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
-  { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}}
+  { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'opdracht-stemmen', component: OpdrachtStemmenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}}
 ]
 
 @NgModule({
@@ -54,7 +56,8 @@ const appRoutes: Routes = [
     MakerComponent,
     OpdrachtDetailComponent,
     BedrijfComponent,
-    UserOpdrachtenComponent
+    UserOpdrachtenComponent,
+    OpdrachtStemmenComponent
   ],
   imports: [
     BrowserModule,

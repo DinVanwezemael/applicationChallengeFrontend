@@ -27,7 +27,7 @@ export class UserOpdrachtenComponent implements OnInit {
   }
 
   viewOpdracht(id: number){
-    this.router.navigate(['opdrachtDetail'], { queryParams: { opdrachtId:id } })
+    this.router.navigate(['opdracht-stemmen'], { queryParams: { opdrachtId:id } })
   }
 
 
