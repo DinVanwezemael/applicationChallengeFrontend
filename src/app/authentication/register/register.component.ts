@@ -9,10 +9,12 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 export class RegisterComponent implements OnInit {
   @Output() login = new EventEmitter<boolean>();
   constructor(private fb: FormBuilder) { }
-  registerForm: FormGroup;
+  registerFormStudent: FormGroup;
+  registerFormBedrijf: FormGroup;
+  form: number;
 
   onSubmit(){
-    console.log(this.registerForm.value);
+    console.log(this.registerFormStudent.value);
   }
 
   disableRegister() {
@@ -20,7 +22,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.registerForm = this.fb.group({
+    this.registerFormStudent = this.fb.group({
       voornaam: new FormControl('', Validators.required),
     achternaam: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
@@ -28,9 +30,24 @@ export class RegisterComponent implements OnInit {
     herhaalWachtwoord: new FormControl('', [Validators.required, Validators.minLength(6)]),
     })
 
-    if(this.registerForm.controls['wachtwoord'].value == this.registerForm.controls['herhaalWachtwoord'].value){
+    this.registerFormBedrijf = this.fb.group({
+      voornaam: new FormControl('', Validators.required),
+    achternaam: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+    wachtwoord: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    herhaalWachtwoord: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    })
+
+    this.form = 1;
+
+    if(this.registerFormStudent.controls['wachtwoord'].value == this.registerFormStudent.controls['herhaalWachtwoord'].value){
       
     }
+  }
+
+  changeForm(nr: number) {
+    this.form = nr;
+    console.log(this.form);
   }
 
 }

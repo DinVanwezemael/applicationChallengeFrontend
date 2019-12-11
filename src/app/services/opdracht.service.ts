@@ -11,7 +11,7 @@ export class OpdrachtService {
   constructor(private http:HttpClient) { }
   getWhereId(Id:number): Observable<Opdracht> {
     return this.http.get<Opdracht>("https://localhost:44341/api/opdracht/"+Id);
-  };
+  }
   editOpdracht(Id:number,opdracht: Opdracht): Observable<Opdracht> {
     return this.http.put<Opdracht>("https://localhost:44341/api/opdracht/"+Id,opdracht);
   }
@@ -22,5 +22,8 @@ export class OpdrachtService {
 
   getOpdrachtenVoorStudentBySearch(title: string): Observable<Opdracht[]>{
     return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht/search" + title);
+  }
+  deleteOpdracht(Id:number): Observable<Opdracht> {
+    return this.http.delete<Opdracht>("https://localhost:44341/api/opdracht/"+Id);
   }
 }
