@@ -14,11 +14,12 @@ import { Maker } from 'src/app/models/maker.model';
 export class AuthenticateService {
 
   isLoggedin = new BehaviorSubject(false);
+  currentRole = new BehaviorSubject("");
 
   constructor(private _httpClient: HttpClient, public jwtHelper: JwtHelperService) {
-   }
+  }
 
-   setUser(result: User) {
+  setUser(result: User) {
     localStorage.setItem("token", result.token);
   }
 
@@ -36,33 +37,35 @@ export class AuthenticateService {
 
   logout() {
     localStorage.removeItem("token");
+    this.currentRole.next("");
     this.isLoggedin.next(false);
   }
-  
+
   register(userRegister: UserRegister): Observable<Object> {
     return this._httpClient.post<Object>("https://localhost:44341/api/User/register", userRegister);
   }
 
   checkUser() {
     const token = localStorage.getItem('token')
-    
+
     if (!this.jwtHelper.isTokenExpired(token)) {
       this.isLoggedin.next(true);
-      const tokenPayload : any = jwtDecode(token);
+      const tokenPayload: any = jwtDecode(token);
+      this.currentRole.next(tokenPayload.role);
     } else {
       this.isLoggedin.next(false);
     }
   }
 
-  getUserInfo(){
+  getUserInfo() {
     return this._httpClient.get<User>("https://localhost:44341/api/User/")
   }
 
-  editUser(userid: number, user: Maker){
+  editUser(userid: number, user: Maker) {
     return this._httpClient.put<Maker>("https://localhost:44341/api/Maker/" + userid, user);
   }
 
-  editUsername(userid: number, user: User){
+  editUsername(userid: number, user: User) {
     return this._httpClient.put<User>("https://localhost:44341/api/userLogin/" + userid, user);
   }
 }

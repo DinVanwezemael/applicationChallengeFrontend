@@ -1,3 +1,37 @@
 .small {
     font-size: 80% !important;
 }
+
+.logoHalf {
+    max-width: 30px;
+}
+
+.test {
+    display: block;
+    text-align: center;
+}
+
+.logoMini {
+    padding-right: 7px;
+}
+
+.bedrijfActive, .studentActive {
+    font-weight: 700;
+}
+
+.bedrijfActive {
+    color: #25AAAF !important;
+}
+
+.studentActive {
+    color: #62D1C0 !important;
+}
+
+.formOption {
+    cursor: pointer;
+    user-select: none;
+}
+
+.form-control-textarea {
+    border-radius: 20px !important;   
+}

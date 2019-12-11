@@ -1,6 +1,11 @@
 <div class="container">
-
+  <div>
+      <img class="logoMain" src="assets/logo_transparent_long2.png" />
+  </div>
   <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="behind">
+      <img class="logoBehind" src="assets/logo_transparent_grayscale.png" />
+    </div>
     <div class="card-body p-0">
       <div class="row">
         <!-- Register -->
@@ -11,10 +16,10 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Login</h1>
             </div>
-            <div class="text-center" >
-                <button class="btn btn-link" (click)="devMode(1)">[DEV] Admin</button>
-                <button class="btn btn-link" (click)="devMode(2)">[DEV] Student</button>
-                <button class="btn btn-link" (click)="devMode(3)">[DEV] Bedrijf</button>
+            <div class="text-center">
+              <button class="btn btn-link" (click)="devMode(1)">[DEV] Admin</button>
+              <button class="btn btn-link" (click)="devMode(2)">[DEV] Student</button>
+              <button class="btn btn-link" (click)="devMode(3)">[DEV] Bedrijf</button>
             </div>
             <form class="user" [formGroup]="loginForm" (ngSubmit)="onLogin()">
               <div class="form-group row">
@@ -29,11 +34,15 @@
                     id="password" placeholder="Wachtwoord" formControlName="Password">
                 </div>
               </div>
+              <div *ngIf="invalid" class="alert alert-info" role="alert">
+                <i class="fas fa-fw fa-exclamation-triangle"></i>
+                De ingegeven gegevens zijn niet correct.
+              </div>
               <button (click)="onLogin()" [disabled]="submitted"
                 class="btn btn-primary btn-user btn-block col-12 mx-auto">
                 Login
               </button>
-             <!--  <hr>
+              <!--  <hr>
               <a href="index.html" class="btn btn-google btn-user btn-block col-12 mx-auto">
                 <i class="fab fa-google fa-fw"></i> Login with Google
               </a>
@@ -46,7 +55,8 @@
               <a class="small" href="#">Ik ben mijn wachtwoord vergeten</a>
             </div>
             <div class="text-center">
-              <button class="small btn btn-link" role="button" (click)="enableRegister()">Nog geen account? Registreer!</button>
+              <button class="small btn btn-link" role="button" (click)="enableRegister()">Nog geen account?
+                Registreer!</button>
             </div>
           </div>
         </div>

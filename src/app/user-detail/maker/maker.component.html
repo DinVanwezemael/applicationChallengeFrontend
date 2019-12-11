@@ -1,0 +1,108 @@
+<div *ngIf="!editMaker" class="col-md-12 text-muted">
+        <h2>{{maker.voornaam}} {{maker.achternaam}} ({{username}})</h2>
+    
+        <div>
+           <span class="font-weight-bold font-italic">Geb. datum:</span> {{maker.geboorteDatum}}
+        </div>
+
+
+        <div class="info">
+            <span class="font-weight-bold font-italic">E-mailadres:</span> {{maker.email}}
+        </div>
+
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">LinkedIn:</span>
+                {{maker.linkedInLink}}
+        
+        </div>
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">Gsm:</span> {{maker.gsmNr}}
+        </div>
+
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">Jaren Ervaring:</span> {{maker.ervaring}}
+        </div>
+
+
+        <div class="info">
+                <span class="font-weight-bold font-italic">Info:</span>
+                {{maker.biografie}}
+        </div>
+
+        <div class="divider"></div>
+        <br>
+        <button (click)="editUserDetails()" class="btn btn-primary btn-lg btn-block">Bewerken</button>
+        <br>
+    </div>
+
+
+    <!-- maker aanpassen -->
+    <div *ngIf="editMaker" class="col-md-12 text-muted">
+        <form [formGroup]="userForm" (ngSubmit)="saveChangesMaker()">
+        
+        <div class="form-group">
+            <label for="">Gebruikersnaam:</label>
+            <input type="text" [(ngModel)]="username" class="form-control" placeholder="Gebruikersnaam" formControlName="Nickname">
+        </div>
+
+        <div class="form-group">
+            <label for="">Voornaam:</label>
+            <input type="text" [(ngModel)]="maker.voornaam" class="form-control" placeholder="Voornaam" formControlName="Voornaam">
+        </div>
+
+
+        <div class="form-group">
+            <label for="Achternaam">Achternaam:</label>
+            <input type="text" [(ngModel)]="maker.achternaam" class="form-control" placeholder="Achternaam" formControlName="Achternaam">
+        </div>
+
+        <div class="form-group">
+                <label for="Achternaam">GeboorteDatum:</label>
+                <input type="text" [(ngModel)]="maker.geboorteDatum" class="form-control" placeholder="Geboortedatum" formControlName="GeboorteDatum">
+            </div>
+
+
+        <div class="form-group">
+            <label for="">Email:</label>
+            <input type="text" [(ngModel)]="maker.email" class="form-control" placeholder="Email" formControlName="Email">
+        </div>
+
+        <div class="form-group">
+                <label for="">Gsm:</label>
+                <input type="text" [(ngModel)]="maker.gsmNr" class="form-control" placeholder="Gsm" formControlName="GsmNr">
+            </div>
+
+
+            <div class="form-group">
+                    <label for="">Begin ervaring:</label>
+                    <input type="text"[(ngModel)]="maker.ervaring" class="form-control" placeholder="Begin ervaring" formControlName="Ervaring">
+                </div>
+
+                <div class="form-group">
+                        <label for="">LinkedIn profiel:</label>
+                        <input type="text" [(ngModel)]="maker.linkedInLink" class="form-control" placeholder="LinkedIn profiel" formControlName="LinkedInLink">
+                    </div>
+
+
+                <div class="form-group">
+                        <label for="">Info:</label>
+                        <input type="text" [(ngModel)]="maker.biografie" class="form-control" placeholder="Info" formControlName="Biografie">
+                    </div>
+
+                  
+                            <input type="hidden" [(ngModel)]="maker.id"  formControlName="Id">
+                            <input type="hidden" [(ngModel)]="maker.cv"  formControlName="CV">
+                            <input type="hidden" [(ngModel)]="maker.foto"  formControlName="Foto">
+                       
+
+        <div class="divider"></div>
+        <br>
+        <button type="submit"  class="btn btn-primary btn-lg btn-block">Opslaan</button>
+        <button type="button" (click)="editUserDetails()" class="btn btn-danger btn-lg btn-block">Annuleer</button>
+        <br>
+        </form>
+
+</div>
