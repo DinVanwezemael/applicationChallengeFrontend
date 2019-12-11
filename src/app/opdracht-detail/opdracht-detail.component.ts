@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Opdracht } from '../models/opdracht.model';
 import { OpdrachtService } from '../services/opdracht.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { fakeAsync } from '@angular/core/testing';
 
@@ -15,7 +15,7 @@ Opdracht:Opdracht;
 editOpdracht=false;
 newOpdracht=false;
 opdrachtForm: FormGroup;
-  constructor(private _OpdrachtService:OpdrachtService,private route: ActivatedRoute,private fb: FormBuilder,) { }
+  constructor(private _OpdrachtService:OpdrachtService,private route: ActivatedRoute,private fb: FormBuilder,private router:Router) { }
 
   ngOnInit(){
     this.route.queryParams
@@ -47,6 +47,13 @@ opdrachtForm: FormGroup;
     else{
       this.editOpdracht = true;
     }
+  }
+  deleteOpdracht(id){
+    this._OpdrachtService.deleteOpdracht(id).subscribe(
+      result => {
+        this.router.navigate(["bedrijfOpdrachten"]);
+      }
+    );
   }
   saveChangesOpdracht(){
 
