@@ -15,6 +15,9 @@ export class OpdrachtService {
   editOpdracht(Id:number,opdracht: Opdracht): Observable<Opdracht> {
     return this.http.put<Opdracht>("https://localhost:44341/api/opdracht/"+Id,opdracht);
   }
+  newOpdracht(opdracht:Opdracht): Observable<Opdracht> {
+    return this.http.post<Opdracht>("https://localhost:44341/api/opdracht/",opdracht);
+  };
   deleteOpdracht(Id:number): Observable<Opdracht> {
     return this.http.delete<Opdracht>("https://localhost:44341/api/opdracht/"+Id);
   };

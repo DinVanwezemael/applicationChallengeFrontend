@@ -20,6 +20,7 @@ export class OpdrachtDetailComponent implements OnInit {
   editOpdracht = false;
   newOpdracht = false;
   opdrachtForm: FormGroup;
+  newOpdrachtForm: FormGroup;
   opdrachtTags: OpdrachtTag[];
   tags: TagObject[];
   bedrijfId: number;
@@ -32,6 +33,7 @@ export class OpdrachtDetailComponent implements OnInit {
           this.newOpdracht = false;
           this._OpdrachtService.getWhereId(params.opdrachtId).subscribe(result => {
             this.Opdracht = result;
+            console.log(result)
             this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {
               this.opdrachtTags = result;
               var tagHelper: Array<TagObject> = [];
@@ -47,13 +49,28 @@ export class OpdrachtDetailComponent implements OnInit {
           this.bedrijfId = params.bedrijfId;
           this.newOpdracht = true;
           this.editOpdracht = true;
+          this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","");
         }
 
       });
     this.opdrachtForm = this.fb.group({
       Titel: new FormControl('', Validators.required),
       Omschrijving: new FormControl('', Validators.required),
-      Locatie: new FormControl('', Validators.required),
+      Postcode: new FormControl('', Validators.required),
+      Woonplaats: new FormControl('', Validators.required),
+      Straat: new FormControl('', Validators.required),
+      StraatNr: new FormControl('', Validators.required),
+      Id: new FormControl('', Validators.required),
+      BedrijfId: new FormControl('', Validators.required),
+      Tags: new FormControl('', Validators.required)
+    })
+    this.newOpdrachtForm = this.fb.group({
+      Titel: new FormControl('', Validators.required),
+      Omschrijving: new FormControl('', Validators.required),
+      Postcode: new FormControl('', Validators.required),
+      Woonplaats: new FormControl('', Validators.required),
+      Straat: new FormControl('', Validators.required),
+      StraatNr: new FormControl('', Validators.required),
       Id: new FormControl('', Validators.required),
       BedrijfId: new FormControl('', Validators.required),
       Tags: new FormControl('', Validators.required)
@@ -79,12 +96,9 @@ export class OpdrachtDetailComponent implements OnInit {
       this.tags.forEach(tag => {
         var newTag = new Tag(0, tag.value);
         this._TagService.newTag(newTag).subscribe(result => {
-          console.log("tag upload")
           var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
           this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {
             this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {
-
-              console.log(result)
             })
           })
         })
@@ -92,7 +106,6 @@ export class OpdrachtDetailComponent implements OnInit {
     })
     this._OpdrachtService.editOpdracht(this.opdrachtForm.controls['Id'].value, this.opdrachtForm.value).subscribe(
       result => {
-        console.log("editOpdracht werkt")
         this.editOpdracht = false;
 
       },
@@ -101,5 +114,27 @@ export class OpdrachtDetailComponent implements OnInit {
       }
     );
   }
-
+  postOpdracht(){
+    console.log(this.newOpdrachtForm.value);
+    console.log(this.tags)
+    this._OpdrachtService.newOpdracht(this.newOpdrachtForm.value).subscribe(
+      result => {
+        this.Opdracht = result;
+          this.tags.forEach(tag => {
+            var newTag = new Tag(0, tag.value);
+            this._TagService.newTag(newTag).subscribe(result => {
+              var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
+              this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {
+                this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {
+                })
+              })
+            })
+          });
+          this.router.navigate(["bedrijfOpdrachten"]);
+      },
+      err => {
+        alert("opdracht bestaat al")
+      }
+    );
+  }
 }
