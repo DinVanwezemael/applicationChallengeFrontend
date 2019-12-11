@@ -15,4 +15,12 @@ export class OpdrachtService {
   editOpdracht(Id:number,opdracht: Opdracht): Observable<Opdracht> {
     return this.http.put<Opdracht>("https://localhost:44341/api/opdracht/"+Id,opdracht);
   }
+
+  getOpdrachtenVoorStudent(): Observable<Opdracht[]>{
+    return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht");
+  }
+
+  getOpdrachtenVoorStudentBySearch(title: string): Observable<Opdracht[]>{
+    return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht/search" + title);
+  }
 }

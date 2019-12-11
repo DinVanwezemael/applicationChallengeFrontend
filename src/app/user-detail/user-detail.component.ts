@@ -53,18 +53,7 @@ export class UserDetailComponent implements OnInit {
   
 
 
-  //gegevens van bedrijf veranderen
-  saveChangesBedrijf(){
-    console.log(this.bedrijfForm.value);
-    this._BedrijfService.updateBedrijf(this.bedrijfForm.controls['Id'].value , this.bedrijfForm.value).subscribe(
-      result => {
-        this.editBedrijf = false;
-      },
-      err => {
-        alert("username bestaat al");
-      }
-    )
-  }
+ 
 
   openFotoUpload(){
     if(this.triggered===true){
@@ -78,10 +67,19 @@ export class UserDetailComponent implements OnInit {
   haalMakerOp(){
     const token = localStorage.getItem('token')
     const tokenPayload : any = jwtDecode(token);
-    if(tokenPayload.role = "Maker"){
+    if(tokenPayload.role == "Maker"){
       this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
         this.maker = result;
-        console.log(result);
+        this.vmaker = true;
+        this.vbedrijf = false;
+        this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+      });
+    }
+    if(tokenPayload.role == "Bedrijf"){
+      this._BedrijfService.getBedrijfWhereId(tokenPayload.GebruikerId).subscribe(result => {
+        this.bedrijf = result;
+        this.vbedrijf = true;
+        this.vmaker = false;
         this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
       });
     }
@@ -95,63 +93,6 @@ export class UserDetailComponent implements OnInit {
 
     this.haalMakerOp();
 
-    /* const token = localStorage.getItem('token')
-    const tokenPayload : any = jwtDecode(token);
-    this.username = tokenPayload.Username;
-    this.gebruikerid = tokenPayload.GebruikerId;
-    this.UserLoginId = tokenPayload.UserLoginId;
-
-    //user is een maker
-    if(tokenPayload.role == "Maker"){
-      this.vmaker = true;
-      this.vbedrijf = false;
-      this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
-        this.maker = result;
-        this.id = result.id;
-        this.profilePicName = "https://localhost:44341/images/" + result.foto;
-      });
-    }
-
-    //bedrijf ophalen
-      if(tokenPayload.role == "Bedrijf"){
-        this.vbedrijf = true;
-        this.vmaker = false;
-        this._BedrijfService.getBedrijfWhereId(tokenPayload.GebruikerId).subscribe(result => {
-          this.bedrijf = result;
-          console.log(result);
-          this.id = result.id;
-          this.profilePicName = "https://localhost:44341/images/" + result.foto;
-        });
-      } */
-    
-  
-
-      //form van maker
-    this.userForm = this.fb.group({
-      Nickname: new FormControl('', Validators.required),
-      Voornaam: new FormControl('', Validators.required),
-      Achternaam: new FormControl('', Validators.required),
-      Email: new FormControl('', Validators.required),
-      Biografie: new FormControl('', Validators.required),
-      LinkedInLink: new FormControl('', Validators.required),
-      Ervaring: new FormControl('', Validators.required),
-      GsmNr: new FormControl('', Validators.required),
-      CV: new FormControl('', Validators.required),
-      Foto: new FormControl('', Validators.required),
-      GeboorteDatum: new FormControl('', Validators.required),
-      Id: new FormControl('', Validators.required)
-    })
-
-
-    //form van bedrijf
-    this.bedrijfForm = this.fb.group({
-      Naam: new FormControl('', Validators.required),
-      Adres: new FormControl('', Validators.required),
-      Biografie: new FormControl('', Validators.required),
-      Foto: new FormControl('', Validators.required),
-      Id: new FormControl('', Validators.required),
-      IdMaker: new FormControl('', Validators.required)
-    })
   }
   
 

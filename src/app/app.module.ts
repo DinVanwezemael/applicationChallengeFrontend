@@ -25,6 +25,8 @@ import { RoleGuard } from './authentication/guards/role.guard';
 import { BedrijfOpdrachtenComponent } from './bedrijf-opdrachten/bedrijf-opdrachten.component';
 import { MakerComponent } from './user-detail/maker/maker.component';
 import { OpdrachtDetailComponent } from './opdracht-detail/opdracht-detail.component';
+import { BedrijfComponent } from './user-detail/bedrijf/bedrijf.component';
+import { UserOpdrachtenComponent } from './user-opdrachten/user-opdrachten.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -35,7 +37,8 @@ const appRoutes: Routes = [
   { path: 'adminHome', component: AdminComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'makerForm', component: MakerFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'bedrijfOpdrachten', component: BedrijfOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
-  { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}}
+  { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
+  { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}}
 ]
 
 @NgModule({
@@ -49,7 +52,9 @@ const appRoutes: Routes = [
     MakerFormComponent,
     BedrijfOpdrachtenComponent,
     MakerComponent,
-    OpdrachtDetailComponent
+    OpdrachtDetailComponent,
+    BedrijfComponent,
+    UserOpdrachtenComponent
   ],
   imports: [
     BrowserModule,

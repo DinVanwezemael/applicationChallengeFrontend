@@ -84,6 +84,7 @@ export class MakerComponent implements OnInit {
     if(tokenPayload.role = "Maker"){
       this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
         this.maker = result;
+        console.log(result);
         this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
       });
     }
@@ -93,6 +94,7 @@ export class MakerComponent implements OnInit {
     const token = localStorage.getItem('token')
     const tokenPayload : any = jwtDecode(token);
     this.username = tokenPayload.Username;
+    console.log(this.username);
   }
 
   ngOnInit() {
