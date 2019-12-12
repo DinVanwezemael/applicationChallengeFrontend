@@ -30,4 +30,12 @@ export class AdminService {
   getOpdrachten(): Observable<Opdracht[]> {
     return this._httpClient.get<Opdracht[]>("https://localhost:44341/api/opdracht");
   }
+
+  deleteReview(reviewId: number) {
+    return this._httpClient.delete<Review>("https://localhost:44341/api/review/" + reviewId);
+  }
+
+  updateReview(reviewId: number, review: Review) {
+    return this._httpClient.put<Review>("https://localhost:44341/api/review/" + reviewId, review);
+  }
 }

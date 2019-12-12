@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵɵcontainerRefreshEnd } from '@angular/core';
 import { Maker } from 'src/app/models/maker.model';
 import { AdminService } from '../admin.service';
 import { Bedrijf } from 'src/app/models/bedrijf.model';
@@ -19,10 +19,10 @@ export class AdminComponent implements OnInit {
   reviews: Review[] = [];
   opdrachten: Opdracht[] = [];
   searchText;
-  makerFilter: any = { nickname: '', email: '' };
+  makerFilter: any = { nickname: '' };
   bedrijfFilter: any = { naam: '' };
-  reviewerFilter =  { maker: {nickname: '' }, reviewTekst: ''};
-  opdrachtFilter =  { titel: ''};
+  reviewerFilter = { maker: { nickname: '' }, reviewTekst: '' };
+  opdrachtFilter = { titel: '' };
   closeResult: string;
   review: Review;
   opdracht: Opdracht;
@@ -31,9 +31,11 @@ export class AdminComponent implements OnInit {
     reviewTekst: ['']
   });
 
+  opdrachtForm = this.fb.group({
+  });
+
   constructor(private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal) {
     ngbConfig.max = 5;
-    ngbConfig.readonly = true;
   }
 
   ngOnInit() {
@@ -48,7 +50,7 @@ export class AdminComponent implements OnInit {
     this._adminService.getReviews().subscribe(result => {
       this.reviews = result;
     })
-    
+
     this._adminService.getOpdrachten().subscribe(result => {
       this.opdrachten = result;
     })
@@ -57,17 +59,18 @@ export class AdminComponent implements OnInit {
   reviewModal(content, r: Review) {
     this.review = r;
     console.log(this.review);
-    this.modalService.open(content, {ariaLabelledBy: 'review'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'review' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+    this.ngOnInit();
   }
 
   opdrachtModal(contentOpdracht, o: Opdracht) {
     this.opdracht = o;
     console.log(this.opdracht);
-    this.modalService.open(contentOpdracht, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(contentOpdracht, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -80,7 +83,7 @@ export class AdminComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;    
+      return `with: ${reason}`;
     }
   }
 
@@ -88,10 +91,25 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['makerForm'])
   }
 
-  updateOpdracht(o: Opdracht){
+  updateOpdracht(o: Opdracht) {
     console.log(o)
   }
-  reviewDetail(r: Review){
-    console.log(r)
+
+  updateReview(r: Review) {
+    if(this.reviewForm.get('reviewTekst').value != ""){
+      r.reviewTekst = this.reviewForm.get('reviewTekst').value;
+    }
+    let review = new Review(r.id, r.makerId, r.bedrijfId, r.score, r.reviewTekst, r.naarBedrijf, r.maker);
+    this._adminService.updateReview(r.id, review).subscribe();
+    setTimeout(() => {
+      this.ngOnInit()
+    }, 100);
+  }
+
+  deleteReview(id: number) {
+    this._adminService.deleteReview(id).subscribe();
+    setTimeout(() => {
+      this.ngOnInit()
+    }, 100);
   }
 }
