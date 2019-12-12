@@ -25,13 +25,13 @@
               <div class="form-group row">
                 <div class="col-12">
                   <input type="text" name="username" class="form-control form-control-user col-12 mx-auto" id="username"
-                    placeholder="Email of gebruikersnaam" formControlName="Username">
+                    placeholder="Email of gebruikersnaam" formControlName="Username" autocomplete="username">
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col">
                   <input type="password" name="password" class="form-control form-control-user col-12 mx-auto"
-                    id="password" placeholder="Wachtwoord" formControlName="Password">
+                    id="password" placeholder="Wachtwoord" formControlName="Password" autocomplete="current-password">
                 </div>
               </div>
               <div *ngIf="invalid" class="alert alert-info" role="alert">
@@ -39,7 +39,7 @@
                 De ingegeven gegevens zijn niet correct.
               </div>
               <button (click)="onLogin()" [disabled]="submitted"
-                class="btn btn-primary btn-user btn-block col-12 mx-auto">
+                class="btn btn-primary btn-user btn-block col-sm-6 mx-auto">
                 Login
               </button>
               <!--  <hr>
