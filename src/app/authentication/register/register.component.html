@@ -133,7 +133,7 @@
                 formControlName="password" [ngClass]="{ 'is-invalid': submittedStudent && f.password.errors }">
               <div *ngIf="submittedStudent && f.password.errors" class="invalid-feedback" autocomplete="new-password">
                 <div *ngIf="f.password.errors.required">Verplicht in te vullen.</div>
-                <div *ngIf="f.password.errors.minlength">Minimum 6 letters.</div>
+                <div *ngIf="f.password.errors.minlength">Minimum 6 karakters.</div>
               </div>
             </div>
             <div class="col-sm-6">
@@ -143,7 +143,7 @@
               <div *ngIf="submittedStudent && f.passwordHerhaald.errors" class="invalid-feedback"
                 autocomplete="new-password">
                 <div *ngIf="f.passwordHerhaald.errors.required">Verplicht in te vullen.</div>
-                <div *ngIf="f.passwordHerhaald.errors.minlength">Minimum 6 letters.</div>
+                <div *ngIf="f.passwordHerhaald.errors.minlength">Minimum 6 karakters.</div>
                 <div *ngIf="f.passwordHerhaald.errors.mustMatch">Wachtwoord komen niet overeen.</div>
               </div>
             </div>
@@ -277,7 +277,7 @@
                 formControlName="password" [ngClass]="{ 'is-invalid': submittedBedrijf && b.password.errors }">
               <div *ngIf="submittedBedrijf && b.password.errors" class="invalid-feedback" autocomplete="new-password">
                 <div *ngIf="b.password.errors.required">Verplicht in te vullen.</div>
-                <div *ngIf="b.password.errors.minlength">Minimum 6 letters.</div>
+                <div *ngIf="b.password.errors.minlength">Minimum 6 karakters.</div>
               </div>
             </div>
             <div class="col-sm-6">
@@ -287,7 +287,7 @@
               <div *ngIf="submittedBedrijf && b.passwordHerhaald.errors" class="invalid-feedback"
                 autocomplete="new-password">
                 <div *ngIf="b.passwordHerhaald.errors.required">Verplicht in te vullen.</div>
-                <div *ngIf="b.passwordHerhaald.errors.minlength">Minimum 6 letters.</div>
+                <div *ngIf="b.passwordHerhaald.errors.minlength">Minimum 6 karakters.</div>
                 <div *ngIf="b.passwordHerhaald.errors.mustMatch">Wachtwoord komen niet overeen.</div>
               </div>
             </div>
