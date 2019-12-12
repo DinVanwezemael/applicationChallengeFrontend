@@ -1,0 +1,27 @@
+<div class="container">
+
+        <form [formGroup]="searchForm" (ngSubmit)="getOpdrachtenBySearch()" *ngIf="currentRole != 'Admin'"
+        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <div class="input-group">
+          <input type="text" class="form-control bg-white border-0 small" placeholder="Search for..."
+            aria-label="Search" aria-describedby="basic-addon2" formControlName="Title">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search fa-sm"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <br>
+
+      <div *ngFor="let opdracht of (opdrachten | async)">
+    <div class="card" (click)="viewOpdracht(opdracht.id)">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">{{opdracht.titel}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
+          <p class="card-text">{{opdracht.omschrijving}}</p>
+        </div>
+      </div>
+      </div>
+</div>

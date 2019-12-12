@@ -17,6 +17,10 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   mobileNavigation = true;
   currentRole;
+  profilePicture
+  username = localStorage.getItem("username");
+  naam = localStorage.getItem("naam");
+  achternaam = localStorage.getItem("achternaam");
 
   constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
     this._authenticationService.checkUser();

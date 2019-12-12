@@ -7,7 +7,7 @@
             </div>
 
             <div class="info">
-                <span class="font-weight-bold font-italic">Locatie:</span> {{Opdracht.locatie}}
+                <span class="font-weight-bold font-italic">Locatie:</span> {{Opdracht.straat}} {{Opdracht.straatNr}} {{Opdracht.postcode}} {{Opdracht.woonPlaats}}
             </div>
             <div *ngFor="let opdrachtTag of opdrachtTags">
                 <span class="badge badge-pill badge-info">{{opdrachtTag.tag.naam}}</span>
@@ -38,9 +38,18 @@
 
 
                 <div class="form-group">
-                    <label for="Achternaam">Locatie:</label>
-                    <input type="text" [(ngModel)]="Opdracht.locatie" class="form-control" placeholder="Locatie"
-                        formControlName="Locatie">
+                    <label for="Straat">Straat:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
+                        formControlName="Straat">
+                        <label for="StraatNr">StraatNummer:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                        formControlName="StraatNr">
+                        <label for="Postcode">Postcode:</label>
+                    <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
+                        formControlName="Postcode">
+                        <label for="Woonplaats">Woonplaats:</label>
+                    <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                        formControlName="Woonplaats">
                 </div>
 
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
@@ -57,7 +66,7 @@
 
         </div>
         <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
-            <form [formGroup]="opdrachtForm" (ngSubmit)="postOpdracht()">
+            <form [formGroup]="newOpdrachtForm" (ngSubmit)="postOpdracht()">
 
                 <div class="form-group">
                     <label for="Titel">Titel:</label>
@@ -73,9 +82,18 @@
 
 
                 <div class="form-group">
-                    <label for="Locatie">Locatie:</label>
-                    <input type="text" [(ngModel)]="Opdracht.locatie" class="form-control" placeholder="Locatie"
-                        formControlName="Locatie">
+                    <label for="Straat">Straat:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
+                        formControlName="Straat">
+                        <label for="StraatNr">StraatNummer:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                        formControlName="StraatNr">
+                        <label for="Postcode">Postcode:</label>
+                    <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
+                        formControlName="Postcode">
+                        <label for="Woonplaats">Woonplaats:</label>
+                    <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                        formControlName="Woonplaats">
                 </div>
                 <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">

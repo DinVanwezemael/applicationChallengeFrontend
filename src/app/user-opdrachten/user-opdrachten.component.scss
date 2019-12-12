@@ -1,0 +1,9 @@
+.card{
+    transition: 0.3s ease-in-out;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+
+    &:hover{
+        cursor: pointer;
+        box-shadow: 0px 3px 15px rgba(0,0,0,0.4);
+    }
+}
