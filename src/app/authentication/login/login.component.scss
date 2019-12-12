@@ -35,3 +35,22 @@
     display: block;
     margin-top: 2em;
 }
+
+
+@media only screen and (max-device-width : 480px) {
+    .card {
+        margin-top: 2em !important;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .container-fluid {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    }
