@@ -13,4 +13,10 @@ export class OpdrachtMakerService {
   insertDeelname(opdrachtMaker: OpdrachtMaker){
     return this.http.post<OpdrachtMaker>("https://localhost:44341/api/opdrachtmaker", opdrachtMaker);
   }
+
+  deleteDeelname(id: number){
+    return this.http.delete("https://localhost:44341/api/opdrachtmaker/" + id);
+  }
+
+
 }

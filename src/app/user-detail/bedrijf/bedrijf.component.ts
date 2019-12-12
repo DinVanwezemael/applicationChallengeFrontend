@@ -5,6 +5,11 @@ import { AuthenticateService } from 'src/app/authentication/services/authenticat
 import { Bedrijf } from 'src/app/models/bedrijf.model';
 import * as jwtDecode from 'jwt-decode';
 import { BedrijfService } from 'src/app/services/bedrijf.service';
+import { TagObject } from 'src/app/models/tagObject.model';
+import { BedrijfTag } from 'src/app/models/bedrijfTag.model';
+import { BedrijfTagService } from 'src/app/services/bedrijf-tag.service';
+import { Tag } from 'src/app/models/tag.model';
+import { TagService } from 'src/app/services/tag.service';
 
 @Component({
   selector: 'app-bedrijf',
@@ -13,19 +18,25 @@ import { BedrijfService } from 'src/app/services/bedrijf.service';
 })
 export class BedrijfComponent implements OnInit {
 
-  constructor(private _BedrijfService: BedrijfService, private fb: FormBuilder, private authenticateService: AuthenticateService) { }
+  constructor(private _BedrijfService: BedrijfService,private _BedrijfTagService:BedrijfTagService,private _TagService:TagService, private fb: FormBuilder, private authenticateService: AuthenticateService) { }
 
   bedrijf: Bedrijf;
   profielfoto
   username
   editBedrijf
   UserLoginId
+  bedrijfTags: BedrijfTag[];
+  tags: TagObject[];
 
   bedrijfForm = this.fb.group({
     Naam: new FormControl('', Validators.required),
-    Adres: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Stad: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    Nr: new FormControl('', Validators.required),
     Biografie: new FormControl('', Validators.required),
     Foto: new FormControl('', Validators.required),
+    Tags: new FormControl('', Validators.required),
     Id: new FormControl('', Validators.required)
   })
 
@@ -38,11 +49,24 @@ export class BedrijfComponent implements OnInit {
     }
   }
 
-  saveChangesMaker(){
+  saveChangesBedrijf(){
 
     this._BedrijfService.updateBedrijf(this.bedrijfForm.controls['Id'].value , this.bedrijfForm.value).subscribe(
       result => {
-        this.editBedrijf = false;
+        this._BedrijfTagService.deleteAllWhereBedrijfId(this.bedrijf.id).subscribe(result => {
+          this.tags.forEach(tag => {
+            var newTag = new Tag(0, tag.value);
+            this._TagService.newTag(newTag).subscribe(result => {
+              var opdrachtTag = new BedrijfTag(0, this.bedrijf.id, result.id, null, null)
+              this.editBedrijf = false;
+              this._BedrijfTagService.newBedrijfTag(opdrachtTag).subscribe(result => {
+                this._BedrijfTagService.getWhereBedrijfId(this.bedrijf.id).subscribe(result => {
+                })
+              })
+            })
+          });
+        })
+        
       },
       err => {
         alert("username bestaat al");
@@ -60,6 +84,15 @@ export class BedrijfComponent implements OnInit {
         this.bedrijf = result;
         console.log(result);
         this.profielfoto = "https://localhost:44341/images/"+this.bedrijf.foto;
+        this._BedrijfTagService.getWhereBedrijfId(this.bedrijf.id).subscribe(result => {
+          this.bedrijfTags = result;
+          var tagHelper: Array<TagObject> = [];
+          result.forEach(bedrijfTag => {
+            var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.naam);
+            tagHelper.push(tagObject)
+          });
+          this.tags = tagHelper;
+        })
       });
     }
   } 

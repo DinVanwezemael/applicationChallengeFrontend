@@ -1,8 +1,8 @@
 <div class="container">
         <div class="col-md-12 text-muted">
                 <h2>{{opdracht.titel}}</h2>
-                <div>
-                   <span class="font-weight-bold font-italic">Bedrijf:</span> {{opdracht.bedrijf.naam}}
+                <div class="bedrijf-link" class="font-weight-bold" (click)="viewBedrijf(opdracht.bedrijfId)">
+                   {{opdracht.bedrijf.naam}}<i class="fas fa-chevron-right"></i>
                 </div>
         
         
@@ -13,12 +13,13 @@
 
                 <div class="info">
                         <span class="font-weight-bold font-italic">Locatie:</span>
-                        {{opdracht.locatie}}
+                        {{opdracht.straat}} {{opdracht.straatNr}}, {{opdracht.postcode}} {{opdracht.woonPlaats}}
                 </div>
         
                 <div class="divider"></div>
                 <br>
-                <button (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
+                <button *ngIf="!voted" (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
+                <button *ngIf="voted" (click)="uitschrijvenOpdracht(opdrachtmakerid)" class="btn btn-danger btn-lg btn-block">Uitschrijven</button>
                 <br>
             </div>
 </div>

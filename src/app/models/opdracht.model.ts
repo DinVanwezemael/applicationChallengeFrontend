@@ -1,3 +1,5 @@
+import { OpdrachtMaker } from './opdracht-maker.model';
+
 export class Opdracht {
     constructor(
         public id: number,
@@ -7,6 +9,7 @@ export class Opdracht {
         public straat:string,
         public straatNr:string,
         public postcode:string,
-        public woonPlaats:string
+        public woonPlaats:string,
+        public opdrachtMakers: OpdrachtMaker[]
     ){}
 }

@@ -29,6 +29,7 @@ import { UserOpdrachtenComponent } from './user-opdrachten/user-opdrachten.compo
 import { OpdrachtStemmenComponent } from './user-opdrachten/opdracht-stemmen/opdracht-stemmen.component';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GestemdeOpdrachtenComponent } from './user-opdrachten/gestemde-opdrachten/gestemde-opdrachten.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
   { path: 'bedrijfOpdrachten', component: BedrijfOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
-  { path: 'opdracht-stemmen', component: OpdrachtStemmenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}}
+  { path: 'opdracht-stemmen', component: OpdrachtStemmenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'gestemde-opdrachten', component: GestemdeOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}}
 ]
 
 @NgModule({
@@ -57,7 +59,8 @@ const appRoutes: Routes = [
     OpdrachtDetailComponent,
     BedrijfComponent,
     UserOpdrachtenComponent,
-    OpdrachtStemmenComponent
+    OpdrachtStemmenComponent,
+    GestemdeOpdrachtenComponent,
   ],
   imports: [
     BrowserModule,
