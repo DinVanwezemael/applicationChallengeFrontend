@@ -1,0 +1,13 @@
+<div class="container">
+
+    <h2 class="cust-title">Opgegeven opdrachten</h2>
+  <div *ngFor="let opdracht of (opdrachten | async)">
+<div class="card" (click)="viewOpdracht(opdracht.opdracht.id)">
+    <div class="card-body">
+      <h5 class="card-title font-weight-bold">{{opdracht.opdracht.titel}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{opdracht.opdracht.bedrijf.naam}}</h6>
+      <p class="card-text">{{opdracht.opdracht.omschrijving}}</p>
+    </div>
+  </div>
+  </div>
+</div>

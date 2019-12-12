@@ -1,0 +1,25 @@
+h2{
+    font-weight: 800;
+}
+
+.info{
+    margin-top: 20px;
+}
+
+.fa-chevron-right{
+    margin-left: 5px;
+}
+
+.bedrijf-link{
+
+    transition: 0.3s ease-in-out;
+
+    &:hover{
+        cursor: pointer!important;
+
+
+        .fa-chevron-right{
+            margin-left: 10px;
+        }
+    }
+}
