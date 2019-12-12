@@ -8,6 +8,8 @@ import * as jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Opdracht } from 'src/app/models/opdracht.model';
+import { MakerService } from 'src/app/services/maker.service';
+import { BedrijfService } from 'src/app/services/bedrijf.service';
 
 @Component({
   selector: 'app-opdracht-stemmen',
@@ -16,12 +18,13 @@ import { Opdracht } from 'src/app/models/opdracht.model';
 })
 export class OpdrachtStemmenComponent implements OnInit {
 
-  constructor(private _OpdrachtService:OpdrachtService, private _OpdrachtMakerService: OpdrachtMakerService,private route: ActivatedRoute, private fb: FormBuilder,private router:Router) { }
+  constructor(private _OpdrachtService:OpdrachtService, private _OpdrachtMakerService: OpdrachtMakerService,private route: ActivatedRoute, private fb: FormBuilder,private router:Router, private _MakerService: MakerService, private _BedrijfService: BedrijfService) { }
   opdracht;
   opdrachtId
   userid
   voted = false;
   opdrachtmakerid;
+  profielfoto
 
   deelnemen(){
 
@@ -32,14 +35,31 @@ export class OpdrachtStemmenComponent implements OnInit {
 
     console.log(opdrachtMaker);
 
-    this._OpdrachtMakerService.insertDeelname(opdrachtMaker).subscribe();
+    this._OpdrachtMakerService.insertDeelname(opdrachtMaker).subscribe(
+      result =>{
+        this._OpdrachtService.getWhereId(this.opdrachtId).subscribe(result => {
+          this.opdracht = result;
+          this.get();
+        });
+      }
+    );
 
   }
 
 
   uitschrijvenOpdracht(inschrijvingId){
     console.log(inschrijvingId);
-    this._OpdrachtMakerService.deleteDeelname(inschrijvingId).subscribe();
+    this._OpdrachtMakerService.deleteDeelname(inschrijvingId).subscribe(
+      result =>{
+        this._OpdrachtService.getWhereId(this.opdrachtId).subscribe(result => {
+          this.opdracht = result;
+          this.get();
+        },
+        err => {
+        }
+        );
+      }
+    );
   }
 
 
@@ -53,18 +73,40 @@ export class OpdrachtStemmenComponent implements OnInit {
     console.log(opdrachtMaker);
     this._OpdrachtService.getVoted(this.opdrachtId, opdrachtMaker).subscribe(
       result => {
-        this.opdrachtmakerid = result[0].id;
-        console.log(result[0].id);
-        this.voted = true;
+
+        if(result == null){
+          this.voted = false;
+        }
+        else{
+          this.opdrachtmakerid = result[0].id;
+          this.voted = true;
+        }
+        
       },
       err =>{
         this.voted = false;
+        console.log(err);
       }
     );
 
     
     
   }
+
+  haalMakerOp(){
+    const token = localStorage.getItem('token')
+    const tokenPayload : any = jwtDecode(token);
+    if(tokenPayload.role == "Maker"){
+      this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
+        this.profielfoto = "https://localhost:44341/images/"+result.foto;
+      });
+    }
+    if(tokenPayload.role == "Bedrijf"){
+      this._BedrijfService.getBedrijfWhereId(tokenPayload.GebruikerId).subscribe(result => {
+        this.profielfoto = "https://localhost:44341/images/"+result.foto;
+      });
+    }
+  } 
 
 
   ngOnInit() {
@@ -86,6 +128,7 @@ export class OpdrachtStemmenComponent implements OnInit {
     this.userid = tokenPayload.GebruikerId;
 
     this.get();
+    this.haalMakerOp();
 
   }
 

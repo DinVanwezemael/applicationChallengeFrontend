@@ -1,4 +1,11 @@
 <div class="container">
+
+        <div *ngIf="!triggered" class="col-md-12 text-center">
+                <img [src]="profielfoto" alt="Alternate Text" class="img-responsive text-center"
+                width="300" height="300" />
+        </div>
+
+
         <div class="col-md-12 text-muted">
                 <h2>{{opdracht.titel}}</h2>
                 <div class="bedrijf-link" class="font-weight-bold" (click)="viewBedrijf(opdracht.bedrijfId)">
@@ -21,5 +28,5 @@
                 <button *ngIf="!voted" (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
                 <button *ngIf="voted" (click)="uitschrijvenOpdracht(opdrachtmakerid)" class="btn btn-danger btn-lg btn-block">Uitschrijven</button>
                 <br>
-            </div>
+            </div> 
 </div>
