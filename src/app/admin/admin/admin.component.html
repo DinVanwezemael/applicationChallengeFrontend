@@ -1,20 +1,17 @@
 <ngb-tabset>
     <ngb-tab title="Makers">
         <ng-template ngbTabContent>
-
             <form>
-                <button (click)="addMaker()" class="btn btn-primary btn-user">
+                <button type="button" (click)="addMaker()" class="btn btn-primary btn-user">
                     Maker toevoegen
                 </button>
-                <input class="form-control" type="text" placeholder="email" name="search" aria-label="email"
-                    [(ngModel)]="emailFilter.email">
-                <input class="form-control" type="text" placeholder="gebruiksnaam" name="search"
-                    aria-label="gebruiksnaam" [(ngModel)]="gebruiksnaamFilter.nickname">
+                <input class="form-control" type="text" placeholder="gebruiksnaam" name="searchNickname"
+                    aria-label="gebruiksnaam" [(ngModel)]="makerFilter.nickname">
             </form>
-            <div class="card" *ngFor="let maker of makers | filterBy:gebruiksnaamFilter | filterBy:emailFilter">
+            <div class="card" *ngFor="let maker of makers">
                 <div class="card-body">
                     <h5 class="card-title">{{maker.nickname}}</h5>
-                    <p>{{maker.email}}</p>
+                    <p>{{maker.voornaam + " " + maker.achternaam}}</p>
                 </div>
             </div>
         </ng-template>
@@ -42,12 +39,14 @@
                 <input class="form-control" type="text" placeholder="Reviewer" name="search" aria-label="reviewer"
                     [(ngModel)]="reviewerFilter.maker.nickname">
             </form>
-            <div class="card" (click)="open(content, review)" *ngFor="let review of reviews | filterBy: reviewerFilter">
+            <div class="card" (click)="reviewModal(content, review)"
+                *ngFor="let review of reviews | filterBy: reviewerFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{review.maker.nickname}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{review.maker.voornaam + " " + review.maker.achternaam}}
-                    </h6>
-                    <ngb-rating [(rate)]="review.score">
+                    <h5 class="card-title" *ngIf="review.naarBedrijf">{{review.maker.nickname}}</h5>
+                    <h5 class="card-title" *ngIf="!review.naarBedrijf">{{review.bedrijf.naam}} (bedrijf)</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" *ngIf="review.naarBedrijf">
+                        {{review.maker.voornaam + " " + review.maker.achternaam}}</h6>
+                    <ngb-rating [(rate)]="review.score" [readonly]="true">
                         <ng-template let-fill="fill">
                             <span class="star" [class.filled]="fill === 100">&#9733;</span>
                         </ng-template>
@@ -57,10 +56,31 @@
             </div>
         </ng-template>
     </ngb-tab>
+    <ngb-tab title="Opdrachten">
+        <ng-template ngbTabContent>
+            <form>
+                <input class="form-control" type="text" placeholder="titel" name="search" aria-label="titel"
+                    [(ngModel)]="opdrachtFilter.titel">
+            </form>
+            <div class="card" (click)="opdrachtModal(contentOpdracht, opdracht)"
+                *ngFor="let opdracht of opdrachten | filterBy: opdrachtFilter">
+                <div class="card-body">
+                    <h5 class="card-title">{{opdracht.titel}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}
+                    </h6>
+                    <p>{{opdracht.omschrijving}}</p>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
 </ngb-tabset>
+
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Review van: {{review.maker.nickname}}</h4>
+        <h4 class="modal-title" id="modal-basic-title" *ngIf="review.naarBedrijf">Review van: {{review.maker.nickname}}
+        </h4>
+        <h4 class="modal-title" id="modal-basic-title" *ngIf="!review.naarBedrijf">Review van: {{review.bedrijf.naam}}
+            (bedrijf)</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -68,6 +88,10 @@
     <div class="modal-body">
         <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
+                <label *ngIf="review.naarBedrijf">ontvanger: {{review.bedrijf.naam}} (bedrijf)</label>
+                <label *ngIf="!review.naarBedrijf">ontvanger:
+                    {{review.maker.nickname + " (" + review.maker.voornaam + " " + review.maker.achternaam + ")"}}</label>
+                <br />
                 <label>Score: </label>
                 <ngb-rating [(rate)]="review.score">
                     <ng-template let-fill="fill">
@@ -76,12 +100,44 @@
                 </ngb-rating>
                 <br />
                 <label>Review:</label>
-                <textarea style="height:50px" class="form-control input-lg" type="text"
+                <textarea formControlName="reviewTekst" style="height:50px" class="form-control input-lg" type="text"
                     [value]="review.reviewTekst"></textarea>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Opslaan</button>
+        <button type="submit" class="btn btn-danger"
+            (click)="modal.close('Save click'); deleteReview(review.id)">Verwijderen</button>
+        <button type="submit" class="btn btn-primary"
+            (click)="modal.close('Save click'); updateReview(review)">Opslaan</button>
+    </div>
+</ng-template>
+
+<ng-template #contentOpdracht let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{opdracht.titel}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="opdrachtForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label>Bedrijf: {{opdracht.bedrijf.naam}}</label>
+                <br />
+                <label>Locatie:</label>
+                <input class="form-control input-lg" type="text" [value]="opdracht.locatie">
+                <br />
+                <label>Omschrijving:</label>
+                <textarea style="height:50px" class="form-control input-lg" type="text"
+                    [value]="opdracht.omschrijving"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+            (click)="modal.close('Save click'); deleteOpdracht()">Verwijderen</button>
+        <button type="submit" class="btn btn-primary"
+            (click)="modal.close('Save click'); updateOpdracht(opdracht)">Opslaan</button>
     </div>
 </ng-template>

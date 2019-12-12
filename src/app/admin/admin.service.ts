@@ -4,6 +4,7 @@ import { Maker } from '../models/maker.model';
 import { Observable } from 'rxjs';
 import { Bedrijf } from '../models/bedrijf.model';
 import { Review } from '../models/review.model';
+import { Opdracht } from '../models/opdracht.model';
 
 @Injectable()
 export class AdminService {
@@ -24,5 +25,17 @@ export class AdminService {
 
   getReviews(): Observable<Review[]> {
     return this._httpClient.get<Review[]>("https://localhost:44341/api/review");
+  }
+
+  getOpdrachten(): Observable<Opdracht[]> {
+    return this._httpClient.get<Opdracht[]>("https://localhost:44341/api/opdracht");
+  }
+
+  deleteReview(reviewId: number) {
+    return this._httpClient.delete<Review>("https://localhost:44341/api/review/" + reviewId);
+  }
+
+  updateReview(reviewId: number, review: Review) {
+    return this._httpClient.put<Review>("https://localhost:44341/api/review/" + reviewId, review);
   }
 }
