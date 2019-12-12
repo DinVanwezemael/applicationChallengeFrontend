@@ -6,8 +6,8 @@ export class Bedrijf {
         public naam: string,
         public postcode: string,
         public straat: string,
-        public straatnr: string,
-        public woonplaats: string,
+        public nr: string,
+        public stad: string,
         public biografie: string,
         public foto: string,
         public opdrachten:Opdracht[]

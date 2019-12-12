@@ -3,7 +3,7 @@
     <div *ngIf="!editBedrijf" class="col-md-12 text-muted">
             <h2>{{bedrijf.naam}} ({{username}}) </h2>
             <div>
-               <span class="font-weight-bold font-italic">Adres:</span> {{bedrijf.adres}}
+               <span class="font-weight-bold font-italic">Adres:</span> {{bedrijf.straat}} {{bedrijf.nr}} {{bedrijf.postcode}} {{bedrijf.stad}}
             </div>
     
     
@@ -11,7 +11,9 @@
                     <span class="font-weight-bold font-italic">Biografie:</span>
                     {{bedrijf.biografie}}
             </div>
-    
+            <div *ngFor="let bedrijfTag of bedrijfTags">
+                <span class="badge badge-pill badge-info">{{bedrijfTag.tag.naam}}</span>
+            </div>
             <div class="divider"></div>
             <br>
             <button (click)="editUserDetails()" class="btn btn-primary btn-lg btn-block">Bewerken</button>
@@ -23,23 +25,27 @@
 <!-- bedrijf aanpassen -->
 <div *ngIf="editBedrijf" class="col-md-12 text-muted">
         <form [formGroup]="bedrijfForm" (ngSubmit)="saveChangesBedrijf()">
-
-
-                <div class="form-group">
-                        <label for="">Username:</label>
-                        <input type="text" [(ngModel)]="username" class="form-control" placeholder="Username" formControlName="Username">
-                    </div>
-
             <div class="form-group">
             <label for="">Naam:</label>
             <input type="text" [(ngModel)]="bedrijf.naam" class="form-control" placeholder="Naam bedrijf" formControlName="Naam">
         </div>
 
 
-                <div class="form-group">
-                        <label for="">Adres:</label>
-                        <input type="text" [(ngModel)]="bedrijf.adres" class="form-control" placeholder="Adres" formControlName="Adres">
-                    </div>
+                
+        <div class="form-group">
+                <label for="Straat">Straat:</label>
+                <input type="text" [(ngModel)]="bedrijf.straat" class="form-control" placeholder="Straat"
+                    formControlName="Straat">
+                    <label for="Nr">StraatNummer:</label>
+                <input type="text" [(ngModel)]="bedrijf.nr" class="form-control" placeholder="Nr"
+                    formControlName="Nr">
+                    <label for="Postcode">Postcode:</label>
+                <input type="text" [(ngModel)]="bedrijf.postcode" class="form-control" placeholder="Postcode"
+                    formControlName="Postcode">
+                    <label for="Stad">Stad:</label>
+                <input type="text" [(ngModel)]="bedrijf.stad" class="form-control" placeholder="Stad"
+                    formControlName="Stad">
+            </div>
 
                     <div class="form-group">
                         <label for="">Info:</label>
@@ -49,7 +55,7 @@
                   
                             <input type="hidden" [(ngModel)]="bedrijf.id"  formControlName="Id">
                             <input type="hidden" [(ngModel)]="bedrijf.foto"  formControlName="Foto">
-                       
+                            <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
 
         <div class="divider"></div>
         <br>
