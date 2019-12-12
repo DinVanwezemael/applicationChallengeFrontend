@@ -69,7 +69,7 @@ export class AuthenticateService {
     return this._httpClient.put<User>("https://localhost:44341/api/userLogin/" + userid, user);
   }
 
-  addMaker(maker: any, login: any) {
-    return this._httpClient.post<any>("https://localhost:44341/api/userLogin/AddLoginMaker", maker, login);
+  addMaker(data: {}) {
+    return this._httpClient.post<any>("https://localhost:44341/api/userLogin/AddLoginMaker", data);
   }
 }
