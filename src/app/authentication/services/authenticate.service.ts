@@ -76,4 +76,16 @@ export class AuthenticateService {
   addBedrijf(data: {}) {
     return this._httpClient.post<any>("https://localhost:44341/api/userLogin/AddLoginBedrijf", data);
   }
+
+  getLoginInfo() {
+    return this._httpClient.get<any>("https://localhost:44341/api/userLogin/loginInfo");
+  }
+
+  changePassword(id: number, userLogin: any) {
+    return this._httpClient.put<any>("https://localhost:44341/api/userLogin/changePassword/" + id, userLogin)
+  }
+
+  changeUserInfo(id: number, userLogin: any) {
+    return this._httpClient.put<any>("https://localhost:44341/api/userLogin/changeUserInfo/" + id, userLogin)
+  }
 }
