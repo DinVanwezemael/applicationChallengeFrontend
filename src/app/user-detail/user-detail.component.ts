@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FileUploader } from 'ng2-file-upload';
 import { User } from '../authentication/models/user.model';
 import { AuthenticateService } from '../authentication/services/authenticate.service';
 import { Observable } from 'rxjs';
@@ -80,7 +79,7 @@ export class UserDetailComponent implements OnInit {
         this.bedrijf = result;
         this.vbedrijf = true;
         this.vmaker = false;
-        this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+        this.profielfoto = "https://localhost:44341/images/"+this.bedrijf.foto;
       });
     }
   } 
@@ -101,14 +100,27 @@ export class UserDetailComponent implements OnInit {
       }, error => {
         console.log("upload ok")
         this.nieuweFotoNaam= error.error.text
-        this._MakerService.deleteOldFoto(this.maker.foto).subscribe(result =>{
-          console.log("delete ok")
-        });
-          
-this._MakerService.updateMaker(this.maker,this.nieuweFotoNaam).subscribe(result=>{
-this.haalMakerOp();
-this.triggered= false;
-});
+        if(this.profielfoto != "Template.jpg"){
+          this._MakerService.deleteOldFoto(this.profielfoto).subscribe(result =>{
+            console.log("delete ok")
+          });
+        }
+
+        const token = localStorage.getItem('token')
+        const tokenPayload : any = jwtDecode(token);
+        if(tokenPayload.role == "Maker"){
+            this._MakerService.updateMaker(this.maker,this.nieuweFotoNaam).subscribe(result=>{
+              this.haalMakerOp();
+              this.triggered= false;
+              });
+          }else{
+            this.bedrijf.foto= this.nieuweFotoNaam;
+            this._BedrijfService.updateBedrijf(this.bedrijf.id,this.bedrijf).subscribe(result=>{
+              this.haalMakerOp();
+              this.triggered= false;
+              });
+          }
+
 });
 } 
 
