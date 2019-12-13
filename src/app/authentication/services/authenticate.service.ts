@@ -14,6 +14,7 @@ import { Maker } from 'src/app/models/maker.model';
 export class AuthenticateService {
 
   isLoggedin = new BehaviorSubject(false);
+  userObject = new BehaviorSubject({});
   currentRole = new BehaviorSubject("");
 
   constructor(private _httpClient: HttpClient, public jwtHelper: JwtHelperService) {
@@ -39,6 +40,7 @@ export class AuthenticateService {
     localStorage.removeItem("token");
     this.currentRole.next("");
     this.isLoggedin.next(false);
+    this.userObject.next(null);
   }
 
   register(userRegister: UserRegister): Observable<Object> {
@@ -47,14 +49,26 @@ export class AuthenticateService {
 
   checkUser() {
     const token = localStorage.getItem('token')
-
     if (!this.jwtHelper.isTokenExpired(token)) {
       this.isLoggedin.next(true);
       const tokenPayload: any = jwtDecode(token);
       this.currentRole.next(tokenPayload.role);
+      this.refreshUser().subscribe(result => { this.userObject.next(result) })
+      console.log(this.userObject)
     } else {
       this.isLoggedin.next(false);
     }
+  }
+
+  loginUser(token: string) {
+      this.setToken(token);
+      this.isLoggedin.next(true);
+      const tokenPayload: any = jwtDecode(token);
+      this.currentRole.next(tokenPayload.role);
+    }
+
+  refreshUser() {
+    return this._httpClient.get<Object>("https://localhost:44341/api/userLogin/userInfo");
   }
 
   getUserInfo() {

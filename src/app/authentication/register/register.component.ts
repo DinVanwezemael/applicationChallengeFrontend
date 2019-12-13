@@ -96,17 +96,8 @@ export class RegisterComponent implements OnInit {
 
   onLogin(userlogin: any) {
     this.authenticateService.authenticate(userlogin).subscribe(result => {
-      this.authenticateService.setToken(result.token);
-      this.authenticateService.checkUser();
-      console.log(result);
-
-      localStorage.setItem("username", result.username);
-      localStorage.setItem("naam", result.voornaam);
-      localStorage.setItem("achternaam", result.achternaam);
-
-      this.appComponent.username = result.username;
-      this.appComponent.naam = result.naam;
-      this.appComponent.achternaam = result.achternaam;
+      this.authenticateService.loginUser(result.token);
+      this.authenticateService.userObject.next(result);
 
       switch (this.authenticateService.currentRole.value) {
         case ("Admin"):
@@ -123,7 +114,6 @@ export class RegisterComponent implements OnInit {
           break;
 
       }
-      console.log(result);
     }, err => {
       console.log(err);
       alert("Er is iets verkeerd gegaan.")
