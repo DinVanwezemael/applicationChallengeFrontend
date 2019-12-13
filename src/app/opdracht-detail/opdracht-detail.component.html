@@ -14,6 +14,13 @@
             </div>
             <div class="divider"></div>
             <br>
+            <h3 class="pb-3">Makers:</h3>
+            <div *ngFor="let opdrachtmaker of opdrachtmakers">
+                <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">{{opdrachtmaker.maker.naam}} <button (click) = "AccepteerMaker(opdrachtmaker.id)">Accepteren</button> <button (click)=VerwijderMaker(opdrachtmaker.id)>Verwijderen</button> </span>
+                <ng-template #makerOk>
+                    {{opdrachtmaker.maker.naam}}
+                  </ng-template>
+            </div>
             <button (click)="editOpdrachtDetails()" class="btn btn-primary btn-lg btn-block pt-3">Bewerken</button>
             <button href="#" data-toggle="modal" data-target="#deleteModal"
                 class="btn btn-danger btn-lg btn-block pt-3">Verwijderen</button>
