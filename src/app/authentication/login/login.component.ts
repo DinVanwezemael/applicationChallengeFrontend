@@ -67,19 +67,12 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.submitted = true;
     this.invalid = false;
-    console.log(this.loginForm.value);
     this._authenticationService.authenticate(this.loginForm.value).subscribe(result => {
+      console.log("this");
+      console.log(result)
       this._authenticationService.setToken(result.token);
       this._authenticationService.checkUser();
-      console.log(result);
-
-      localStorage.setItem("username", result.username);
-      localStorage.setItem("naam", result.voornaam);
-      localStorage.setItem("achternaam", result.achternaam);
-
-      this.appComponent.username = result.username;
-      this.appComponent.naam = result.naam;
-      this.appComponent.achternaam = result.achternaam;
+      this._authenticationService.userObject.next(result);
 
       switch (this._authenticationService.currentRole.value) {
         case ("Admin"):

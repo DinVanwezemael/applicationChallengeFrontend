@@ -17,10 +17,10 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   mobileNavigation = true;
   currentRole;
-  profilePicture
-  username = localStorage.getItem("username");
-  naam = localStorage.getItem("naam");
-  achternaam = localStorage.getItem("achternaam");
+  profilePicture;
+  userInfo = {};
+  naam = "";
+  achternaam = "";
 
   constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
     this._authenticationService.checkUser();
@@ -31,6 +31,11 @@ export class AppComponent implements OnInit {
 
     this._authenticationService.currentRole.subscribe(result => {
       this.currentRole = result;
+    })
+
+    this._authenticationService.userObject.subscribe(result => {
+      this.userInfo = result;
+      console.log(this.userInfo);
     }) 
   }
 
@@ -95,8 +100,7 @@ export class AppComponent implements OnInit {
 
   }
   onLogout() {
-      localStorage.removeItem("token");
-      this._authenticationService.isLoggedin.next(false);
+      this._authenticationService.logout();
       this.router.navigate(['/login']);
   }
 }

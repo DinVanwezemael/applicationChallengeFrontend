@@ -10,6 +10,8 @@ import { map } from 'rxjs/operators';
 import { Opdracht } from 'src/app/models/opdracht.model';
 import { MakerService } from 'src/app/services/maker.service';
 import { BedrijfService } from 'src/app/services/bedrijf.service';
+import { OpdrachtTagService } from 'src/app/services/opdracht-tag.service';
+import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
 
 @Component({
   selector: 'app-opdracht-stemmen',
@@ -18,22 +20,24 @@ import { BedrijfService } from 'src/app/services/bedrijf.service';
 })
 export class OpdrachtStemmenComponent implements OnInit {
 
-  constructor(private _OpdrachtService:OpdrachtService, private _OpdrachtMakerService: OpdrachtMakerService,private route: ActivatedRoute, private fb: FormBuilder,private router:Router, private _MakerService: MakerService, private _BedrijfService: BedrijfService) { }
+  constructor(private _OpdrachtService:OpdrachtService, private _OpdrachtTagService: OpdrachtTagService, private _OpdrachtMakerService: OpdrachtMakerService,private route: ActivatedRoute, private fb: FormBuilder,private router:Router, private _MakerService: MakerService, private _BedrijfService: BedrijfService) { }
   opdracht;
   opdrachtId
   userid
+  geaccepteerd
   voted = false;
   opdrachtmakerid;
   profielfoto;
   gemiddeldeReviewScore;
   bedrijfId;
   stars="";
-
+  opdrachtTags: OpdrachtTag[];
   deelnemen(){
 
     let opdrachtMaker: OpdrachtMaker = {
       makerid: this.userid,
-      opdrachtid: this.opdrachtId
+      opdrachtid: this.opdrachtId,
+      geaccepteerd: false
     }
 
     console.log(opdrachtMaker);
@@ -75,7 +79,8 @@ export class OpdrachtStemmenComponent implements OnInit {
 
     let opdrachtMaker: OpdrachtMaker = {
       makerid: this.userid,
-      opdrachtid: this.opdrachtId
+      opdrachtid: this.opdrachtId,
+      geaccepteerd: this.geaccepteerd
     }
     console.log(opdrachtMaker);
     this._OpdrachtService.getVoted(this.opdrachtId, opdrachtMaker).subscribe(
@@ -114,22 +119,6 @@ export class OpdrachtStemmenComponent implements OnInit {
     );
   }
 
-  haalMakerOp(){
-    const token = localStorage.getItem('token')
-    const tokenPayload : any = jwtDecode(token);
-    if(tokenPayload.role == "Maker"){
-      this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
-        this.profielfoto = "https://localhost:44341/images/"+result.foto;
-      });
-    }
-    if(tokenPayload.role == "Bedrijf"){
-      this._BedrijfService.getBedrijfWhereId(tokenPayload.GebruikerId).subscribe(result => {
-        this.profielfoto = "https://localhost:44341/images/"+result.foto;
-        console.log(result.foto)
-      });
-    }
-  } 
-
 
   ngOnInit() {
     this.route.queryParams
@@ -140,6 +129,10 @@ export class OpdrachtStemmenComponent implements OnInit {
             this.opdracht = result;
             this.bedrijfId = result.bedrijfId;
             this.getReviewScore(result.bedrijfId);
+            this.profielfoto = "https://localhost:44341/images/"+result.bedrijf.foto;
+            this._OpdrachtTagService.getWhereBedrijfId(result.id).subscribe(result => {
+              this.opdrachtTags = result;
+            })
           });
         }
 
@@ -151,9 +144,8 @@ export class OpdrachtStemmenComponent implements OnInit {
     this.userid = tokenPayload.GebruikerId;
 
     this.get();
-    this.haalMakerOp();
     
-
+    
   }
 
 }

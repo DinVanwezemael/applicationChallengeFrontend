@@ -26,7 +26,9 @@
                         <span class="font-weight-bold font-italic">Locatie:</span>
                         {{opdracht.straat}} {{opdracht.straatNr}}, {{opdracht.postcode}} {{opdracht.woonPlaats}}
                 </div>
-        
+                <div class="info" *ngFor="let opdrachtTag of opdrachtTags">
+                        <span class="badge badge-pill badge-info">{{opdrachtTag.tag.naam}}</span>
+                    </div>
                 <div class="divider"></div>
                 <br>
                 <button *ngIf="!voted" (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
