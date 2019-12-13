@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Review } from '../models/review.model';
 import * as jwtDecode from 'jwt-decode';
 import { ReviewBedrijf } from '../models/review-bedrijf.model';
+import { BedrijfService } from '../services/bedrijf.service';
 
 @Component({
   selector: 'app-bedrijf-review',
@@ -25,13 +26,15 @@ import { ReviewBedrijf } from '../models/review-bedrijf.model';
 })
 export class BedrijfReviewComponent implements OnInit {
 
-  constructor(private _ReviewService: ReviewService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private _ReviewService: ReviewService, private route: ActivatedRoute, private router: Router, private _BedrijfService: BedrijfService) { }
 
   bedrijfid;
   userid;
   reviews: Review[];
   reviewed;
   reviewId;
+  bedrijf
+
 
   addReview(){
     this.router.navigate(['schrijf-review'], { queryParams: { bedrijfId:this.bedrijfid, e: 0 } });
@@ -66,6 +69,14 @@ export class BedrijfReviewComponent implements OnInit {
     );
   }
 
+  getBedrijf(){
+    this._BedrijfService.getBedrijfWhereId(this.bedrijfid).subscribe(
+      result => {
+        this.bedrijf = result;
+      }
+    );
+  }
+
   ngOnInit() {
 
     this.route.queryParams
@@ -86,6 +97,7 @@ export class BedrijfReviewComponent implements OnInit {
     this.userid = tokenPayload.GebruikerId;
 
     this.userReviewedCompany();
+    this.getBedrijf();
 
   }
 
