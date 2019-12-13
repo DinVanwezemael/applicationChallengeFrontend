@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ReviewService } from 'src/app/services/review.service';
 import { Review } from 'src/app/models/review.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewBedrijf } from 'src/app/models/review-bedrijf.model';
 import * as jwtDecode from 'jwt-decode';
 
@@ -25,7 +25,7 @@ import * as jwtDecode from 'jwt-decode';
 })
 export class SchrijfReviewComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private _ReviewService: ReviewService, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private _ReviewService: ReviewService, private route: ActivatedRoute, private router: Router) { }
 
   bedrijfid
   userid
@@ -34,9 +34,11 @@ export class SchrijfReviewComponent implements OnInit {
   edit;
   reviewId;
   review: Review;
+  anoniem = false;
+  contentEditable;
 
   reviewForm = this.fb.group({
-    ReviewTekst: new FormControl('', Validators.required),
+    ReviewTekst: new FormControl('', Validators.required)
   })
 
   rating = new FormControl(null, Validators.required);
@@ -52,11 +54,23 @@ export class SchrijfReviewComponent implements OnInit {
 
     console.log(this.currentRate);
 
-    this._ReviewService.insertReviewsBedrijf(review).subscribe();
-
+    this._ReviewService.insertReviewsBedrijf(review).subscribe(
+      result => {
+        this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:this.bedrijfid } });
+      }
+    );
   }
 
+  toggleEditable(event) {
+    if ( event.target.checked ) {
+        this.contentEditable = true;
+   }
+
+}
+
   editReview(){
+
+    
     let review: ReviewBedrijf = {
       bedrijfId: this.bedrijfid,
       makerId: this.userid,
@@ -69,12 +83,20 @@ export class SchrijfReviewComponent implements OnInit {
 
     console.log(this.currentRate);
 
-    this._ReviewService.editReviewsBedrijf(this.reviewId, review).subscribe();
+    this._ReviewService.editReviewsBedrijf(this.reviewId, review).subscribe(
+      result => {
+        this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:this.bedrijfid } });
+      }
+    );
   }
 
 
   deleteReview(reviewid){
-    this._ReviewService.deleteReview(reviewid).subscribe();
+    this._ReviewService.deleteReview(reviewid).subscribe(
+      result => {
+        this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:this.bedrijfid } });
+      }
+    );
   }
 
   getReview(){

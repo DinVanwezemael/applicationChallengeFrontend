@@ -16,7 +16,24 @@ import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
 @Component({
   selector: 'app-opdracht-stemmen',
   templateUrl: './opdracht-stemmen.component.html',
-  styleUrls: ['./opdracht-stemmen.component.scss']
+  styleUrls: ['./opdracht-stemmen.component.scss'],
+  styles: [`
+    .star {
+      position: relative;
+      display: inline-block;
+      font-size: 3rem;
+      color: #d3d3d3;
+    }
+    .full {
+      color: #F7BC07;
+    }
+    .half {
+      position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      color: #F7BC07;
+    }
+  `]
 })
 export class OpdrachtStemmenComponent implements OnInit {
 
@@ -32,6 +49,7 @@ export class OpdrachtStemmenComponent implements OnInit {
   bedrijfId;
   stars="";
   opdrachtTags: OpdrachtTag[];
+
   deelnemen(){
 
     let opdrachtMaker: OpdrachtMaker = {
