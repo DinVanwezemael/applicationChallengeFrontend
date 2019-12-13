@@ -24,7 +24,10 @@ export class OpdrachtStemmenComponent implements OnInit {
   userid
   voted = false;
   opdrachtmakerid;
-  profielfoto
+  profielfoto;
+  gemiddeldeReviewScore;
+  bedrijfId;
+  stars="";
 
   deelnemen(){
 
@@ -93,6 +96,20 @@ export class OpdrachtStemmenComponent implements OnInit {
     
   }
 
+  getReviewScore(id){
+    this._BedrijfService.getGemiddeldeScoreBedrijf(id).subscribe(
+      result => {
+        this.gemiddeldeReviewScore = result;
+
+        console.log(result);
+        
+        for(var i = 0; i < result; i++){
+          this.stars += '<i class="fas fa-star"></i>';
+        }
+      }
+    );
+  }
+
   haalMakerOp(){
     const token = localStorage.getItem('token')
     const tokenPayload : any = jwtDecode(token);
@@ -104,6 +121,7 @@ export class OpdrachtStemmenComponent implements OnInit {
     if(tokenPayload.role == "Bedrijf"){
       this._BedrijfService.getBedrijfWhereId(tokenPayload.GebruikerId).subscribe(result => {
         this.profielfoto = "https://localhost:44341/images/"+result.foto;
+        console.log(result.foto)
       });
     }
   } 
@@ -116,7 +134,8 @@ export class OpdrachtStemmenComponent implements OnInit {
         if(params.opdrachtId !=null){
           this._OpdrachtService.getWhereId(params.opdrachtId).subscribe(result => {
             this.opdracht = result;
-            console.log(result)
+            this.bedrijfId = result.bedrijfId;
+            this.getReviewScore(result.bedrijfId);
           });
         }
 
@@ -129,6 +148,7 @@ export class OpdrachtStemmenComponent implements OnInit {
 
     this.get();
     this.haalMakerOp();
+    
 
   }
 

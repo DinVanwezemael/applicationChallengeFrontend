@@ -12,10 +12,12 @@ img{
 }
 
 .fa-chevron-right{
-    margin-left: 5px;
+    transition: 0.3s ease-in-out;
+    margin-left: 15px;
 }
 
 .bedrijf-link{
+    font-size: 25px;
 
     transition: 0.3s ease-in-out;
 
@@ -24,7 +26,7 @@ img{
 
 
         .fa-chevron-right{
-            margin-left: 10px;
+            margin-left: 25px;
         }
     }
 }

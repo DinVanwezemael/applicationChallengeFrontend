@@ -6,10 +6,14 @@
         </div>
 
 
-        <div class="col-md-12 text-muted">
+        <div class="col-md-12">
                 <h2>{{opdracht.titel}}</h2>
-                <div class="bedrijf-link" class="font-weight-bold" (click)="viewBedrijf(opdracht.bedrijfId)">
-                   {{opdracht.bedrijf.naam}}<i class="fas fa-chevron-right"></i>
+                <div class="font-weight-bold bedrijf-link" (click)="viewBedrijf(opdracht.bedrijfId)">
+                   {{opdracht.bedrijf.naam}} <span style="color: #F7BC07!important;" [innerHTML]="stars"></span>
+
+
+                   
+                   <i class="fas fa-chevron-right"></i>
                 </div>
         
         

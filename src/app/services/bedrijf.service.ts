@@ -18,4 +18,8 @@ export class BedrijfService {
   updateBedrijf(Id: number, bedrijf: Bedrijf){
     return this.http.put<Bedrijf>("https://localhost:44341/api/bedrijf/"+Id, bedrijf);
   }
+
+  getGemiddeldeScoreBedrijf(bedrijfId :number){
+    return this.http.get("https://localhost:44341/api/review/getReviewsBedrijf/" + bedrijfId);
+  }
 }
