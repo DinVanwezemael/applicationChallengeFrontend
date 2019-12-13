@@ -58,7 +58,6 @@ export class AdminComponent implements OnInit {
 
   reviewModal(content, r: Review) {
     this.review = r;
-    console.log(this.review);
     this.modalService.open(content, { ariaLabelledBy: 'review' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -89,6 +88,10 @@ export class AdminComponent implements OnInit {
 
   addMaker() {
     this.router.navigate(['makerForm'])
+  }
+  
+  addBedrijf() {
+    this.router.navigate(['bedrijfForm'])
   }
 
   updateOpdracht(o: Opdracht) {

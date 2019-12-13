@@ -30,6 +30,7 @@ import { OpdrachtStemmenComponent } from './user-opdrachten/opdracht-stemmen/opd
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GestemdeOpdrachtenComponent } from './user-opdrachten/gestemde-opdrachten/gestemde-opdrachten.component';
+import { BedrijfFormComponent } from './admin/bedrijf-form/bedrijf-form.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
   { path: 'userdetail', component: UserDetailComponent },
   { path: 'adminHome', component: AdminComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'makerForm', component: MakerFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
+  { path: 'bedrijfForm', component: BedrijfFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'bedrijfOpdrachten', component: BedrijfOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
