@@ -9,6 +9,9 @@ import { OpdrachtTag } from '../models/opdrachtTag.model';
 import { Tag } from '../models/tag.model';
 import { TagObject } from '../models/tagObject.model';
 import { TagService } from '../services/tag.service';
+import { OpdrachtMakerService } from '../services/opdracht-maker.service';
+import { removeSummaryDuplicates } from '@angular/compiler';
+import { OpdrachtMaker } from '../models/opdracht-maker.model';
 
 @Component({
   selector: 'app-opdracht-detail',
@@ -24,7 +27,8 @@ export class OpdrachtDetailComponent implements OnInit {
   opdrachtTags: OpdrachtTag[];
   tags: TagObject[];
   bedrijfId: number;
-  constructor(private _OpdrachtService: OpdrachtService, private _TagService: TagService, private _OpdrachtTagService: OpdrachtTagService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) { }
+  opdrachtmakers;
+  constructor(private _OpdrachtService: OpdrachtService,private _OpdrachtMakerService:OpdrachtMakerService, private _TagService: TagService, private _OpdrachtTagService: OpdrachtTagService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams
@@ -33,7 +37,10 @@ export class OpdrachtDetailComponent implements OnInit {
           this.newOpdracht = false;
           this._OpdrachtService.getWhereId(params.opdrachtId).subscribe(result => {
             this.Opdracht = result;
-            console.log(result)
+            this._OpdrachtMakerService.getDeelnameWhereOpdrachtId(result.id).subscribe(result=>{
+              console.log(result)
+              this.opdrachtmakers=result;
+            })
             this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {
               this.opdrachtTags = result;
               var tagHelper: Array<TagObject> = [];
@@ -74,6 +81,18 @@ export class OpdrachtDetailComponent implements OnInit {
       Id: new FormControl('', Validators.required),
       BedrijfId: new FormControl('', Validators.required),
       Tags: new FormControl('', Validators.required)
+    })
+  }
+  AccepteerMaker(id:number,oldOpdrachtMaker:OpdrachtMaker){
+    const opdrachtMaker= oldOpdrachtMaker;
+    opdrachtMaker.geaccepteerd= true;
+this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=>{})
+  }
+  VerwijderMaker(id:number){
+    this._OpdrachtMakerService.deleteDeelname(id).subscribe(result=>{
+      this._OpdrachtMakerService.getDeelnameWhereOpdrachtId(this.Opdracht.id).subscribe(result=>{
+        this.opdrachtmakers=result;
+      })
     })
   }
   editOpdrachtDetails() {
