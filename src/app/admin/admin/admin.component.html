@@ -6,12 +6,12 @@
                     Maker toevoegen
                 </button>
                 <input class="form-control" type="text" placeholder="gebruiksnaam" name="searchNickname"
-                    aria-label="gebruiksnaam" [(ngModel)]="makerFilter.nickname">
+                    aria-label="gebruiksnaam" [(ngModel)]="makerFilter.username">
             </form>
-            <div class="card" *ngFor="let maker of makers">
+            <div class="card" (click)="makerModal(contentMaker, maker)" *ngFor="let maker of makers | filterBy:makerFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{maker.nickname}}</h5>
-                    <p>{{maker.voornaam + " " + maker.achternaam}}</p>
+                    <h5 class="card-title">{{maker.username}}</h5>
+                    <p>{{maker.maker.voornaam + " " + maker.maker.achternaam}}</p>
                 </div>
             </div>
         </ng-template>
@@ -23,12 +23,14 @@
                     Bedrijf toevoegen
                 </button>
                 <input class="form-control" type="text" placeholder="Bedrijfsnaam" name="search"
-                    aria-label="bedrijfsnaam" [(ngModel)]="bedrijfFilter.naam">
+                    aria-label="bedrijfsnaam" [(ngModel)]="bedrijfFilter.bedrijf.naam">
             </form>
-            <div class="card p-2" *ngFor="let bedrijf of bedrijven | filterBy: bedrijfFilter">
+            <div class="card p-2" *ngFor="let bedrijf of bedrijven | filterBy:bedrijfFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{bedrijf.naam}}</h5>
-                    <p>{{bedrijf.biografie}}</p>
+                    <h5 class="card-title">{{bedrijf.username}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{bedrijf.bedrijf.naam}}</h6>
+                    <p>{{bedrijf.bedrijf.biografie}}</p>
                 </div>
             </div>
         </ng-template>
@@ -39,7 +41,7 @@
                 <input class="form-control" type="text" placeholder="Reviewer" name="search" aria-label="reviewer"
                     [(ngModel)]="reviewerFilter.maker.nickname">
             </form>
-            <div class="card" (click)="reviewModal(content, review)"
+            <div class="card" (click)="reviewModal(contentReview, review)"
                 *ngFor="let review of reviews | filterBy: reviewerFilter">
                 <div class="card-body">
                     <h5 class="card-title" *ngIf="review.naarBedrijf">{{review.maker.nickname}}</h5>
@@ -75,7 +77,7 @@
     </ngb-tab>
 </ngb-tabset>
 
-<ng-template #content let-modal>
+<ng-template #contentReview let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title" *ngIf="review.naarBedrijf">Review van: {{review.maker.nickname}}
         </h4>
@@ -139,5 +141,77 @@
             (click)="modal.close('Save click'); deleteOpdracht()">Verwijderen</button>
         <button type="submit" class="btn btn-primary"
             (click)="modal.close('Save click'); updateOpdracht(opdracht)">Opslaan</button>
+    </div>
+</ng-template>
+
+<ng-template #contentMaker let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{gebruiker.username}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <label for="">Gebruikersnaam:</label>
+                <input type="text" [value]="gebruiker.username" class="form-control" placeholder="Gebruikersnaam"
+                    formControlName="Nickname">
+            </div>
+
+            <div class="form-group">
+                <label for="">Voornaam:</label>
+                <input type="text" [value]="gebruiker.maker.voornaam" class="form-control" placeholder="Voornaam"
+                    formControlName="Voornaam">
+            </div>
+
+            <div class="form-group">
+                <label for="Achternaam">Achternaam:</label>
+                <input type="text" [value]="gebruiker.maker.achternaam" class="form-control" placeholder="Achternaam"
+                    formControlName="Achternaam">
+            </div>
+
+            <div class="form-group">
+                <label for="Achternaam">Geboorte datum:</label>
+                <input type="text" [value]="gebruiker.maker.geboorteDatum" class="form-control" placeholder="Geboortedatum"
+                    formControlName="GeboorteDatum">
+            </div>
+
+            <div class="form-group">
+                <label for="">Email:</label>
+                <input type="text" [value]="gebruiker.email" class="form-control" placeholder="Email"
+                    formControlName="Email">
+            </div>
+
+            <div class="form-group">
+                <label for="">Begin ervaring:</label>
+                <input type="text" [value]="gebruiker.maker.ervaring" class="form-control" placeholder="Begin ervaring"
+                    formControlName="Ervaring">
+            </div>
+
+            <div class="form-group">
+                <label for="">LinkedIn profiel:</label>
+                <input type="text" [value]="gebruiker.maker.linkedInLink" class="form-control" placeholder="LinkedIn profiel"
+                    formControlName="LinkedInLink">
+            </div>
+
+            <div class="form-group">
+                <label for="">Info:</label>
+                <input type="text" [value]="gebruiker.maker.biografie" class="form-control" placeholder="Info"
+                    formControlName="Biografie">
+            </div>
+
+            <input type="hidden" [value]="gebruiker.maker.id" formControlName="Id">
+            <input type="hidden" [value]="gebruiker.maker.cv" formControlName="CV">
+            <input type="hidden" [value]="gebruiker.maker.foto" formControlName="Foto">
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-danger"
+            (click)="modal.close('Save click'); deleteMaker(gebruiker)">Verwijderen</button>
+        <button type="submit" class="btn btn-primary"
+            (click)="modal.close('Save click'); updateMaker(gebruiker)">Opslaan</button>
     </div>
 </ng-template>

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Bedrijf } from '../models/bedrijf.model';
 import { Review } from '../models/review.model';
 import { Opdracht } from '../models/opdracht.model';
+import { UserLogin } from '../models/user-login.model';
 
 @Injectable()
 export class AdminService {
@@ -27,6 +28,10 @@ export class AdminService {
     return this._httpClient.get<Review[]>("https://localhost:44341/api/review");
   }
 
+  getUserLoginsWhereUserTypeId(userTypeId: number): Observable<UserLogin[]> {
+    return this._httpClient.get<UserLogin[]>("https://localhost:44341/api/userlogin/" + userTypeId)
+  }
+
   getOpdrachten(): Observable<Opdracht[]> {
     return this._httpClient.get<Opdracht[]>("https://localhost:44341/api/opdracht");
   }
@@ -35,7 +40,31 @@ export class AdminService {
     return this._httpClient.delete<Review>("https://localhost:44341/api/review/" + reviewId);
   }
 
+  deleteUserLogin(userLoginId: number) {
+    return this._httpClient.delete<UserLogin>("https://localhost:44341/api/userlogin/" + userLoginId);
+  }
+  
+  deleteSkillMakerWhereMakerId(makerId: number) {
+    return this._httpClient.delete<any>("https://localhost:44341/api/skillmaker/makerid/" + makerId);
+  }
+  
+  deleteOpdrachtMakerWhereMakerId(makerId: number) {
+    return this._httpClient.delete<any>("https://localhost:44341/api/opdrachtmaker/makerid/" + makerId);
+  }
+  
+  deleteReviewWhereMakerId(makerId: number) {
+    return this._httpClient.delete<any>("https://localhost:44341/api/review/makerid/" + makerId);
+  }
+
   updateReview(reviewId: number, review: Review) {
     return this._httpClient.put<Review>("https://localhost:44341/api/review/" + reviewId, review);
+  }
+  
+  updateUserLogin(userLoginId: number, userLogin: UserLogin) {
+    return this._httpClient.put<UserLogin>("https://localhost:44341/api/userlogin/" + userLoginId, userLogin);
+  }
+
+  updateMaker(makerId: number, maker: Maker) {
+    return this._httpClient.put<Maker>("https://localhost:44341/api/maker/" + makerId, maker);
   }
 }
