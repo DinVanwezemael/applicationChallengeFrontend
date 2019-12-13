@@ -9,7 +9,7 @@
     <tbody *ngIf="bedrijf">
       <tr *ngFor="let opdracht of bedrijf.opdrachten" >
         <td>{{opdracht.titel}}</td>
-        <td>{{opdracht.locatie}}</td>
+        <td>{{opdracht.straat}} {{opdracht.straatNr}} {{opdracht.postcode}} {{opdracht.woonPlaats}}</td>
         <td><button class="btn btn-primary btn-lg btn-sm active" (click)="naarDetails(opdracht.id)">Meer Info</button>
             </td>
       </tr>

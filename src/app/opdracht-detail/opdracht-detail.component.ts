@@ -49,7 +49,7 @@ export class OpdrachtDetailComponent implements OnInit {
           this.bedrijfId = params.bedrijfId;
           this.newOpdracht = true;
           this.editOpdracht = true;
-          //this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","");
+          this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","",null,null);
         }
 
       });
@@ -98,8 +98,8 @@ export class OpdrachtDetailComponent implements OnInit {
         this._TagService.newTag(newTag).subscribe(result => {
           var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
           this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {
-            this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {
-            })
+            this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {}
+            )
           })
         })
       });

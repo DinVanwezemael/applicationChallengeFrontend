@@ -14,19 +14,42 @@ img{
 .fa-chevron-right{
     transition: 0.3s ease-in-out;
     margin-left: 15px;
+    animation: arrow 3s infinite ease-in-out;
+
+    @keyframes arrow {
+        0%{
+            
+                margin-left: 15px;
+            
+        }
+
+        60%{
+            
+                margin-left: 25px;
+        }
+
+        100%{
+           
+                margin-left: 15px;
+            
+        }
+
+    }
 }
 
 .bedrijf-link{
     font-size: 25px;
 
     transition: 0.3s ease-in-out;
+    
+
+    
 
     &:hover{
         cursor: pointer!important;
 
-
         .fa-chevron-right{
-            margin-left: 25px;
+            margin-left: 35px!important;
         }
     }
 }

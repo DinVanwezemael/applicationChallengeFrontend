@@ -32,6 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GestemdeOpdrachtenComponent } from './user-opdrachten/gestemde-opdrachten/gestemde-opdrachten.component';
 import { BedrijfFormComponent } from './admin/bedrijf-form/bedrijf-form.component';
 import { CredentialsComponent } from './authentication/credentials/credentials.component';
+import { BedrijfReviewComponent } from './bedrijf-review/bedrijf-review.component';
+import { SchrijfReviewComponent } from './bedrijf-review/schrijf-review/schrijf-review.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -47,6 +49,8 @@ const appRoutes: Routes = [
   { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
   { path: 'opdracht-stemmen', component: OpdrachtStemmenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
   { path: 'gestemde-opdrachten', component: GestemdeOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'bedrijf-review', component: BedrijfReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'schrijf-review', component: SchrijfReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
   { path: 'credentials', component: CredentialsComponent, canActivate:[AuthGuard]}
 ]
 
@@ -65,6 +69,8 @@ const appRoutes: Routes = [
     UserOpdrachtenComponent,
     OpdrachtStemmenComponent,
     GestemdeOpdrachtenComponent,
+    BedrijfReviewComponent,
+    SchrijfReviewComponent,
   ],
   imports: [
     BrowserModule,
