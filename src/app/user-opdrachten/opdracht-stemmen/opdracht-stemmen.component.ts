@@ -49,6 +49,10 @@ export class OpdrachtStemmenComponent implements OnInit {
 
   }
 
+  viewBedrijf(bedrijfId){
+    this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:bedrijfId } });
+  }
+
 
   uitschrijvenOpdracht(inschrijvingId){
     console.log(inschrijvingId);

@@ -1,0 +1,83 @@
+<div *ngIf="!edit" class="container">
+<form [formGroup]="reviewForm" (ngSubmit)="plaatsReview()">
+        
+
+    <div class="form-group">
+        <div>
+        <label>Score:</label>
+    </div>
+    <ngb-rating [formControl]="rating" max="5" [(rate)]="currentRate">
+        <ng-template let-fill="fill" let-index="index">
+          <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
+        </ng-template>
+      </ngb-rating>
+    </div>
+
+
+    <br>
+
+    <div class="form-group">
+        <label for="">Opmerking:</label>
+        <textarea type="text" class="form-control" placeholder="Opmerking" formControlName="ReviewTekst"></textarea>
+    </div>
+    
+        
+
+    <div class="custom-control custom-checkbox mr-sm-2">
+        <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+        <label class="custom-control-label" for="customControlAutosizing">Anoniem blijven</label>
+      </div>
+
+    <div class="divider"></div>
+    <br>
+    <button  *ngIf="!edit" (ngSubmit)="plaatsReview()" type="submit" class="btn btn-primary btn-lg btn-block">Plaatsen</button>
+    <button *ngIf="!edit" type="button" (click)="editUserDetails()" class="btn btn-danger btn-lg btn-block">Annuleer</button>
+    <br>
+    </form>
+    </div>
+
+
+
+
+
+    <!-- edit--------------------------------------------------------------- -->
+
+    <div  *ngIf="edit" class="container">
+        <form [formGroup]="reviewForm" (ngSubmit)="editReview()">
+                
+        
+            <div class="form-group">
+                <div>
+                <label>Score:</label>
+            </div>
+            <ngb-rating [formControl]="rating" max="5" [(rate)]="currentRate">
+                <ng-template let-fill="fill" let-index="index">
+                  <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
+                </ng-template>
+              </ngb-rating>
+            </div>
+        
+        
+            <br>
+    
+        
+            <div class="form-group">
+                <label for="">Opmerking:</label>
+                <textarea [(ngModel)]="review.reviewTekst" type="text" class="form-control" placeholder="Opmerking" formControlName="ReviewTekst"></textarea>
+            </div>
+        
+            
+                
+        
+            <div class="custom-control custom-checkbox mr-sm-2">
+                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                <label class="custom-control-label" for="customControlAutosizing">Anoniem blijven</label>
+              </div>
+        
+            <div class="divider"></div>
+            <br>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Aanpassen</button>
+            <button type="button" (click)="deleteReview(reviewId)" class="btn btn-danger btn-lg btn-block">Verwijderen</button>
+            <br>
+            </form>
+            </div>
