@@ -40,6 +40,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { OpdrachtMakerComponent } from './opdracht-maker/opdracht-maker.component';
 import { MakerReviewComponent } from './maker-review/maker-review.component';
 import { SchrijfMakerreviewComponent } from './maker-review/schrijf-makerreview/schrijf-makerreview.component';
+import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 
 
 const appRoutes: Routes = [
@@ -85,7 +86,8 @@ const appRoutes: Routes = [
     ToastsContainer,
     OpdrachtMakerComponent,
     MakerReviewComponent,
-    SchrijfMakerreviewComponent
+    SchrijfMakerreviewComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
