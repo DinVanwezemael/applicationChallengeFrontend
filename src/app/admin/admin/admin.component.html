@@ -129,15 +129,37 @@
     <div class="modal-body">
         <form [formGroup]="opdrachtForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label>Bedrijf: {{opdracht.bedrijf.naam}}</label>
-                <br />
-                <label>Locatie:</label>
-                <input class="form-control input-lg" type="text" [value]="opdracht.locatie">
-                <br />
-                <label>Omschrijving:</label>
-                <textarea style="height:50px" class="form-control input-lg" type="text"
-                    [value]="opdracht.omschrijving"></textarea>
+                <label for="">Titel:</label>
+                <input type="text" [value]="opdracht.titel" class="form-control" placeholder="Titel"
+                    formControlName="Titel">
             </div>
+
+            <div class="form-group">
+                <label for="">Omschrijving:</label>
+                <input type="text" [(ngModel)]="opdracht.omschrijving" class="form-control" placeholder="Omschrijving"
+                    formControlName="Omschrijving">
+            </div>
+
+
+            <div class="form-group">
+                <label for="Straat">Straat:</label>
+                <input type="text" [(ngModel)]="opdracht.straat" class="form-control" placeholder="Straat"
+                    formControlName="Straat">
+                <label for="StraatNr">StraatNummer:</label>
+                <input type="text" [(ngModel)]="opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                    formControlName="StraatNr">
+                <label for="Postcode">Postcode:</label>
+                <input type="text" [(ngModel)]="opdracht.postcode" class="form-control" placeholder="Postcode"
+                    formControlName="Postcode">
+                <label for="Woonplaats">Woonplaats:</label>
+                <input type="text" [(ngModel)]="opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                    formControlName="Woonplaats">
+            </div>
+
+            <input type="hidden" [(ngModel)]="opdracht.id" formControlName="Id">
+            <input type="hidden" [(ngModel)]="opdracht.bedrijfId" formControlName="BedrijfId">
+            <input type="hidden" [(ngModel)]="opdracht.opden" formControlName="Open">
+            <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
         </form>
     </div>
     <div class="modal-footer">
@@ -190,7 +212,31 @@
             </div>
 
             <div class="form-group">
-                <label for="">Begin ervaring:</label>
+                <label for="">Straat:</label>
+                <input type="text" [value]="gebruiker.maker.straat" class="form-control" placeholder="Straat"
+                    formControlName="Straat">
+            </div>
+
+            <div class="form-group">
+                <label for="">Nummer:</label>
+                <input type="text" [value]="gebruiker.maker.nr" class="form-control" placeholder="Nummer"
+                    formControlName="Nr">
+            </div>
+
+            <div class="form-group">
+                <label for="">Postcode:</label>
+                <input type="text" [value]="gebruiker.maker.postcode" class="form-control" placeholder="Postcode"
+                    formControlName="Postcode">
+            </div>
+
+            <div class="form-group">
+                <label for="">Stad:</label>
+                <input type="text" [value]="gebruiker.maker.stad" class="form-control" placeholder="Stad"
+                    formControlName="Stad">
+            </div>
+
+            <div class="form-group">
+                <label for="">Ervaring:</label>
                 <input type="text" [value]="gebruiker.maker.ervaring" class="form-control" placeholder="Begin ervaring"
                     formControlName="Ervaring">
             </div>
@@ -202,9 +248,15 @@
             </div>
 
             <div class="form-group">
+                <label for="">Ervaring:</label>
+                <textarea type="text" [value]="gebruiker.maker.ervaring" class="form-control"
+                    placeholder="Begin ervaring" formControlName="Ervaring"></textarea>
+            </div>
+
+            <div class="form-group">
                 <label for="">Info:</label>
-                <input type="text" [value]="gebruiker.maker.biografie" class="form-control" placeholder="Info"
-                    formControlName="Biografie">
+                <textarea type="text" [value]="gebruiker.maker.biografie" class="form-control" placeholder="Info"
+                    formControlName="Biografie"></textarea>
             </div>
 
             <input type="hidden" [value]="gebruiker.maker.id" formControlName="Id">

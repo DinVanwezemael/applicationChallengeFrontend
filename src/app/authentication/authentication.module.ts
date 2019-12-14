@@ -15,7 +15,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    TagInputModule,
+    TagInputModule
   ]
 })
 export class AuthenticationModule { }
