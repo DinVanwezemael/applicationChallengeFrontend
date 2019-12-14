@@ -15,6 +15,7 @@ import { Tag } from 'src/app/models/tag.model';
 import { ToastService } from 'src/app/toast-global/toast-service';
 import { OpdrachtTagService } from 'src/app/services/opdracht-tag.service';
 import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
+import { AuthenticateService } from 'src/app/authentication/services/authenticate.service';
 
 @Component({
   selector: 'app-admin',
@@ -40,6 +41,7 @@ export class AdminComponent implements OnInit {
   tags: TagObject[];
   profielfoto
   editBedrijf
+  tagItems = [];
 
   reviewForm = this.fb.group({
     reviewTekst: ['']
@@ -88,7 +90,7 @@ export class AdminComponent implements OnInit {
     Open:new FormControl('',Validators.required)
   });
 
-  constructor(private _OpdrachtTagService: OpdrachtTagService, private toastService: ToastService, private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService) {
+  constructor(private _OpdrachtTagService: OpdrachtTagService, private toastService: ToastService, private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService, private authenticateService: AuthenticateService) {
     ngbConfig.max = 5;
   }
 
@@ -108,6 +110,12 @@ export class AdminComponent implements OnInit {
     this._adminService.getOpdrachten().subscribe(result => {
       this.opdrachten = result;
     })
+
+    this.authenticateService.getTags().subscribe(result => {
+      result.forEach(function(item) {
+        this.tagItems.push(new TagObject(item.naam, item.id))
+      }, this)
+    });
   }
 
   reviewModal(contentReview, r: Review) {
@@ -127,7 +135,7 @@ export class AdminComponent implements OnInit {
       this.opdrachtTags = result;
       var tagHelper: Array<TagObject> = [];
       result.forEach(opdrachtTag => {
-        var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.naam);
+        var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.id);
         tagHelper.push(tagObject)
       });
       this.tags = tagHelper;
@@ -157,7 +165,7 @@ export class AdminComponent implements OnInit {
       this.bedrijfTags = result;
       var tagHelper: Array<TagObject> = [];
       result.forEach(bedrijfTag => {
-        var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.naam);
+        var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.id);
         tagHelper.push(tagObject)
       });
       this.tags = tagHelper;
@@ -262,7 +270,7 @@ export class AdminComponent implements OnInit {
       result => {
         this._BedrijfTagService.deleteAllWhereBedrijfId(g.bedrijf.id).subscribe(result => {
           this.tags.forEach(tag => {
-            var newTag = new Tag(0, tag.value);
+            var newTag = new Tag(0, tag.display);
             this._TagService.newTag(newTag).subscribe(result => {
               var opdrachtTag = new BedrijfTag(0, g.bedrijf.id, result.id, null, null)
               this.editBedrijf = false;

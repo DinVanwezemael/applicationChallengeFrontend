@@ -313,7 +313,10 @@
 
             <input type="hidden" [value]="gebruiker.bedrijf.id" formControlName="Id">
             <input type="hidden" [value]="gebruiker.bedrijf.foto" formControlName="Foto">
-            <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+            <tag-input [(ngModel)]='tags' formControlName="Tags">
+                <tag-input-dropdown [zIndex]="99999" [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                </tag-input-dropdown>
+            </tag-input>
         </form>
     </div>
     <div class="modal-footer">
