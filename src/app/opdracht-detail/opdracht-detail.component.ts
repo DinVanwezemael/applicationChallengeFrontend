@@ -12,6 +12,7 @@ import { TagService } from '../services/tag.service';
 import { OpdrachtMakerService } from '../services/opdracht-maker.service';
 import { removeSummaryDuplicates } from '@angular/compiler';
 import { OpdrachtMaker } from '../models/opdracht-maker.model';
+import { Maker } from '../models/maker.model';
 
 @Component({
   selector: 'app-opdracht-detail',
@@ -56,7 +57,7 @@ export class OpdrachtDetailComponent implements OnInit {
           this.bedrijfId = params.bedrijfId;
           this.newOpdracht = true;
           this.editOpdracht = true;
-          this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","",null,null,false);
+          this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","",null,null,true,false);
         }
 
       });
@@ -88,18 +89,31 @@ export class OpdrachtDetailComponent implements OnInit {
   AccepteerMaker(id:number,oldOpdrachtMaker:OpdrachtMaker){
     const opdrachtMaker= oldOpdrachtMaker;
     opdrachtMaker.geaccepteerd= true;
-this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=>{
+this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=>{ 
+})
+  }
+  MaakWinnaar(maker:Maker){
   const opdracht:Opdracht = this.Opdracht;
-  opdracht.open=false;
-  console.log(opdracht)
+  opdracht.klaar=true;
   this._OpdrachtService.editOpdracht(opdracht.id, opdracht).subscribe(
     result => {
-    },
-    err => {
-      alert("opdracht bestaat al")
-    }
-  );  
-})
+    });
+  }
+  SluitOpdracht(){
+    const opdracht:Opdracht = this.Opdracht;
+    opdracht.open=false;
+    this._OpdrachtService.editOpdracht(opdracht.id, opdracht).subscribe(
+      result => {
+      }
+    ); 
+  }
+  OpenOpdracht(){
+    const opdracht:Opdracht = this.Opdracht;
+    opdracht.open=true;
+    this._OpdrachtService.editOpdracht(opdracht.id, opdracht).subscribe(
+      result => {
+      }
+    ); 
   }
   VerwijderMaker(id:number){
     this._OpdrachtMakerService.deleteDeelname(id).subscribe(result=>{

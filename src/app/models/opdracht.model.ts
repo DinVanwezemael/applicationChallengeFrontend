@@ -13,6 +13,7 @@ export class Opdracht {
         public woonPlaats:string,
         public opdrachtMakers: OpdrachtMaker[],
         public bedrijf:Bedrijf,
-        public open:boolean
+        public open:boolean,
+        public klaar:boolean
     ){}
 }

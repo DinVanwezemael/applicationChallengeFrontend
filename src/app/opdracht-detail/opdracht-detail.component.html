@@ -3,7 +3,12 @@
         <div class="col-md-5 text-muted small" *ngIf="!editOpdracht && Opdracht">
             <div *ngIf="Opdracht.open == true; else falseOpdracht"><h2 class="pb-3">{{Opdracht.titel}} [Open]</h2></div>
             <ng-template #falseOpdracht>
-                <h2 class="pb-3">{{Opdracht.titel}} [Gesloten]</h2>
+                <div *ngIf="Opdracht.klaar == false; else opdrachtKlaar">
+                    <h2 class="pb-3">{{Opdracht.titel}} [Gesloten]</h2>
+                </div>
+                <ng-template #opdrachtKlaar>
+                        <h2 class="pb-3">{{Opdracht.titel}} [Klaar]</h2>    
+                  </ng-template>
               </ng-template>
             <div>
                 <span class="font-weight-bold font-italic">Omschrijving:</span> {{Opdracht.omschrijving}}
@@ -24,9 +29,23 @@
                 <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">{{opdrachtmaker.maker.nickname}} <button class="btn btn-primary m-1" (click) = "AccepteerMaker(opdrachtmaker.id,opdrachtmaker)">Accepteren</button> <button class="btn btn-danger m-1" (click)=VerwijderMaker(opdrachtmaker.id)>Verwijderen</button> </span>
                 <ng-template #makerOk>
                     {{opdrachtmaker.maker.nickname}}
+                    <div *ngIf="Opdracht.klaar == false">
+                        <button (click)=MaakWinnaar(opdrachtmaker.maker)>Maak winnaar</button>
+                    </div>
+
                   </ng-template>
             </div>
+            <div *ngIf="Opdracht.open == true; else opdrachtGesloten">
+                <button (click)="SluitOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Sluit opdracht</button>
+            </div>
+            <ng-template #opdrachtGesloten>
+                <div *ngIf="Opdracht.klaar == false">
+                    <button (click)="OpenOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Open opdracht</button>
+                </div>
+              </ng-template>
+              <div *ngIf="Opdracht.klaar == false">
             <button (click)="editOpdrachtDetails()" class="btn btn-primary btn-lg btn-block mt-3">Bewerken</button>
+            </div>
             <button href="#" data-toggle="modal" data-target="#deleteModal"
                 class="btn btn-danger btn-lg btn-block mt-3">Verwijderen</button>
             <br>
