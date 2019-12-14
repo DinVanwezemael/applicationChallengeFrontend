@@ -16,7 +16,7 @@ import { VerifyUserComponent } from './verify-user/verify-user.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    TagInputModule,
+    TagInputModule
   ]
 })
 export class AuthenticationModule { }

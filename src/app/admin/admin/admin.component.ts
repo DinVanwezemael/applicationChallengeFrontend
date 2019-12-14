@@ -12,6 +12,10 @@ import { TagObject } from 'src/app/models/tagObject.model';
 import { BedrijfService } from 'src/app/services/bedrijf.service';
 import { TagService } from 'src/app/services/tag.service';
 import { Tag } from 'src/app/models/tag.model';
+import { ToastService } from 'src/app/toast-global/toast-service';
+import { OpdrachtTagService } from 'src/app/services/opdracht-tag.service';
+import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
+import { AuthenticateService } from 'src/app/authentication/services/authenticate.service';
 
 @Component({
   selector: 'app-admin',
@@ -33,9 +37,11 @@ export class AdminComponent implements OnInit {
   opdracht: Opdracht;
   gebruiker: UserLogin;
   bedrijfTags: BedrijfTag[];
+  opdrachtTags: OpdrachtTag[];
   tags: TagObject[];
   profielfoto
   editBedrijf
+  tagItems = [];
 
   reviewForm = this.fb.group({
     reviewTekst: ['']
@@ -45,14 +51,18 @@ export class AdminComponent implements OnInit {
     Nickname: new FormControl('', Validators.required),
     Voornaam: new FormControl('', Validators.required),
     Achternaam: new FormControl('', Validators.required),
-    Email: new FormControl('', Validators.required),
+    Email: new FormControl('', [Validators.required, Validators.email]),
     Biografie: new FormControl('', Validators.required),
     LinkedInLink: new FormControl('', Validators.required),
     Ervaring: new FormControl('', Validators.required),
     CV: new FormControl('', Validators.required),
     Foto: new FormControl('', Validators.required),
     GeboorteDatum: new FormControl('', Validators.required),
-    Id: new FormControl('', Validators.required)
+    Id: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    Nr: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Stad: new FormControl('', Validators.required),
   })
 
   bedrijfForm = this.fb.group({
@@ -68,9 +78,19 @@ export class AdminComponent implements OnInit {
   })
   
   opdrachtForm = this.fb.group({
+    Titel: new FormControl('', Validators.required),
+    Omschrijving: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Woonplaats: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    StraatNr: new FormControl('', Validators.required),
+    Id: new FormControl('', Validators.required),
+    BedrijfId: new FormControl('', Validators.required),
+    Tags: new FormControl('', Validators.required),
+    Open:new FormControl('',Validators.required)
   });
 
-  constructor(private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService) {
+  constructor(private _OpdrachtTagService: OpdrachtTagService, private toastService: ToastService, private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService, private authenticateService: AuthenticateService) {
     ngbConfig.max = 5;
   }
 
@@ -90,6 +110,12 @@ export class AdminComponent implements OnInit {
     this._adminService.getOpdrachten().subscribe(result => {
       this.opdrachten = result;
     })
+
+    this.authenticateService.getTags().subscribe(result => {
+      result.forEach(function(item) {
+        this.tagItems.push(new TagObject(item.naam, item.id))
+      }, this)
+    });
   }
 
   reviewModal(contentReview, r: Review) {
@@ -105,6 +131,15 @@ export class AdminComponent implements OnInit {
   opdrachtModal(contentOpdracht, o: Opdracht) {
     this.opdracht = o;
     console.log(this.opdracht);
+    this._OpdrachtTagService.getWhereBedrijfId(this.opdracht.id).subscribe(result => {
+      this.opdrachtTags = result;
+      var tagHelper: Array<TagObject> = [];
+      result.forEach(opdrachtTag => {
+        var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.id);
+        tagHelper.push(tagObject)
+      });
+      this.tags = tagHelper;
+    })
     this.modalService.open(contentOpdracht, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -113,6 +148,7 @@ export class AdminComponent implements OnInit {
   }
   
   makerModal(contentMaker, m: UserLogin) {
+    console.log(this.makerForm)
     this.gebruiker = m;
     this.modalService.open(contentMaker, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -200,8 +236,28 @@ export class AdminComponent implements OnInit {
     if(this.makerForm.get('Biografie').value != "" && this.makerForm.get('Biografie').value != null){
       g.maker.biografie = this.makerForm.get('Biografie').value;
     }
+    if(this.makerForm.get('Straat').value != "" && this.makerForm.get('Straat').value != null){
+      g.maker.straat = this.makerForm.get('Straat').value;
+    }
+    if(this.makerForm.get('Nr').value != "" && this.makerForm.get('Nr').value != null){
+      g.maker.nr = this.makerForm.get('Nr').value;
+    }
+    if(this.makerForm.get('Postcode').value != "" && this.makerForm.get('Postcode').value != null){
+      g.maker.postcode = this.makerForm.get('Postcode').value;
+    }
+    if(this.makerForm.get('Stad').value != "" && this.makerForm.get('Stad').value != null){
+      g.maker.stad = this.makerForm.get('Stad').value;
+    }
     let gebruiker = new UserLogin(g.id, g.username, g.email, g.userTypeId, g.makerId, g.bedrijfId, g.maker, g.bedrijf);
-    this._adminService.updateUserLogin(g.id, gebruiker).subscribe();
+    this._adminService.updateUserLogin(g.id, gebruiker).subscribe( result => {
+      console.log(result);
+      if(result == null){
+        this.toastService.show('De gebruikersnaam bestaat al!', { classname: 'bg-danger text-light', delay: 10000 });
+      }
+      else{
+        this.toastService.show('Gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
+      }
+    });
     this._adminService.updateMaker(g.makerId, g.maker).subscribe();
     this.makerForm.reset();
     setTimeout(() => {

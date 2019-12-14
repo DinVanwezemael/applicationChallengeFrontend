@@ -10,6 +10,10 @@ export class Maker {
         public ervaring: number,
         public cV: string,
         public foto: string,
-        public opdrachtId: number
+        public opdrachtId: number,
+        public straat: string,
+        public nr: string,
+        public postcode: string,
+        public stad: string
     ){}
 }

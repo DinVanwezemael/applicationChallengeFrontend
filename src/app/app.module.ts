@@ -41,6 +41,7 @@ import { OpdrachtMakerComponent } from './opdracht-maker/opdracht-maker.componen
 import { MakerReviewComponent } from './maker-review/maker-review.component';
 import { SchrijfMakerreviewComponent } from './maker-review/schrijf-makerreview/schrijf-makerreview.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import { VerifyUserComponent } from './authentication/verify-user/verify-user.component';
 
 
 const appRoutes: Routes = [
@@ -62,7 +63,8 @@ const appRoutes: Routes = [
   { path: 'maker-review', component: MakerReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'schrijf-review', component: SchrijfReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
   { path: 'schrijf-makerreview', component: SchrijfMakerreviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
-  { path: 'credentials', component: CredentialsComponent, canActivate:[AuthGuard]}
+  { path: 'credentials', component: CredentialsComponent, canActivate:[AuthGuard]},
+  { path: 'verifyUser', component: VerifyUserComponent}
 ]
 
 @NgModule({
