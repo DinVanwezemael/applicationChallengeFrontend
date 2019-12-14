@@ -56,6 +56,10 @@ export class AdminService {
     return this._httpClient.delete<any>("https://localhost:44341/api/opdrachtmaker/makerid/" + makerId);
   }
   
+  deleteMakerTagWhereMakerId(makerId: number) {
+    return this._httpClient.delete<any>("https://localhost:44341/api/makertag/makerid/" + makerId);
+  }
+  
   deleteReviewWhereMakerId(makerId: number) {
     return this._httpClient.delete<any>("https://localhost:44341/api/review/makerid/" + makerId);
   }
@@ -70,5 +74,9 @@ export class AdminService {
 
   updateMaker(makerId: number, maker: Maker) {
     return this._httpClient.put<Maker>("https://localhost:44341/api/maker/" + makerId, maker);
+  }
+  
+  updateOpdracht(opdrachtId: number, opdracht: Opdracht) {
+    return this._httpClient.put<Opdracht>("https://localhost:44341/api/opdracht/" + opdrachtId, opdracht);
   }
 }
