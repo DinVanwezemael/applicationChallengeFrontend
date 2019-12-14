@@ -12,6 +12,7 @@ export class Opdracht {
         public postcode:string,
         public woonPlaats:string,
         public opdrachtMakers: OpdrachtMaker[],
-        public bedrijf:Bedrijf
+        public bedrijf:Bedrijf,
+        public open:boolean
     ){}
 }

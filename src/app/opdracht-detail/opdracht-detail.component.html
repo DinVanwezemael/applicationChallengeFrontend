@@ -1,7 +1,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5 text-muted small" *ngIf="!editOpdracht && Opdracht">
-            <h2 class="pb-3">{{Opdracht.titel}}</h2>
+            <div *ngIf="Opdracht.open == true; else falseOpdracht"><h2 class="pb-3">{{Opdracht.titel}} [Open]</h2></div>
+            <ng-template #falseOpdracht>
+                <h2 class="pb-3">{{Opdracht.titel}} [Gesloten]</h2>
+              </ng-template>
             <div>
                 <span class="font-weight-bold font-italic">Omschrijving:</span> {{Opdracht.omschrijving}}
             </div>
@@ -63,6 +66,7 @@
 
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
                 <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
+                <input type="hidden" [(ngModel)]="Opdracht.opden" formControlName="Open">
                 <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
 
                 <div class="divider"></div>
@@ -107,6 +111,7 @@
                 <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
                 <input type="hidden" [(ngModel)]="bedrijfId" formControlName="BedrijfId">
+                <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
 
 
                 <div class="divider"></div>

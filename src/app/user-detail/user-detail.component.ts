@@ -88,7 +88,7 @@ export class UserDetailComponent implements OnInit {
           this.profielfoto = "https://api.adorable.io/avatars/285/" + result.id + "@adorable.png";
         }
         else{
-          this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+          this.profielfoto = "https://localhost:44341/images/"+this.bedrijf.foto;
         }
       });
     }
