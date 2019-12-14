@@ -12,6 +12,7 @@ import { MakerService } from 'src/app/services/maker.service';
 import { BedrijfService } from 'src/app/services/bedrijf.service';
 import { OpdrachtTagService } from 'src/app/services/opdracht-tag.service';
 import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
+import { ToastService } from 'src/app/toast-global/toast-service';
 
 @Component({
   selector: 'app-opdracht-stemmen',
@@ -37,7 +38,7 @@ import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
 })
 export class OpdrachtStemmenComponent implements OnInit {
 
-  constructor(private _OpdrachtService:OpdrachtService, private _OpdrachtTagService: OpdrachtTagService, private _OpdrachtMakerService: OpdrachtMakerService,private route: ActivatedRoute, private fb: FormBuilder,private router:Router, private _MakerService: MakerService, private _BedrijfService: BedrijfService) { }
+  constructor(private _OpdrachtService:OpdrachtService, private _OpdrachtTagService: OpdrachtTagService, private _OpdrachtMakerService: OpdrachtMakerService,private route: ActivatedRoute, private fb: FormBuilder,private router:Router, private _MakerService: MakerService, private _BedrijfService: BedrijfService, private toastService: ToastService) { }
   opdracht;
   opdrachtId
   userid
@@ -65,6 +66,8 @@ export class OpdrachtStemmenComponent implements OnInit {
         this._OpdrachtService.getWhereId(this.opdrachtId).subscribe(result => {
           this.opdracht = result;
           this.get();
+          console.log("toast");
+          this.toastService.show('Je bent ingeschreven voor de opdracht !', { classname: 'bg-success text-light', delay: 10000 });
         });
       }
     );
@@ -83,6 +86,7 @@ export class OpdrachtStemmenComponent implements OnInit {
         this._OpdrachtService.getWhereId(this.opdrachtId).subscribe(result => {
           this.opdracht = result;
           this.get();
+          this.toastService.show('Je bent uitgeschreven voor de opdracht!', { classname: 'bg-danger text-light', delay: 10000 });
         },
         err => {
         }
@@ -145,6 +149,7 @@ export class OpdrachtStemmenComponent implements OnInit {
         if(params.opdrachtId !=null){
           this._OpdrachtService.getWhereId(params.opdrachtId).subscribe(result => {
             this.opdracht = result;
+            console.log(result);
             this.bedrijfId = result.bedrijfId;
             this.getReviewScore(result.bedrijfId);
             if(result.bedrijf.foto == null){

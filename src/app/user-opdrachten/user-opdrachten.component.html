@@ -20,10 +20,15 @@
       <div *ngFor="let opdracht of (opdrachten | async)">
     <div class="card" (click)="viewOpdracht(opdracht.id)">
         <div class="card-body">
-          <h5 class="card-title font-weight-bold">{{opdracht.titel}}</h5>
+          <h5 class="card-title font-weight-bold">{{opdracht.titel}}
+            <span *ngIf="opdracht.open" class="badge badge-success">Open</span>
+            <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
+          </h5>
           <h6 class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
           <p class="card-text">{{opdracht.omschrijving}}</p>
         </div>
       </div>
       </div>
 </div>
+<br>
+<br>

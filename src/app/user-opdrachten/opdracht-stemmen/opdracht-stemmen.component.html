@@ -7,7 +7,10 @@
 
 
         <div class="col-md-12">
-                <h2>{{opdracht.titel}}</h2>
+                <h2 class="mg-20">{{opdracht.titel}}
+                        <span *ngIf="opdracht.open" class="badge badge-success">Open</span>
+                        <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
+                </h2>
                 <div class="font-weight-bold bedrijf-link" (click)="viewBedrijf(opdracht.bedrijfId)">
                    {{opdracht.bedrijf.naam}} <!-- <span style="color: #F7BC07!important;" [innerHTML]="stars"></span> -->
 
@@ -39,8 +42,8 @@
                     </div>
                 <div class="divider"></div>
                 <br>
-                <button *ngIf="!voted" (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
-                <button *ngIf="voted" (click)="uitschrijvenOpdracht(opdrachtmakerid)" class="btn btn-danger btn-lg btn-block">Uitschrijven</button>
+                <button *ngIf="!voted && opdracht.open" (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
+                <button *ngIf="voted && opdracht.open" (click)="uitschrijvenOpdracht(opdrachtmakerid)" class="btn btn-danger btn-lg btn-block">Uitschrijven</button>
                 <br>
             </div> 
 </div>

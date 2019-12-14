@@ -58,7 +58,7 @@ export class MakerComponent implements OnInit {
 
     this.authenticateService.editUser(this.userForm.controls['Id'].value , this.userForm.value).subscribe(
       result => {
-        this.editMaker = false;
+        
       },
       err => {
         alert("username bestaat al")
@@ -76,7 +76,15 @@ export class MakerComponent implements OnInit {
 
     this.authenticateService.editUsername(this.UserLoginId, user).subscribe(
       result => {
-        //this.maker = result;
+        console.log(result);
+        if(result == null){
+          this.editMaker = true;
+          console.log("username is niet aangepast")
+        }
+        else{
+          this.editMaker = false;
+          console.log("username is aangepast")
+        }
       },
       err => {
       }

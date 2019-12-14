@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import * as jwtDecode from 'jwt-decode';
 //declare var $ : any;
 import * as $ from 'jquery';
+import { ToastService } from './toast-global/toast-service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
   userInfo: any;
   user: any;
 
-  constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder) {
+  constructor(private router: Router, private _authenticationService: AuthenticateService, private fb: FormBuilder, private toastService: ToastService) {
+
     this._authenticationService.isLoggedin.subscribe(result => {
       this.loggedIn = result;
     })

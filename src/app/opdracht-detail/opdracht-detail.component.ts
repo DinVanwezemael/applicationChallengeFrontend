@@ -149,6 +149,9 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
   postOpdracht(){
     console.log(this.newOpdrachtForm.value);
     console.log(this.tags)
+
+    this.newOpdrachtForm.controls['Open'].setValue(true);
+
     this._OpdrachtService.newOpdracht(this.newOpdrachtForm.value).subscribe(
       result => {
         this.Opdracht = result;

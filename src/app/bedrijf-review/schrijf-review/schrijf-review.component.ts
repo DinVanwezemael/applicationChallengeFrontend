@@ -5,6 +5,7 @@ import { Review } from 'src/app/models/review.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewBedrijf } from 'src/app/models/review-bedrijf.model';
 import * as jwtDecode from 'jwt-decode';
+import { ToastService } from 'src/app/toast-global/toast-service';
 
 @Component({
   selector: 'app-schrijf-review',
@@ -25,7 +26,7 @@ import * as jwtDecode from 'jwt-decode';
 })
 export class SchrijfReviewComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private _ReviewService: ReviewService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private fb: FormBuilder, private _ReviewService: ReviewService, private route: ActivatedRoute, private router: Router, private toastService: ToastService) { }
 
   bedrijfid
   userid
@@ -57,6 +58,10 @@ export class SchrijfReviewComponent implements OnInit {
     this._ReviewService.insertReviewsBedrijf(review).subscribe(
       result => {
         this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:this.bedrijfid } });
+        this.toastService.show('Je review voor het bedrijf is geplaatst!', { classname: 'bg-success text-light', delay: 10000 });
+      },
+      err => {
+        this.toastService.show('Je review voor het bedrijf is niet geplaatst!', { classname: 'bg-danger text-light', delay: 10000 });
       }
     );
   }
@@ -79,13 +84,13 @@ export class SchrijfReviewComponent implements OnInit {
       score: this.currentRate
     }
 
-    
-
-    console.log(this.currentRate);
-
     this._ReviewService.editReviewsBedrijf(this.reviewId, review).subscribe(
       result => {
         this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:this.bedrijfid } });
+        this.toastService.show('Je review is aangepast!', { classname: 'bg-success text-light', delay: 10000 });
+      },
+      err => {
+        this.toastService.show('Je review is niet aangepast!', { classname: 'bg-danger text-light', delay: 10000 });
       }
     );
   }
@@ -95,6 +100,10 @@ export class SchrijfReviewComponent implements OnInit {
     this._ReviewService.deleteReview(reviewid).subscribe(
       result => {
         this.router.navigate(['bedrijf-review'], { queryParams: { bedrijfId:this.bedrijfid } });
+        this.toastService.show('Je review is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
+      },
+      err => {
+        this.toastService.show('Je review is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
       }
     );
   }

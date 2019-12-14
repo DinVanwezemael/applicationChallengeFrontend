@@ -34,6 +34,8 @@ import { BedrijfFormComponent } from './admin/bedrijf-form/bedrijf-form.componen
 import { CredentialsComponent } from './authentication/credentials/credentials.component';
 import { BedrijfReviewComponent } from './bedrijf-review/bedrijf-review.component';
 import { SchrijfReviewComponent } from './bedrijf-review/schrijf-review/schrijf-review.component';
+import { NgbdToastGlobal } from './toast-global/toast-global.component';
+import { ToastsContainer } from './toast-global/toast-container.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -71,6 +73,8 @@ const appRoutes: Routes = [
     GestemdeOpdrachtenComponent,
     BedrijfReviewComponent,
     SchrijfReviewComponent,
+    NgbdToastGlobal,
+    ToastsContainer
   ],
   imports: [
     BrowserModule,
@@ -98,6 +102,8 @@ const appRoutes: Routes = [
     },
     JwtHelperService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+    NgbdToastGlobal]
 })
 export class AppModule { }
