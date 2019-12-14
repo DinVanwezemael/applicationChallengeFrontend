@@ -32,6 +32,11 @@
                 {{maker.biografie}}
         </div>
 
+        <div *ngFor="let makerTag of makerTags">
+            <span class="badge badge-pill badge-info">{{makerTag.tag.naam}}</span>
+        </div>
+        
+
         <div class="divider"></div>
         <br>
         <button (click)="editUserDetails()" class="btn btn-primary btn-lg btn-block">Bewerken</button>
@@ -107,6 +112,12 @@
                         <label for="">Info:</label>
                         <textarea type="text" [(ngModel)]="maker.biografie" class="form-control" placeholder="Info" formControlName="Biografie"></textarea>
                     </div>
+
+                    <tag-input [(ngModel)]='tags' formControlName="Tags">
+                        <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                        </tag-input-dropdown>
+                    </tag-input>
+                    
 
                   
                             <input type="hidden" [(ngModel)]="maker.id"  formControlName="Id">

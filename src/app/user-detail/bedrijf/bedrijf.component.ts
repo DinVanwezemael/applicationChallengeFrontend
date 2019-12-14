@@ -55,7 +55,7 @@ export class BedrijfComponent implements OnInit {
       result => {
         this._BedrijfTagService.deleteAllWhereBedrijfId(this.bedrijf.id).subscribe(result => {
           this.tags.forEach(tag => {
-            var newTag = new Tag(0, tag.value);
+            var newTag = new Tag(0, tag.display);
             this._TagService.newTag(newTag).subscribe(result => {
               var opdrachtTag = new BedrijfTag(0, this.bedrijf.id, result.id, null, null)
               this.editBedrijf = false;
@@ -88,10 +88,12 @@ export class BedrijfComponent implements OnInit {
           this.bedrijfTags = result;
           var tagHelper: Array<TagObject> = [];
           result.forEach(bedrijfTag => {
-            var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.naam);
+            console.log(bedrijfTag);
+            var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.id);
             tagHelper.push(tagObject)
           });
           this.tags = tagHelper;
+          console.log(this.tags);
         })
       });
     }
