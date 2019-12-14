@@ -36,6 +36,7 @@ import { BedrijfReviewComponent } from './bedrijf-review/bedrijf-review.componen
 import { SchrijfReviewComponent } from './bedrijf-review/schrijf-review/schrijf-review.component';
 import { NgbdToastGlobal } from './toast-global/toast-global.component';
 import { ToastsContainer } from './toast-global/toast-container.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -87,8 +88,8 @@ const appRoutes: Routes = [
     AuthenticationModule,
     TagInputModule, 
     BrowserAnimationsModule,
-    FormsModule
-
+    FormsModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     {
