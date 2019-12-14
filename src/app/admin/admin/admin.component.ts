@@ -6,6 +6,12 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgbRatingConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Opdracht } from 'src/app/models/opdracht.model';
 import { UserLogin } from 'src/app/models/user-login.model';
+import { BedrijfTagService } from 'src/app/services/bedrijf-tag.service';
+import { BedrijfTag } from 'src/app/models/bedrijfTag.model';
+import { TagObject } from 'src/app/models/tagObject.model';
+import { BedrijfService } from 'src/app/services/bedrijf.service';
+import { TagService } from 'src/app/services/tag.service';
+import { Tag } from 'src/app/models/tag.model';
 
 @Component({
   selector: 'app-admin',
@@ -26,12 +32,16 @@ export class AdminComponent implements OnInit {
   review: Review;
   opdracht: Opdracht;
   gebruiker: UserLogin;
+  bedrijfTags: BedrijfTag[];
+  tags: TagObject[];
+  profielfoto
+  editBedrijf
 
   reviewForm = this.fb.group({
     reviewTekst: ['']
   });
 
-  userForm = this.fb.group({
+  makerForm = this.fb.group({
     Nickname: new FormControl('', Validators.required),
     Voornaam: new FormControl('', Validators.required),
     Achternaam: new FormControl('', Validators.required),
@@ -44,11 +54,23 @@ export class AdminComponent implements OnInit {
     GeboorteDatum: new FormControl('', Validators.required),
     Id: new FormControl('', Validators.required)
   })
+
+  bedrijfForm = this.fb.group({
+    Naam: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Stad: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    Nr: new FormControl('', Validators.required),
+    Biografie: new FormControl('', Validators.required),
+    Foto: new FormControl('', Validators.required),
+    Tags: new FormControl('', Validators.required),
+    Id: new FormControl('', Validators.required)
+  })
   
   opdrachtForm = this.fb.group({
   });
 
-  constructor(private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal) {
+  constructor(private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService) {
     ngbConfig.max = 5;
   }
 
@@ -98,6 +120,26 @@ export class AdminComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+  
+  bedrijfModal(contentBedrijf, b: UserLogin) {
+    console.log(b)
+    this.gebruiker = b;
+    this.profielfoto = "https://localhost:44341/images/"+this.gebruiker.bedrijf.foto;
+    this._BedrijfTagService.getWhereBedrijfId(this.gebruiker.bedrijf.id).subscribe(result => {
+      this.bedrijfTags = result;
+      var tagHelper: Array<TagObject> = [];
+      result.forEach(bedrijfTag => {
+        var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.naam);
+        tagHelper.push(tagObject)
+      });
+      this.tags = tagHelper;
+    })
+    this.modalService.open(contentBedrijf, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -134,34 +176,61 @@ export class AdminComponent implements OnInit {
   }
 
   updateMaker(g: UserLogin) {
-    if(this.userForm.get('Nickname').value != "" && this.userForm.get('Nickname').value != null){
-      g.username = this.userForm.get('Nickname').value;
+    if(this.makerForm.get('Nickname').value != "" && this.makerForm.get('Nickname').value != null){
+      g.username = this.makerForm.get('Nickname').value;
     }
-    if(this.userForm.get('Email').value != "" && this.userForm.get('Email').value != null){
-      g.email = this.userForm.get('Email').value;
+    if(this.makerForm.get('Email').value != "" && this.makerForm.get('Email').value != null){
+      g.email = this.makerForm.get('Email').value;
     }
-    if(this.userForm.get('Voornaam').value != "" && this.userForm.get('Voornaam').value != null){
-      g.maker.voornaam = this.userForm.get('Voornaam').value;
+    if(this.makerForm.get('Voornaam').value != "" && this.makerForm.get('Voornaam').value != null){
+      g.maker.voornaam = this.makerForm.get('Voornaam').value;
     }
-    if(this.userForm.get('Achternaam').value != "" && this.userForm.get('Achternaam').value != null){
-      g.maker.achternaam = this.userForm.get('Achternaam').value;
+    if(this.makerForm.get('Achternaam').value != "" && this.makerForm.get('Achternaam').value != null){
+      g.maker.achternaam = this.makerForm.get('Achternaam').value;
     }
-    if(this.userForm.get('GeboorteDatum').value != "" && this.userForm.get('GeboorteDatum').value != null){
-      g.maker.geboorteDatum = this.userForm.get('GeboorteDatum').value;
+    if(this.makerForm.get('GeboorteDatum').value != "" && this.makerForm.get('GeboorteDatum').value != null){
+      g.maker.geboorteDatum = this.makerForm.get('GeboorteDatum').value;
     }
-    if(this.userForm.get('Ervaring').value != "" && this.userForm.get('Ervaring').value != null){
-      g.maker.ervaring = this.userForm.get('Ervaring').value;
+    if(this.makerForm.get('Ervaring').value != "" && this.makerForm.get('Ervaring').value != null){
+      g.maker.ervaring = this.makerForm.get('Ervaring').value;
     }
-    if(this.userForm.get('LinkedInLink').value != "" && this.userForm.get('LinkedInLink').value != null){
-      g.maker.linkedInLink = this.userForm.get('LinkedInLink').value;
+    if(this.makerForm.get('LinkedInLink').value != "" && this.makerForm.get('LinkedInLink').value != null){
+      g.maker.linkedInLink = this.makerForm.get('LinkedInLink').value;
     }
-    if(this.userForm.get('Biografie').value != "" && this.userForm.get('Biografie').value != null){
-      g.maker.biografie = this.userForm.get('Biografie').value;
+    if(this.makerForm.get('Biografie').value != "" && this.makerForm.get('Biografie').value != null){
+      g.maker.biografie = this.makerForm.get('Biografie').value;
     }
     let gebruiker = new UserLogin(g.id, g.username, g.email, g.userTypeId, g.makerId, g.bedrijfId, g.maker, g.bedrijf);
     this._adminService.updateUserLogin(g.id, gebruiker).subscribe();
     this._adminService.updateMaker(g.makerId, g.maker).subscribe();
-    this.userForm.reset();
+    this.makerForm.reset();
+    setTimeout(() => {
+      this.ngOnInit()
+    }, 100);
+  }
+
+  updateBedrijf(g: UserLogin){
+    this._BedrijfService.updateBedrijf(this.bedrijfForm.controls['Id'].value , this.bedrijfForm.value).subscribe(
+      result => {
+        this._BedrijfTagService.deleteAllWhereBedrijfId(g.bedrijf.id).subscribe(result => {
+          this.tags.forEach(tag => {
+            var newTag = new Tag(0, tag.value);
+            this._TagService.newTag(newTag).subscribe(result => {
+              var opdrachtTag = new BedrijfTag(0, g.bedrijf.id, result.id, null, null)
+              this.editBedrijf = false;
+              this._BedrijfTagService.newBedrijfTag(opdrachtTag).subscribe(result => {
+                this._BedrijfTagService.getWhereBedrijfId(g.bedrijf.id).subscribe(result => {
+                })
+              })
+            })
+          });
+        })
+        
+      },
+      err => {
+        alert("username bestaat al");
+      }
+    )
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
@@ -176,10 +245,11 @@ export class AdminComponent implements OnInit {
 
   deleteMaker(gebruiker: UserLogin){
     console.log(gebruiker.makerId)
-    //this._adminService.deleteUserLogin(gebruiker.id).subscribe();
-    //this._adminService.deleteSkillMakerWhereMakerId(gebruiker.makerId).subscribe();
-    //this._adminService.deleteOpdrachtMakerWhereMakerId(gebruiker.makerId).subscribe();
+    this._adminService.deleteUserLogin(gebruiker.id).subscribe();
+    this._adminService.deleteSkillMakerWhereMakerId(gebruiker.makerId).subscribe();
+    this._adminService.deleteOpdrachtMakerWhereMakerId(gebruiker.makerId).subscribe();
     this._adminService.deleteReviewWhereMakerId(gebruiker.makerId).subscribe();
+    this._adminService.deleteMaker(gebruiker.makerId).subscribe();
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
