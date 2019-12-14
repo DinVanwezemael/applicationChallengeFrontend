@@ -12,6 +12,8 @@ import { TagObject } from 'src/app/models/tagObject.model';
 import { MakerTagService } from 'src/app/services/maker-tag.service';
 import { Tag } from 'src/app/models/tag.model';
 import { TagService } from 'src/app/services/tag.service';
+import { NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStructAdapter } from '@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter';
 
 @Component({
   selector: 'app-maker',
@@ -20,7 +22,9 @@ import { TagService } from 'src/app/services/tag.service';
 })
 export class MakerComponent implements OnInit {
 
-  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService, private toastService: ToastService, private _MakerTagService: MakerTagService, private _TagService: TagService) { }
+  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService, private toastService: ToastService, private _MakerTagService: MakerTagService, private _TagService: TagService) { 
+    
+  }
 
   maker: Maker;
   profielfoto
@@ -32,6 +36,9 @@ export class MakerComponent implements OnInit {
   tags: TagObject[];
   makerid;
   tagItems = [];
+  date
+
+  
 
   userForm = this.fb.group({
     Nickname: new FormControl('', Validators.required),
@@ -159,7 +166,8 @@ export class MakerComponent implements OnInit {
         this.maker = result;
         console.log(result.id);
         this.makerid = result.id;
-        console.log()
+        console.log(result.geboorteDatum);
+
 
 
         this._MakerTagService.getWhereMakerId(result.id).subscribe(result => {
