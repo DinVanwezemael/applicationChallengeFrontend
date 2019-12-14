@@ -40,6 +40,10 @@
                 <i class="fas fa-fw fa-exclamation-triangle"></i>
                 De ingegeven gegevens zijn niet correct.
               </div>
+              <div *ngIf="invalidVerified" class="alert alert-info" role="alert">
+                <i class="fas fa-fw fa-exclamation-triangle"></i>
+                Gelieve eerst je account te activeren. Je vind een activatielink in je mailbox.
+              </div>
               <button (click)="onLogin()" [disabled]="submitted"
                 class="btn btn-primary btn-user btn-block col-sm-6 mx-auto">
                 Login
