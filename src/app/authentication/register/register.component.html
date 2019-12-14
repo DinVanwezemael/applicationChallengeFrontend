@@ -112,7 +112,28 @@
       <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
     </a> -->
         <div class="carousel-item">
-          <!-- Register Form -->
+          <h5 class="h5 text-gray-900 mb-2">Ervaring</h5>
+          <div class="form-group row">
+            <div class="col-sm-12 mb-3 mb-sm-0">
+              <textarea type="text" class="form-control form-control-user form-control-textarea" rows="3" id="ervaring"
+                placeholder="Omschrijf je IT ervaring.." formControlName="ervaring"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12 mb-3 mb-sm-0">
+              <input type="text" class="form-control form-control-user" id="linkedInLink" placeholder="LinkedIn-URL"
+                formControlName="linkedInLink">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="tags" class="col-sm-4 col-form-label">Geef je interesses: (Javascript, .NET, ..)</label>
+            <div class="col-sm-8 mb-3 mb-sm-0">
+              <tag-input class="test" [(ngModel)]='tagsObject' formControlName="tags" [theme]="'centtask-theme'">
+                <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                </tag-input-dropdown>
+              </tag-input>
+            </div>
+          </div>
           <h5 class="h5 text-gray-900 mb-2">Credentials</h5>
           <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
@@ -256,7 +277,6 @@
         <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
       </a> -->
         <div class="carousel-item">
-          <!-- Register Form -->
           <h5 class="h5 text-gray-900 mb-2">Credentials</h5>
           <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
@@ -293,7 +313,7 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="btn-group col-sm-6 mx-auto">
+            <div class="btn-group btn-group-sm col-sm-6 mx-auto">
               <button type="button" (click)="registerBack()"
                 class="btn btn-primary btn-user col-sm-2 mx-auto backButton">
                 <i class="fas fa-lg fa-arrow-left"></i>

@@ -5,12 +5,14 @@ import { NgbDateParserFormatter, NgbCalendar } from '@ng-bootstrap/ng-bootstrap'
 import { AuthenticateService } from '../services/authenticate.service';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { TagObject } from 'src/app/models/tagObject.model';
+import { TagInputModule } from 'ngx-chips';
 declare var $: any;
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss', './centtask-tags.scss']
 })
 export class RegisterComponent implements OnInit {
   @Output() login = new EventEmitter<boolean>();
@@ -19,7 +21,9 @@ export class RegisterComponent implements OnInit {
   waitStudent = false;
   invalidStudentUsername = false;
   invalidStudentEmail = false;
-
+  tagsObject: TagObject[];
+  tagItems = [];
+  
   submittedBedrijf = false;
   waitBedrijf = false;
   invalidBedrijfUsername = false;
@@ -36,6 +40,11 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authenticateService.getTags().subscribe(result => {
+      result.forEach(function(item) {
+        this.tagItems.push(item.naam)
+      }, this)
+    });
     this.registerFormStudent = this.fb.group({
       voornaam: new FormControl('', Validators.required),
       achternaam: new FormControl('', Validators.required),
@@ -47,6 +56,9 @@ export class RegisterComponent implements OnInit {
       postcode: new FormControl(null, Validators.required),
       biografie: new FormControl(''),
       username: new FormControl('', Validators.required),
+      linkedInLink: new FormControl(''),
+      ervaring: new FormControl(''),
+      tags: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       passwordHerhaald: new FormControl('', [Validators.required, Validators.minLength(6)]),
     },
@@ -160,6 +172,8 @@ export class RegisterComponent implements OnInit {
       postcode: this.registerFormStudent.value.postcode,
       stad: this.registerFormStudent.value.stad,
       straat: this.registerFormStudent.value.straat,
+      ervaring: this.registerFormStudent.value.ervaring,
+      linkedInLink: this.registerFormStudent.value.linkedInLink,
     }
 
     var userLogin = {
@@ -168,7 +182,15 @@ export class RegisterComponent implements OnInit {
       email: this.registerFormStudent.value.email,
     }
 
-    var data = { maker, userLogin }
+    var tags = []
+    this.tagsObject.forEach(function(item) {
+      console.log(item);
+      tags.push(item.value)
+    }, this)
+
+    console.log(tags);
+    var data = { maker, userLogin, tags}
+
 
     this.invalidStudentUsername = false;
     this.invalidStudentEmail = false;

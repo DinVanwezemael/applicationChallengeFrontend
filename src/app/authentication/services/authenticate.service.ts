@@ -15,7 +15,8 @@ import { UserLogin } from 'src/app/models/user-login.model';
 export class AuthenticateService {
 
   isLoggedin = new BehaviorSubject(false);
-  userObject = new BehaviorSubject({});
+  userObject = new BehaviorSubject<any>({});
+  userInfoObject = new BehaviorSubject<any>({});
   currentRole = new BehaviorSubject("");
 
   constructor(private _httpClient: HttpClient, public jwtHelper: JwtHelperService) {
@@ -55,7 +56,19 @@ export class AuthenticateService {
       const tokenPayload: any = jwtDecode(token);
       this.currentRole.next(tokenPayload.role);
       this.refreshUser().subscribe(result => { this.userObject.next(result) })
-      console.log(this.userObject)
+      console.log(this.userObject.value)
+
+      if (this.currentRole.value == "Admin") {
+        this.userInfoObject = this.userObject.value;
+        console.log(this.userInfoObject);
+      } else if (this.currentRole.value == "Bedrijf") {
+        this.userInfoObject = this.userObject.value.bedrijf;
+        console.log(this.userInfoObject);
+      } else {
+        this.userInfoObject = this.userObject.value.maker;
+        console.log(this.userInfoObject);
+      }
+
     } else {
       this.isLoggedin.next(false);
     }
@@ -102,5 +115,13 @@ export class AuthenticateService {
 
   changeUserInfo(id: number, userLogin: any) {
     return this._httpClient.put<any>("https://localhost:44341/api/userLogin/changeUserInfo/" + id, userLogin)
+  }
+
+  getTags() {
+    return this._httpClient.get<any>("https://localhost:44341/api/tag/");
+  }
+
+  lowerInterest() {
+    return this._httpClient.get("https://localhost:44341/api/makerTag/lowerInterest");
   }
 }

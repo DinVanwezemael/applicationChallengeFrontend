@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CredentialsComponent } from './credentials/credentials.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TagInputModule } from 'ngx-chips';
 
 
 
@@ -12,7 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TagInputModule
   ]
 })
 export class AuthenticationModule { }
