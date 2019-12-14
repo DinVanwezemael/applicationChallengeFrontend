@@ -26,6 +26,10 @@ export class OpdrachtService {
     return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht");
   }
 
+  getOpdrachtenVoorStudentOpen(): Observable<Opdracht[]>{
+    return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht/open");
+  }
+
   getOpdrachtenVoorStudentId(id: number): Observable<any[]>{
     return this.http.get<any[]>("https://localhost:44341/api/opdrachtmaker/" + id);
   }

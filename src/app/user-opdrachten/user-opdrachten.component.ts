@@ -15,10 +15,21 @@ export class UserOpdrachtenComponent implements OnInit {
   constructor(private OpdrachtService: OpdrachtService, private fb: FormBuilder, private router: Router) { }
 
   opdrachten: Observable<Opdracht[]>;
+  contentEditable = false;
 
   searchForm = this.fb.group({
     Title: new FormControl('', Validators.required)
   })
+
+  toggleEditable(event) {
+    if ( event.target.checked ) {
+        this.contentEditable = true;
+        this.getOpdrachtenOpen();
+   }else{
+     this.contentEditable = false;
+     this.getOpdrachten();
+   }
+  }
 
 
   getOpdrachtenBySearch(){
@@ -35,9 +46,19 @@ export class UserOpdrachtenComponent implements OnInit {
     this.opdrachten = this.OpdrachtService.getOpdrachtenVoorStudent();
   }
 
+  getOpdrachtenOpen(){
+    this.opdrachten = this.OpdrachtService.getOpdrachtenVoorStudentOpen();
+  }
+
+  
+
   ngOnInit() {
-    this.getOpdrachten();
-    console.log(this.opdrachten);
+
+    if(this.contentEditable == false){
+      this.getOpdrachten();
+    }else{
+      this.getOpdrachtenOpen();
+    }
   }
 
 }

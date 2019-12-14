@@ -25,6 +25,7 @@ export class GestemdeOpdrachtenComponent implements OnInit {
 
   getOpdrachten(){
     this.opdrachten = this.OpdrachtService.getOpdrachtenVoorStudentId(this.userid);
+    console.log("################");
     console.log(this.opdrachten);
   }
 

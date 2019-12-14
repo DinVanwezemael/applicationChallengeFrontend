@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 import { AuthenticateService } from 'src/app/authentication/services/authenticate.service';
 import { User } from 'src/app/authentication/models/user.model';
 import { UserLogin } from 'src/app/models/user-login.model';
+import { ToastService } from 'src/app/toast-global/toast-service';
 
 @Component({
   selector: 'app-maker',
@@ -14,7 +15,7 @@ import { UserLogin } from 'src/app/models/user-login.model';
 })
 export class MakerComponent implements OnInit {
 
-  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService) { }
+  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService, private toastService: ToastService) { }
 
   maker: Maker;
   profielfoto
@@ -79,11 +80,12 @@ export class MakerComponent implements OnInit {
         console.log(result);
         if(result == null){
           this.editMaker = true;
-          console.log("username is niet aangepast")
+          this.toastService.show('De gebruikersnaam bestaat al!', { classname: 'bg-danger text-light', delay: 10000 });
         }
         else{
           this.editMaker = false;
           console.log("username is aangepast")
+          this.toastService.show('Je gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
         }
       },
       err => {
