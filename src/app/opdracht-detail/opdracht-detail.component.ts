@@ -46,7 +46,7 @@ export class OpdrachtDetailComponent implements OnInit {
               this.opdrachtTags = result;
               var tagHelper: Array<TagObject> = [];
               result.forEach(opdrachtTag => {
-                var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.naam);
+                var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.id);
                 tagHelper.push(tagObject)
               });
               this.tags = tagHelper;
@@ -143,7 +143,7 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
   saveChangesOpdracht() {
     this._OpdrachtTagService.deleteAllWhereBedrijfId(this.Opdracht.bedrijfId).subscribe(result => {
       this.tags.forEach(tag => {
-        var newTag = new Tag(0, tag.value);
+        var newTag = new Tag(0, tag.display);
         this._TagService.newTag(newTag).subscribe(result => {
           var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
           this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {
@@ -173,7 +173,7 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
       result => {
         this.Opdracht = result;
           this.tags.forEach(tag => {
-            var newTag = new Tag(0, tag.value);
+            var newTag = new Tag(0, tag.display);
             this._TagService.newTag(newTag).subscribe(result => {
               var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
               this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {

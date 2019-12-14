@@ -7,6 +7,11 @@ import { AuthenticateService } from 'src/app/authentication/services/authenticat
 import { User } from 'src/app/authentication/models/user.model';
 import { UserLogin } from 'src/app/models/user-login.model';
 import { ToastService } from 'src/app/toast-global/toast-service';
+import { MakerTag } from 'src/app/models/maker-tag.model';
+import { TagObject } from 'src/app/models/tagObject.model';
+import { MakerTagService } from 'src/app/services/maker-tag.service';
+import { Tag } from 'src/app/models/tag.model';
+import { TagService } from 'src/app/services/tag.service';
 
 @Component({
   selector: 'app-maker',
@@ -15,7 +20,7 @@ import { ToastService } from 'src/app/toast-global/toast-service';
 })
 export class MakerComponent implements OnInit {
 
-  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService, private toastService: ToastService) { }
+  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService, private toastService: ToastService, private _MakerTagService: MakerTagService, private _TagService: TagService) { }
 
   maker: Maker;
   profielfoto
@@ -23,8 +28,10 @@ export class MakerComponent implements OnInit {
   editMaker
   UserLoginId
   userInfo;
-
-
+  makerTags: MakerTag[];
+  tags: TagObject[];
+  makerid;
+  tagItems = [];
 
   userForm = this.fb.group({
     Nickname: new FormControl('', Validators.required),
@@ -42,7 +49,7 @@ export class MakerComponent implements OnInit {
     Nr: new FormControl('', Validators.required),
     Postcode: new FormControl('', Validators.required),
     Stad: new FormControl('', Validators.required),
-
+    Tags: new FormControl('', Validators.required)
   }) 
 
 
@@ -57,14 +64,63 @@ export class MakerComponent implements OnInit {
 
   saveChangesMaker(){
 
-    this.authenticateService.editUser(this.userForm.controls['Id'].value , this.userForm.value).subscribe(
+    console.log(this.userForm.controls[('Tags')].value);
+
+    var tag = this.userForm.controls[('Tags')].value;
+
+  
+
+    this._MakerTagService.deleteAllWhereMakerId(this.makerid).subscribe(
       result => {
-        
-      },
-      err => {
-        alert("username bestaat al")
+        tag.forEach(tag => {
+          console.log(tag.display + " " + tag.value);
+          var naamt = tag.display;
+          if(tag.value == tag.display){
+            
+            let tag: Tag = {
+              naam : naamt,
+              id: 0
+            }
+
+            this._TagService.newTag(tag).subscribe(
+              result => {
+
+                let tagMaker: MakerTag = {
+                  id :0,
+                  interest: 1,
+                  maker: null,
+                  makerId: this.makerid,
+                  selfSet: true,
+                  tag: null,
+                  tagId: result.id
+                }
+
+                this._MakerTagService.newMakerTag(tagMaker).subscribe();
+              }
+            );
+          }
+          else{
+            let tagMaker: MakerTag = {
+              id :0,
+              interest: 1,
+              maker: null,
+              makerId: this.makerid,
+              selfSet: true,
+              tag: null,
+              tagId: tag.value
+            }
+
+            this._MakerTagService.newMakerTag(tagMaker).subscribe();
+          }
+
+          this.haalMakerOp();
+
+          
+        });
       }
     );
+
+    
 
       let user: UserLogin = {
         id : this.userForm.controls[('Id')].value,
@@ -101,7 +157,24 @@ export class MakerComponent implements OnInit {
     if(tokenPayload.role = "Maker"){
       this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
         this.maker = result;
-        console.log(result.foto);
+        console.log(result.id);
+        this.makerid = result.id;
+        console.log()
+
+
+        this._MakerTagService.getWhereMakerId(result.id).subscribe(result => {
+          this.makerTags = result;
+          var tagHelper: Array<TagObject> = [];
+          result.forEach(makerTag => {
+            console.log(makerTag);
+            var tagObject = new TagObject(makerTag.tag.naam, makerTag.tag.id);
+            tagHelper.push(tagObject)
+          });
+          this.tags = tagHelper;
+          console.log(this.tags);
+        });
+
+
         if(result.foto == null){
           this.profielfoto = "https://api.adorable.io/avatars/285/" + result.id + "@adorable.png";
         }
@@ -113,6 +186,9 @@ export class MakerComponent implements OnInit {
       this._authenticationService.userObject.subscribe(result => {
         this.userInfo = result;
       }) 
+
+      
+
     }
   } 
 
@@ -123,6 +199,14 @@ export class MakerComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.authenticateService.getTags().subscribe(result => {
+      result.forEach(function(item) {
+        this.tagItems.push(new TagObject(item.naam, item.id))
+      }, this)
+    });
+
+
     this.haalMakerOp();
     this.getUsername();
   }
