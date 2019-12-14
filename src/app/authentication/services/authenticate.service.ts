@@ -164,4 +164,9 @@ export class AuthenticateService {
   lowerInterest() {
     return this._httpClient.get("https://localhost:44341/api/makerTag/lowerInterest");
   }
+
+  resetPassword(email: string) {
+    var emailadres = {email: email}
+    return this._httpClient.post("https://localhost:44341/api/userLogin/resetPassword", emailadres);
+  }
 }

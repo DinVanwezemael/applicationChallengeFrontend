@@ -4,6 +4,7 @@ import { CredentialsComponent } from './credentials/credentials.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -14,7 +15,7 @@ import { TagInputModule } from 'ngx-chips';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    TagInputModule
+    TagInputModule,
   ]
 })
 export class AuthenticationModule { }
