@@ -99,6 +99,9 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
     result => {
     });
   }
+  viewMaker(id: number){
+    this.router.navigate(['opdracht-maker'], { queryParams: { makerId:id } })
+  }
   SluitOpdracht(){
     const opdracht:Opdracht = this.Opdracht;
     opdracht.open=false;

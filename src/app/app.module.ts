@@ -36,6 +36,9 @@ import { BedrijfReviewComponent } from './bedrijf-review/bedrijf-review.componen
 import { SchrijfReviewComponent } from './bedrijf-review/schrijf-review/schrijf-review.component';
 import { NgbdToastGlobal } from './toast-global/toast-global.component';
 import { ToastsContainer } from './toast-global/toast-container.component';
+import { OpdrachtMakerComponent } from './opdracht-maker/opdracht-maker.component';
+import { MakerReviewComponent } from './maker-review/maker-review.component';
+import { SchrijfMakerreviewComponent } from './maker-review/schrijf-makerreview/schrijf-makerreview.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -50,9 +53,12 @@ const appRoutes: Routes = [
   { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'user-opdrachten', component: UserOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
   { path: 'opdracht-stemmen', component: OpdrachtStemmenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'opdracht-maker', component: OpdrachtMakerComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'gestemde-opdrachten', component: GestemdeOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
   { path: 'bedrijf-review', component: BedrijfReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'maker-review', component: MakerReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'schrijf-review', component: SchrijfReviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Maker'}},
+  { path: 'schrijf-makerreview', component: SchrijfMakerreviewComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'credentials', component: CredentialsComponent, canActivate:[AuthGuard]}
 ]
 
@@ -74,7 +80,10 @@ const appRoutes: Routes = [
     BedrijfReviewComponent,
     SchrijfReviewComponent,
     NgbdToastGlobal,
-    ToastsContainer
+    ToastsContainer,
+    OpdrachtMakerComponent,
+    MakerReviewComponent,
+    SchrijfMakerreviewComponent
   ],
   imports: [
     BrowserModule,

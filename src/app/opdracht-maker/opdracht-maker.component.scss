@@ -1,0 +1,63 @@
+h2{
+    font-weight: 800;
+}
+
+img{
+    border-radius: 50%;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}
+
+.info{
+    margin-top: 20px;
+}
+
+.fa-chevron-right{
+    transition: 0.3s ease-in-out;
+    margin-left: 15px;
+    animation: arrow 3s infinite ease-in-out;
+
+    @keyframes arrow {
+        0%{
+            
+                margin-left: 15px;
+            
+        }
+
+        60%{
+            
+                margin-left: 25px;
+        }
+
+        100%{
+           
+                margin-left: 15px;
+            
+        }
+
+    }
+}
+
+.maker-link{
+    font-size: 25px;
+
+    transition: 0.3s ease-in-out;
+    
+
+    
+
+    &:hover{
+        cursor: pointer!important;
+
+        .fa-chevron-right{
+            margin-left: 35px!important;
+        }
+    }
+}
+
+.fa-star{
+    font-size: 25px;
+}
+
+.mg-20{
+    margin-top: 20px;
+}

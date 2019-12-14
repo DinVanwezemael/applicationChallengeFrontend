@@ -14,7 +14,9 @@ export class ReviewService {
   getReviewsBedrijf(bedrijfId : number): Observable<Review[]>{
     return this.http.get<Review[]>("https://localhost:44341/api/review/" + bedrijfId);
   }
-
+  getReviewsMaker(makerId : number): Observable<Review[]>{
+    return this.http.get<Review[]>("https://localhost:44341/api/review/maker/" +makerId);
+  }
   getReview(reviewId : number){
     return this.http.get<Review>("https://localhost:44341/api/review/getbyid" + reviewId);
   }
@@ -32,6 +34,9 @@ export class ReviewService {
   }
 
   makerReviewedBedrijf(review: ReviewBedrijf){
-    return this.http.put<ReviewBedrijf>("https://localhost:44341/api/review/isreviewed" + review.bedrijfId, review);
+    return this.http.put<ReviewBedrijf>("https://localhost:44341/api/review/isreviewed/" + review.bedrijfId, review);
+  }
+  bedrijfReviewedMaker(review: ReviewBedrijf){
+    return this.http.put<ReviewBedrijf>("https://localhost:44341/api/review/isreviewedMaker/" + review.makerId, review);
   }
 }
