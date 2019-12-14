@@ -169,4 +169,9 @@ export class AuthenticateService {
     var emailadres = {email: email}
     return this._httpClient.post("https://localhost:44341/api/userLogin/resetPassword", emailadres);
   }
+
+  verifyUser(id: number) {
+    var verifyUser = {id: id}
+    return this._httpClient.post("https://localhost:44341/api/userLogin/verifyUser", verifyUser);
+  }
 }

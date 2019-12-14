@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { TagObject } from 'src/app/models/tagObject.model';
 import { TagInputModule } from 'ngx-chips';
+import { ToastService } from 'src/app/toast-global/toast-service';
 declare var $: any;
 
 @Component({
@@ -21,16 +22,16 @@ export class RegisterComponent implements OnInit {
   waitStudent = false;
   invalidStudentUsername = false;
   invalidStudentEmail = false;
-  tagsObject: TagObject[];
+  tagsObject: TagObject[] = [];
   tagItems = [];
-  
+
   submittedBedrijf = false;
   waitBedrijf = false;
   invalidBedrijfUsername = false;
   invalidBedrijfEmail = false;
   invalidBedrijfNaam = false;
 
-  constructor(private appComponent: AppComponent, private router: Router, private fb: FormBuilder, private parserFormatter: NgbDateParserFormatter, private calendar: NgbCalendar, private authenticateService: AuthenticateService) { }
+  constructor(private toastSerivce: ToastService, private appComponent: AppComponent, private router: Router, private fb: FormBuilder, private parserFormatter: NgbDateParserFormatter, private calendar: NgbCalendar, private authenticateService: AuthenticateService) { }
   registerFormStudent: FormGroup;
   registerFormBedrijf: FormGroup;
 
@@ -41,7 +42,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.authenticateService.getTags().subscribe(result => {
-      result.forEach(function(item) {
+      result.forEach(function (item) {
         this.tagItems.push(item.naam)
       }, this)
     });
@@ -93,13 +94,13 @@ export class RegisterComponent implements OnInit {
       })
     },
 
-    $('.carousel2').carousel({
-      touch: false,
-      interval: false,
-      wrap: false
-    }))
+      $('.carousel2').carousel({
+        touch: false,
+        interval: false,
+        wrap: false
+      }))
   }
-  
+
 
   changeForm(nr: number) {
     this.form = nr;
@@ -144,8 +145,8 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    var datum = this.registerFormStudent.value.geboortedatum.day + '/' +
-      this.registerFormStudent.value.geboortedatum.month + '/' +
+    var datum = this.registerFormStudent.value.geboortedatum.month + '/' +
+      this.registerFormStudent.value.geboortedatum.day + '/' +
       this.registerFormStudent.value.geboortedatum.year + ' 00:00:00'
 
     var maker = {
@@ -168,13 +169,15 @@ export class RegisterComponent implements OnInit {
     }
 
     var tags = []
-    this.tagsObject.forEach(function(item) {
-      console.log(item);
-      tags.push(item.value)
-    }, this)
+    if (this.tagsObject.length != 0) {
+      this.tagsObject.forEach(function (item) {
+        console.log(item);
+        tags.push(item.value)
+      }, this)
+    }
 
     console.log(tags);
-    var data = { maker, userLogin, tags}
+    var data = { maker, userLogin, tags }
 
 
     this.invalidStudentUsername = false;
@@ -186,7 +189,9 @@ export class RegisterComponent implements OnInit {
         Password: userLogin.password
       }
 
-      this.onLogin(login);
+      this.disableRegister();
+      this.toastSerivce.show('Account gecreëerd! Gelieve eerst deze te bevestigen via de link in je mailbox.', { classname: 'bg-success text-light', delay: 10000 });
+      this.waitStudent = false;
     },
       err => {
         if (err.error.text == "Username") {
@@ -200,12 +205,8 @@ export class RegisterComponent implements OnInit {
         }
 
         console.log(err);
-
+        this.waitStudent = false;
       })
-
-    console.log(maker);
-    console.log(userLogin);
-    this.waitStudent = false;
   }
 
   get f() { return this.registerFormStudent.controls; }
@@ -252,7 +253,9 @@ export class RegisterComponent implements OnInit {
         Password: userLogin.password
       }
 
-      this.onLogin(login);
+      this.disableRegister();
+      this.toastSerivce.show('Account gecreëerd! Gelieve eerst deze te bevestigen via de link in je mailbox.', { classname: 'bg-success text-light', delay: 10000 });
+      this.waitBedrijf = false;
     },
       err => {
         if (err.error.text == "Username") {
@@ -271,13 +274,9 @@ export class RegisterComponent implements OnInit {
           $('.carousel').carousel('pause');
         }
 
-        console.log(err);
-
+        this.waitBedrijf = false;
       })
 
-    console.log(bedrijf);
-    console.log(userLogin);
-    this.waitBedrijf = false;
   }
 
   get b() { return this.registerFormBedrijf.controls; }
