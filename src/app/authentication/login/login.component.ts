@@ -12,10 +12,11 @@ import * as jwtDecode from 'jwt-decode';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  login = true;
+  login = 1;
   submitted = false;
   invalid = false;
   profielfoto
+  invalidVerified = false;
 
   constructor(private fb: FormBuilder, private _authenticationService: AuthenticateService, private router: Router, private appComponent: AppComponent, private _BedrijfService: BedrijfService) { }
   loginForm: FormGroup;
@@ -31,11 +32,15 @@ export class LoginComponent implements OnInit {
   }
 
   enableRegister() {
-    this.login = false;
+    this.login = 2;
   }
 
   onEnableLogin(status: boolean) {
-    this.login = status;
+    this.login = 1;
+  }
+
+  enableForgotPassword() {
+    this.login = 3;
   }
 
   devMode(id: number) {
@@ -67,6 +72,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.submitted = true;
     this.invalid = false;
+    this.invalidVerified = false;
     this._authenticationService.authenticate(this.loginForm.value).subscribe(result => {
       console.log("this");
       console.log(result)
@@ -80,7 +86,11 @@ export class LoginComponent implements OnInit {
     }, err => {
       console.log(err);
       if (err.error.message = "Username or password is incorrect") {
+        if (err.error.text) {
+          this.invalidVerified = true;
+        } else {
         this.invalid = true;
+        }
       }
       this.submitted = false;
     }

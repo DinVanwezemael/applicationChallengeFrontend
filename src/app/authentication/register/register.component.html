@@ -51,7 +51,7 @@
             </div>
             <div class="col-sm-6">
               <input (click)="d.toggle()" readonly type="text" class="form-control form-control-user dob" ngbDatepicker
-                #d="ngbDatepicker" [minDate]="{year: 1960, month: 1, day: 1}" [maxDate]="calendar.getToday()"
+                #d="ngbDatepicker" [minDate]="{year: 1960, month: 1, day: 1}" [maxDate]="{year: 2010, month: 12, day: 31}"
                 placeholder="Geboortedatum" id="geboortedatum" formControlName="geboortedatum"
                 [ngClass]="{ 'is-invalid': submittedStudent && f.geboortedatum.errors }" />
               <div *ngIf="submittedStudent && f.geboortedatum.errors" class="invalid-feedback">

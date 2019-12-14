@@ -44,6 +44,10 @@ export class AdminService {
     return this._httpClient.delete<UserLogin>("https://localhost:44341/api/userlogin/" + userLoginId);
   }
   
+  deleteMaker(makerId: number) {
+    return this._httpClient.delete<Maker>("https://localhost:44341/api/maker/" + makerId);
+  }
+  
   deleteSkillMakerWhereMakerId(makerId: number) {
     return this._httpClient.delete<any>("https://localhost:44341/api/skillmaker/makerid/" + makerId);
   }

@@ -6,6 +6,7 @@ import { AdminService } from './admin.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { BedrijfFormComponent } from './bedrijf-form/bedrijf-form.component';
+import { TagInputModule } from 'ngx-chips';
 
 @NgModule({
   declarations: [AdminComponent, BedrijfFormComponent],
@@ -14,6 +15,7 @@ import { BedrijfFormComponent } from './bedrijf-form/bedrijf-form.component';
     NgbModule,
     FormsModule,
     FilterPipeModule,
+    TagInputModule,
     ReactiveFormsModule
   ],
   providers: [
