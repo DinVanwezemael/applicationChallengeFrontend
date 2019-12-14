@@ -110,22 +110,7 @@ export class RegisterComponent implements OnInit {
     this.authenticateService.authenticate(userlogin).subscribe(result => {
       this.authenticateService.loginUser(result.token);
       this.authenticateService.userObject.next(result);
-
-      switch (this.authenticateService.currentRole.value) {
-        case ("Admin"):
-          this.router.navigate(['adminHome']);
-          break;
-        case ("Maker"):
-          this.router.navigate(['userdetail']);
-          break;
-        case ("Bedrijf"):
-          this.router.navigate(['bedrijfOpdrachten']);
-          break;
-        default:
-          this.router.navigate(['']);
-          break;
-
-      }
+      this.authenticateService.checkUser();
     }, err => {
       console.log(err);
       alert("Er is iets verkeerd gegaan.")

@@ -37,6 +37,10 @@ export class AppComponent implements OnInit {
     this._authenticationService.userInfoObject.subscribe(result => {
       this.userInfo = result;
     })
+
+    this._authenticationService.profielFoto.subscribe(result => {
+      this.profilePicture = result;
+    })
   }
 
   mobileNav() {
@@ -54,11 +58,12 @@ export class AppComponent implements OnInit {
 
     if (this.loggedIn == true) {
       this._authenticationService.lowerInterest().subscribe(result => {
-        console.log("yeet");
       }, err => {
         console.log(err)
       });
-      }
+    }
+
+    
 
     /* $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
     $("body").toggleClass("sidebar-toggled");
