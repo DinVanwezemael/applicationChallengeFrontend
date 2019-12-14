@@ -32,4 +32,7 @@ updateMaker(Maker:Maker,fotoNaam:string): Observable<Maker> {
   console.log(Maker); 
   return this.http.put<Maker>("https://localhost:44341/api/maker/"+Maker.id,Maker);
 }
+getGemiddeldeScoreMaker(makerId :number){
+  return this.http.get("https://localhost:44341/api/review/getReviewsMaker/" + makerId);
+}
 }

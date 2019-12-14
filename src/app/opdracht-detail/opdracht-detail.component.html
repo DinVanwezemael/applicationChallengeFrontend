@@ -26,9 +26,10 @@
             <span *ngIf="opdrachtmakers.length == 0"> Er zijn nog geen makers die zich aangemeld hebben voor deze opdracht.</span>
             <div *ngFor="let opdrachtmaker of opdrachtmakers">
 
-                <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">{{opdrachtmaker.maker.nickname}} <button class="btn btn-primary m-1" (click) = "AccepteerMaker(opdrachtmaker.id,opdrachtmaker)">Accepteren</button> <button class="btn btn-danger m-1" (click)=VerwijderMaker(opdrachtmaker.id)>Verwijderen</button> </span>
+                <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk"> <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div><button class="btn btn-primary m-1" (click) = "AccepteerMaker(opdrachtmaker.id,opdrachtmaker)">Accepteren</button> <button class="btn btn-danger m-1" (click)=VerwijderMaker(opdrachtmaker.id)>Verwijderen</button> </span>
                 <ng-template #makerOk>
-                    {{opdrachtmaker.maker.nickname}}
+
+                    <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div>
                     <div *ngIf="Opdracht.klaar == false">
                         <button (click)=MaakWinnaar(opdrachtmaker.maker)>Maak winnaar</button>
                     </div>

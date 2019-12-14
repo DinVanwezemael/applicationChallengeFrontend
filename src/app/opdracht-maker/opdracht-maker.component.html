@@ -1,0 +1,41 @@
+<div class="container">
+
+        <div *ngIf="!triggered" class="col-md-12 text-center">
+                <img [src]="profielfoto" alt="Alternate Text" class="img-responsive text-center" width="300"
+                        height="300" />
+        </div>
+
+
+        <div class="col-md-12">
+                <h2 class="mg-20">{{maker.nickname}}
+                </h2>
+                <div class="font-weight-bold maker-link" (click)="viewReviews(maker.id)">
+                        <ng-template class="maker-link" #s let-fill="fill">
+                                <span class="star" [class.full]="fill === 100">
+                                        <span class="half" [style.width.%]="fill"><i class="fas fa-star"></i></span><i
+                                                class="fas fa-star"></i>
+                                </span>
+                        </ng-template>
+
+                        <ngb-rating [(rate)]="gemiddeldeReviewScore" [starTemplate]="s" [readonly]="true" max="5">
+                        </ngb-rating>
+                        <i class="fas fa-chevron-right"></i>
+                </div>
+
+
+                <div class="info">
+                        <span class="font-weight-bold font-italic">LinkedIn:</span>
+                        {{maker.linkedInLink}}
+                </div>
+
+                <div class="info">
+                        <span class="font-weight-bold font-italic">Biografie:</span>
+                        {{maker.biografie}}
+                </div>
+                <div class="info">
+                        <span class="font-weight-bold font-italic">Ervaring:</span>
+                        {{maker.ervaring}}
+                </div>
+
+        </div>
+</div>
