@@ -1,5 +1,5 @@
 <div *ngIf="!editMaker" class="col-md-12 text-muted">
-        <h2>{{maker.voornaam}} {{maker.achternaam}} ({{username}})</h2>
+        <h2>{{maker.voornaam}} {{maker.achternaam}} ({{userInfo.username}})</h2>
     
         <div>
            <span class="font-weight-bold font-italic">Geb. datum:</span> {{maker.geboorteDatum}}
@@ -7,7 +7,7 @@
 
 
         <div class="info">
-            <span class="font-weight-bold font-italic">E-mailadres:</span> {{maker.email}}
+            <span class="font-weight-bold font-italic">E-mailadres:</span> {{userInfo.email}}
         </div>
 
 
@@ -18,7 +18,7 @@
         </div>
 
         <div class="info">
-                <span class="font-weight-bold font-italic">Gsm:</span> {{maker.gsmNr}}
+                <span class="font-weight-bold font-italic">Adres:</span> {{maker.straat}} {{maker.nr}}, {{maker.postcode}} {{maker.stad}}
         </div>
 
 
@@ -45,7 +45,7 @@
         
         <div class="form-group">
             <label for="">Gebruikersnaam:</label>
-            <input type="text" [(ngModel)]="username" class="form-control" placeholder="Gebruikersnaam" formControlName="Nickname">
+            <input type="text" [(ngModel)]="userInfo.username" class="form-control" placeholder="Gebruikersnaam" formControlName="Nickname">
         </div>
 
         <div class="form-group">
@@ -67,14 +67,28 @@
 
         <div class="form-group">
             <label for="">Email:</label>
-            <input type="text" [(ngModel)]="maker.email" class="form-control" placeholder="Email" formControlName="Email">
+            <input type="text" [(ngModel)]="userInfo.email" class="form-control" placeholder="Email" formControlName="Email">
         </div>
 
         <div class="form-group">
-                <label for="">Gsm:</label>
-                <input type="text" [(ngModel)]="maker.gsmNr" class="form-control" placeholder="Gsm" formControlName="GsmNr">
+                <label for="">Straat:</label>
+                <input type="text" [(ngModel)]="maker.straat" class="form-control" placeholder="Straat" formControlName="Straat">
             </div>
 
+            <div class="form-group">
+                <label for="">Nummer:</label>
+                <input type="text" [(ngModel)]="maker.nr" class="form-control" placeholder="Nummer" formControlName="Nr">
+            </div>
+
+            <div class="form-group">
+                <label for="">Postcode:</label>
+                <input type="text" [(ngModel)]="maker.postcode" class="form-control" placeholder="Postcode" formControlName="Postcode">
+            </div>
+
+            <div class="form-group">
+                <label for="">Stad:</label>
+                <input type="text" [(ngModel)]="maker.stad" class="form-control" placeholder="Stad" formControlName="Stad">
+            </div>
 
             <div class="form-group">
                     <label for="">Begin ervaring:</label>
@@ -89,7 +103,7 @@
 
                 <div class="form-group">
                         <label for="">Info:</label>
-                        <input type="text" [(ngModel)]="maker.biografie" class="form-control" placeholder="Info" formControlName="Biografie">
+                        <textarea type="text" [(ngModel)]="maker.biografie" class="form-control" placeholder="Info" formControlName="Biografie"></textarea>
                     </div>
 
                   

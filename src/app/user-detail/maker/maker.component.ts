@@ -5,6 +5,7 @@ import { Maker } from 'src/app/models/maker.model';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthenticateService } from 'src/app/authentication/services/authenticate.service';
 import { User } from 'src/app/authentication/models/user.model';
+import { UserLogin } from 'src/app/models/user-login.model';
 
 @Component({
   selector: 'app-maker',
@@ -13,13 +14,14 @@ import { User } from 'src/app/authentication/models/user.model';
 })
 export class MakerComponent implements OnInit {
 
-  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService) { }
+  constructor(private _MakerService: MakerService, private fb: FormBuilder, private authenticateService: AuthenticateService, private _authenticationService: AuthenticateService) { }
 
   maker: Maker;
   profielfoto
   username
   editMaker
   UserLoginId
+  userInfo;
 
 
 
@@ -31,12 +33,16 @@ export class MakerComponent implements OnInit {
     Biografie: new FormControl('', Validators.required),
     LinkedInLink: new FormControl('', Validators.required),
     Ervaring: new FormControl('', Validators.required),
-    GsmNr: new FormControl('', Validators.required),
     CV: new FormControl('', Validators.required),
     Foto: new FormControl('', Validators.required),
     GeboorteDatum: new FormControl('', Validators.required),
-    Id: new FormControl('', Validators.required)
-  })
+    Id: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    Nr: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Stad: new FormControl('', Validators.required),
+
+  }) 
 
 
   editUserDetails(){
@@ -59,12 +65,13 @@ export class MakerComponent implements OnInit {
       }
     );
 
-      let user: User = {
-        userID: this.UserLoginId,
-        username: this.userForm.controls["Nickname"].value,
-        email: this.userForm.controls["Email"].value,
-        password: null,
-        token: null
+      let user: UserLogin = {
+        id : this.userForm.controls[('Id')].value,
+        email: this.userForm.controls[('Email')].value,
+        userTypeId: 2,
+        username: this.userForm.controls[('Nickname')].value,
+        bedrijfId: null,
+        makerId: this.UserLoginId
       } 
 
     this.authenticateService.editUsername(this.UserLoginId, user).subscribe(
@@ -84,8 +91,18 @@ export class MakerComponent implements OnInit {
     if(tokenPayload.role = "Maker"){
       this._MakerService.getMakerWhereId(tokenPayload.GebruikerId).subscribe(result => {
         this.maker = result;
-        this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+        console.log(result.foto);
+        if(result.foto == null){
+          this.profielfoto = "https://api.adorable.io/avatars/285/" + result.id + "@adorable.png";
+        }
+        else{
+          this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+        }
       });
+
+      this._authenticationService.userObject.subscribe(result => {
+        this.userInfo = result;
+      }) 
     }
   } 
 

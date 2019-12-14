@@ -59,21 +59,23 @@ export class MakerComponent implements OnInit {
       }
     );
 
-      let user: User = {
+      /* let user: User = {
         userID: this.UserLoginId,
         username: this.userForm.controls["Nickname"].value,
         email: this.userForm.controls["Email"].value,
         password: null,
         token: null
-      } 
+      }  */
 
-    this.authenticateService.editUsername(this.UserLoginId, user).subscribe(
+      console.log("###############################");
+
+    /* this.authenticateService.editUsername(this.UserLoginId, user).subscribe(
       result => {
         //this.maker = result;
       },
       err => {
       }
-    );
+    ); */
   }
 
 

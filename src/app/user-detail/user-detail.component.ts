@@ -71,7 +71,12 @@ export class UserDetailComponent implements OnInit {
         this.maker = result;
         this.vmaker = true;
         this.vbedrijf = false;
-        this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+        if(result.foto == null){
+          this.profielfoto = "https://api.adorable.io/avatars/285/" + result.id + "@adorable.png";
+        }
+        else{
+          this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+        }
       });
     }
     if(tokenPayload.role == "Bedrijf"){
@@ -79,7 +84,12 @@ export class UserDetailComponent implements OnInit {
         this.bedrijf = result;
         this.vbedrijf = true;
         this.vmaker = false;
-        this.profielfoto = "https://localhost:44341/images/"+this.bedrijf.foto;
+        if(result.foto == null){
+          this.profielfoto = "https://api.adorable.io/avatars/285/" + result.id + "@adorable.png";
+        }
+        else{
+          this.profielfoto = "https://localhost:44341/images/"+this.maker.foto;
+        }
       });
     }
   } 

@@ -147,7 +147,12 @@ export class OpdrachtStemmenComponent implements OnInit {
             this.opdracht = result;
             this.bedrijfId = result.bedrijfId;
             this.getReviewScore(result.bedrijfId);
-            this.profielfoto = "https://localhost:44341/images/"+result.bedrijf.foto;
+            if(result.bedrijf.foto == null){
+              this.profielfoto = "https://api.adorable.io/avatars/285/" + result.bedrijf.id + "@adorable.png";
+            }
+            else{
+              this.profielfoto = "https://localhost:44341/images/"+result.bedrijf.foto;
+            }
             this._OpdrachtTagService.getWhereBedrijfId(result.id).subscribe(result => {
               this.opdrachtTags = result;
             })

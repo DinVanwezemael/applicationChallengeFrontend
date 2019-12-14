@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as jwtDecode from 'jwt-decode';
 import { Maker } from 'src/app/models/maker.model';
+import { UserLogin } from 'src/app/models/user-login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,8 +80,8 @@ export class AuthenticateService {
     return this._httpClient.put<Maker>("https://localhost:44341/api/Maker/" + userid, user);
   }
 
-  editUsername(userid: number, user: User) {
-    return this._httpClient.put<User>("https://localhost:44341/api/userLogin/" + userid, user);
+  editUsername(userid: number, user: UserLogin) {
+    return this._httpClient.put<UserLogin>("https://localhost:44341/api/userLogin/" + userid, user);
   }
 
   addMaker(data: {}) {

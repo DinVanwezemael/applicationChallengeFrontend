@@ -70,6 +70,13 @@ export class LoginComponent implements OnInit {
     this._authenticationService.authenticate(this.loginForm.value).subscribe(result => {
       console.log("this");
       console.log(result)
+      if(result.maker.foto == null){
+        this.appComponent.profilePicture = "https://api.adorable.io/avatars/285/" + result.maker.id + "@adorable.png";
+      }
+      else{
+        this.appComponent.profilePicture = "https://localhost:44341/images/" + result.maker.foto;
+      }
+      
       this._authenticationService.setToken(result.token);
       this._authenticationService.checkUser();
       this._authenticationService.userObject.next(result);
