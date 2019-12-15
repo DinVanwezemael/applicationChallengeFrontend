@@ -56,7 +56,7 @@ export class OpdrachtStemmenComponent implements OnInit {
     let opdrachtMaker: OpdrachtMaker = {
       makerid: this.userid,
       opdrachtId: this.opdrachtId,
-      geaccepteerd: false
+      geaccepteerd: false,
     }
 
     console.log(opdrachtMaker);
@@ -102,11 +102,11 @@ export class OpdrachtStemmenComponent implements OnInit {
     let opdrachtMaker: OpdrachtMaker = {
       makerid: this.userid,
       opdrachtId: this.opdrachtId,
-      geaccepteerd: this.geaccepteerd
+      geaccepteerd: this.geaccepteerd,
     }
-    console.log(opdrachtMaker);
     this._OpdrachtService.getVoted(this.opdrachtId, opdrachtMaker).subscribe(
       result => {
+        console.log(result);
 
         if(result == null){
           this.voted = false;
@@ -119,7 +119,6 @@ export class OpdrachtStemmenComponent implements OnInit {
       },
       err =>{
         this.voted = false;
-        console.log(err);
       }
     );
 
