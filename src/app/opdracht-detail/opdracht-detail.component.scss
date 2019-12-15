@@ -1,0 +1,45 @@
+.actions{
+    position: absolute;
+    right: 10px;
+    top: 1px;
+}
+
+.list-title{
+    font-size: 15px;
+    transition: 0.3 ease-in-out;
+
+    &:hover{
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+.list-group-item{
+    height: 50px;
+}
+
+.fa-chevron-right{
+    transition: 0.3s ease-in-out;
+    margin-left: 15px;
+    animation: arrow 3s infinite ease-in-out;
+
+    @keyframes arrow {
+        0%{
+            
+                margin-left: 15px;
+            
+        }
+
+        60%{
+            
+                margin-left: 25px;
+        }
+
+        100%{
+           
+                margin-left: 15px;
+            
+        }
+
+    }
+}

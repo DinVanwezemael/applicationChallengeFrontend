@@ -1,32 +1,48 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-5 text-muted small" *ngIf="!editOpdracht && Opdracht">
-            <div *ngIf="Opdracht.open == true; else falseOpdracht"><h2 class="pb-3">{{Opdracht.titel}} [Open]</h2></div>
+    <div class="ro">
+        <div class="text-muted small" *ngIf="!editOpdracht && Opdracht">
+            <div *ngIf="Opdracht.open == true; else falseOpdracht">
+                <h2 class="pb-3 font-weight-bold">{{Opdracht.titel}}
+                    <span *ngIf="Opdracht.open" class="badge badge-success">Open</span>
+                </h2>
+            </div>
+            
             <ng-template #falseOpdracht>
                 <div *ngIf="Opdracht.klaar == false; else opdrachtKlaar">
-                    <h2 class="pb-3">{{Opdracht.titel}} [Gesloten]</h2>
+                    <h2 class="pb-3 font-weight-bold">{{Opdracht.titel}} <span *ngIf="!Opdracht.open" class="badge badge-danger">Gesloten</span></h2>
                 </div>
                 <ng-template #opdrachtKlaar>
-                        <h2 class="pb-3">{{Opdracht.titel}} [Klaar]</h2>    
+                        <h2 class="pb-3 font-weight-bold">{{Opdracht.titel}} <span *ngIf="!Opdracht.open" class="badge badge-warning">Klaar</span></h2>    
                   </ng-template>
               </ng-template>
             <div>
-                <span class="font-weight-bold font-italic">Omschrijving:</span> {{Opdracht.omschrijving}}
+                <h6><span class="font-weight-bold font-italic">Omschrijving:</span> {{Opdracht.omschrijving}}</h6>
             </div>
 
             <div class="info">
-                <span class="font-weight-bold font-italic">Locatie:</span> {{Opdracht.straat}} {{Opdracht.straatNr}} {{Opdracht.postcode}} {{Opdracht.woonPlaats}}
+                <h6><span class="font-weight-bold font-italic">Locatie:</span> {{Opdracht.straat}} {{Opdracht.straatNr}}, {{Opdracht.postcode}} {{Opdracht.woonPlaats}}</h6>
             </div>
             <div *ngFor="let opdrachtTag of opdrachtTags">
+                <h6>
                 <span class="badge badge-pill badge-info">{{opdrachtTag.tag.naam}}</span>
+                </h6>
             </div>
             <div class="divider"></div>
             <br>
-            <h3 class="pb-3">Makers:</h3>
+            <h4 class="pb-3 font-weight-bold font-italic">Makers:</h4>
             <span *ngIf="opdrachtmakers.length == 0"> Er zijn nog geen makers die zich aangemeld hebben voor deze opdracht.</span>
-            <div *ngFor="let opdrachtmaker of opdrachtmakers">
 
-                <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk"> <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div><button class="btn btn-primary m-1" (click) = "AccepteerMaker(opdrachtmaker.id,opdrachtmaker)">Accepteren</button> <button class="btn btn-danger m-1" (click)=VerwijderMaker(opdrachtmaker.id)>Verwijderen</button> </span>
+
+
+            <!-- <div *ngFor="let opdrachtmaker of opdrachtmakers">
+
+                <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">
+                    <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div>
+                    <button class="btn btn-primary m-1" (click) = "AccepteerMaker(opdrachtmaker.id,opdrachtmaker)">Accepteren</button>
+                    <button class="btn btn-danger m-1" (click)=VerwijderMaker(opdrachtmaker.id)>Verwijderen</button>
+                
+                </span>
+
                 <ng-template #makerOk>
 
                     <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div>
@@ -35,7 +51,35 @@
                     </div>
 
                   </ng-template>
-            </div>
+            </div> -->
+
+            <ul class="list-group" >
+                <li *ngFor="let opdrachtmaker of opdrachtmakers" class="list-group-item">
+                <div *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">
+                    <span (click)="viewMaker(opdrachtmaker.maker.id)" class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i class="fas fa-chevron-right"></i></span>
+                    <div class="actions">
+                        <button class="btn btn-primary m-1 btn-circle" (click) = "AccepteerMaker(opdrachtmaker.id,opdrachtmaker)"><i class="fas fa-check-circle"></i></button>
+                        <button class="btn btn-danger m-1 btn-circle" (click)=VerwijderMaker(opdrachtmaker.id)><i class="fas fa-minus-circle"></i></button>
+                    </div>
+                </div>
+
+
+                <ng-template #makerOk>
+
+                    <span (click)="viewMaker(opdrachtmaker.maker.id)" class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i class="fas fa-chevron-right"></i></span>
+                    <div class="actions" *ngIf="Opdracht.klaar == false">
+                        <button class="btn btn-warning btn-circle m-1" (click)=MaakWinnaar(opdrachtmaker)><i class="fas fa-trophy"></i></button>
+                    </div>
+
+                  </ng-template>
+
+
+                </li>
+              </ul>
+
+
+<hr>
+
             <div *ngIf="Opdracht.open == true; else opdrachtGesloten">
                 <button (click)="SluitOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Sluit opdracht</button>
             </div>
