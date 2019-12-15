@@ -55,7 +55,7 @@ export class OpdrachtStemmenComponent implements OnInit {
 
     let opdrachtMaker: OpdrachtMaker = {
       makerid: this.userid,
-      opdrachtid: this.opdrachtId,
+      opdrachtId: this.opdrachtId,
       geaccepteerd: false
     }
 
@@ -101,7 +101,7 @@ export class OpdrachtStemmenComponent implements OnInit {
 
     let opdrachtMaker: OpdrachtMaker = {
       makerid: this.userid,
-      opdrachtid: this.opdrachtId,
+      opdrachtId: this.opdrachtId,
       geaccepteerd: this.geaccepteerd
     }
     console.log(opdrachtMaker);

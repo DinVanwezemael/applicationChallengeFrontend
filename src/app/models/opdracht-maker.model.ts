@@ -1,7 +1,7 @@
 export class OpdrachtMaker {
     constructor(
         public makerid: number,
-        public opdrachtid: number,
+        public opdrachtId: number,
         public geaccepteerd: boolean
     ){}
 }
