@@ -62,12 +62,15 @@
                             <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
                         </ng-template>
                     </ngb-rating> -->
-
+<br>
+                    <div style="text-align: center;">
                     <ngb-rating max="{{review.score}}" [(rate)]="review.score" [readonly]="true">
                         <ng-template let-fill="fill" let-index="index">
-                          <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
+                          <span class="star" [class.filled]="fill === 100"><i style="color: #F7BC07; font-size: 40px;" class="fas fa-star"></i></span>
                         </ng-template>
                       </ngb-rating>
+                      </div>
+                      <br>
                     <p>{{review.reviewTekst}}</p>
                 </div>
             </div>
@@ -84,9 +87,10 @@
             <div class="card" (click)="opdrachtModal(contentOpdracht, opdracht)"
                 *ngFor="let opdracht of opdrachten | filterBy: opdrachtFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{opdracht.titel}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}
+                    <h3 class="card-title font-weight-bold">{{opdracht.titel}}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted font-italic">{{opdracht.bedrijf.naam}}
                     </h6>
+                    <br>
                     <p>{{opdracht.omschrijving}}</p>
                 </div>
             </div>
@@ -115,7 +119,7 @@
                 <label>Score: </label>
                 <ngb-rating [(rate)]="review.score">
                     <ng-template let-fill="fill">
-                        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                        <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
                     </ng-template>
                 </ngb-rating>
                 <br />

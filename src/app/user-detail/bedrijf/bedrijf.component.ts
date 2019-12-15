@@ -108,11 +108,13 @@ export class BedrijfComponent implements OnInit {
           this.haalBedrijfOp();
           this.editBedrijf = false;
           console.log("username is aangepast")
-          this.toastService.show('Je gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
+          
           
         });
       }
     );
+
+    this.toastService.show('Je gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
   }
 
 

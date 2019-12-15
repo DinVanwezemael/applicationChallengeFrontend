@@ -45,10 +45,16 @@ export class AppComponent implements OnInit {
       this.profilePicture = result;
     })
 
+    if ($(window).width() < 768) {
+      this.mobileNavigation = false;
+      console.log("#########################")
+    };
+
   }
 
+  
+
   mobileNav() {
-    console.log('test');
     if (this.mobileNavigation == true) {
       this.mobileNavigation = false;
     }
