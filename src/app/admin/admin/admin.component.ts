@@ -180,7 +180,7 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  makerModal(contentMaker, m: UserLogin) {
+  /* makerModal(contentMaker, m: UserLogin) {
     console.log(this.makerForm)
     this.gebruiker = m;
     this._MakerTagService.getWhereMakerId(m.makerId).subscribe(result => {
@@ -199,6 +199,12 @@ export class AdminComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  } */
+
+  makerModal(contentMaker, m: UserLogin) {
+      console.log(m);
+      this._adminService.maker.next(m);
+      this.router.navigate(['makerForm']);
   }
 
   bedrijfModal(contentBedrijf, b: UserLogin) {
@@ -244,14 +250,12 @@ export class AdminComponent implements OnInit {
   }
 
   addMaker() {
+    this._adminService.maker.next(null);
     this.router.navigate(['makerForm']);
-    this.toastService.show('De maker is aangemaakt!', { classname: 'bg-success text-light', delay: 10000 });
   }
 
   addBedrijf() {
-    this.router.navigate(['bedrijfForm']);
-      this.toastService.show('Het bedrijf is aangemaakt!', { classname: 'bg-success text-light', delay: 10000 });
-    
+    this.router.navigate(['bedrijfForm']);    
   }
 
   updateOpdracht(o: Opdracht) {

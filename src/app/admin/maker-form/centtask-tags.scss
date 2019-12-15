@@ -1,0 +1,52 @@
+@import "~node_modules/ngx-chips/core/styles/core/_core.scss";
+
+$centtask-primary: #06beb6;
+$centtask-primary-dark: darken($centtask-primary, 10%);
+
+// this is the container's theme
+$centtask-theme: (
+    container-border-bottom: 2px solid $centtask-primary !important,
+    background: none !important
+);
+
+// this is the tag's theme
+$centtask-tag-theme: (
+    background: $centtask-primary,
+    background-focused: $centtask-primary-dark,
+    background-active: $centtask-primary-dark,
+    background-hover: $centtask-primary-dark,
+    color: #fff,
+    color-hover: #fff,
+    border-radius: 20px,
+);
+
+// this is the delete icon's theme
+$centtask-icon-theme: (
+    fill: #fff,
+    fill-focus: #eee,
+    transition: all 0.35s
+);
+
+$centtask-tag-input-form-theme: (
+    background: none
+);
+
+
+// apply theme to the container
+::ng-deep tag-input .ng2-tag-input.centtask-theme {
+    @include tag-input-theme($centtask-theme);
+}
+
+// apply theme to the tags
+::ng-deep tag-input .ng2-tag-input.centtask-theme tag {
+    @include tag-theme($centtask-tag-theme);
+}
+
+// apply theme to the delete icon
+::ng-deep tag-input .ng2-tag-input.centtask-theme tag delete-icon {
+    @include icon-theme($centtask-icon-theme);
+}
+
+::ng-deep tag-input .ng2-tag-input.centtask-theme input {
+    @include tag-input-form-theme($centtask-tag-input-form-theme);
+}

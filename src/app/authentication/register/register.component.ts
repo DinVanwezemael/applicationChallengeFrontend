@@ -166,6 +166,7 @@ export class RegisterComponent implements OnInit {
       username: this.registerFormStudent.value.username,
       password: this.registerFormStudent.value.password,
       email: this.registerFormStudent.value.email,
+      verified: false
     }
 
     var tags = []
@@ -250,7 +251,8 @@ export class RegisterComponent implements OnInit {
     this.authenticateService.addBedrijf(data).subscribe(result => {
       var login = {
         Username: userLogin.username,
-        Password: userLogin.password
+        Password: userLogin.password,
+        verified: false
       }
 
       this.disableRegister();

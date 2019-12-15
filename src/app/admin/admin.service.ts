@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Maker } from '../models/maker.model';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Bedrijf } from '../models/bedrijf.model';
 import { Review } from '../models/review.model';
 import { Opdracht } from '../models/opdracht.model';
@@ -9,8 +9,10 @@ import { UserLogin } from '../models/user-login.model';
 
 @Injectable()
 export class AdminService {
+  maker = new BehaviorSubject<any>(null);
+  constructor(private _httpClient: HttpClient) { 
 
-  constructor(private _httpClient: HttpClient) { }
+  }
 
   getMakers(): Observable<Maker[]> {
     return this._httpClient.get<Maker[]>("https://localhost:44341/api/maker");
@@ -86,5 +88,10 @@ export class AdminService {
   
   updateOpdracht(opdrachtId: number, opdracht: Opdracht) {
     return this._httpClient.put<Opdracht>("https://localhost:44341/api/opdracht/" + opdrachtId, opdracht);
+  }
+
+  
+  editMaker(id: number, data: {}) {
+    return this._httpClient.put<any>("https://localhost:44341/api/userLogin/EditLoginMaker/" + id, data);
   }
 }
