@@ -8,7 +8,6 @@ export class Maker {
         public biografie: string,
         public linkedInLink: string,
         public ervaring: number,
-        public cV: string,
         public foto: string,
         public opdrachtId: number,
         public straat: string,

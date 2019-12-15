@@ -31,7 +31,7 @@
 
                     <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div>
                     <div *ngIf="Opdracht.klaar == false">
-                        <button (click)=MaakWinnaar(opdrachtmaker.maker)>Maak winnaar</button>
+                        <button (click)=MaakWinnaar(opdrachtmaker)>Maak winnaar</button>
                     </div>
 
                   </ng-template>
