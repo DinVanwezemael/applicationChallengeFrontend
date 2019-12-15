@@ -57,7 +57,7 @@ export class OpdrachtDetailComponent implements OnInit {
           this.bedrijfId = params.bedrijfId;
           this.newOpdracht = true;
           this.editOpdracht = true;
-          this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","",null,null,true,false);
+          this.Opdracht= new Opdracht(0,"","",params.bedrijfId,"","","","",null,null,true,false,null);
         }
 
       });

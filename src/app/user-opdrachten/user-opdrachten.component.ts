@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OpdrachtService } from '../services/opdracht.service';
 import { Opdracht } from '../models/opdracht.model';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -11,66 +11,83 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-opdrachten.component.scss']
 })
 export class UserOpdrachtenComponent implements OnInit {
+  opdrachten = new BehaviorSubject<Opdracht[]>([]);
 
   constructor(private OpdrachtService: OpdrachtService, private fb: FormBuilder, private router: Router) { }
 
-  opdrachten: Observable<Opdracht[]>;
-  contentEditable = false;
+  contentEditable = true;
 
   searchForm = this.fb.group({
     Title: new FormControl('', Validators.required)
   })
 
   toggleEditable(event) {
-    if ( event.target.checked ) {
-        this.contentEditable = true;
+    if (event.target.checked) {
+      this.contentEditable = true;
+      if (this.searchForm.controls["Title"].value != "") {
+        this.getOpdrachtenBySearch();
+      } else {
         this.getOpdrachtenOpen();
-   }else{
-     this.contentEditable = false;
-     this.getOpdrachten();
-   }
-  }
-
-  searchText;
-  heroes = [
-    { id: 11, name: 'Mr. Nice', country: 'India' },
-    { id: 12, name: 'Narco' , country: 'USA'},
-    { id: 13, name: 'Bombasto' , country: 'UK'},
-    { id: 14, name: 'Celeritas' , country: 'Canada' },
-    { id: 15, name: 'Magneta' , country: 'Russia'},
-    { id: 16, name: 'RubberMan' , country: 'China'},
-    { id: 17, name: 'Dynama' , country: 'Germany'},
-    { id: 18, name: 'Dr IQ' , country: 'Hong Kong'},
-    { id: 19, name: 'Magma' , country: 'South Africa'},
-    { id: 20, name: 'Tornado' , country: 'Sri Lanka'}
-  ];
-
-
-  getOpdrachtenBySearch(){
-    console.log(this.searchForm.controls["Title"].value);
-    this.opdrachten = this.OpdrachtService.getOpdrachtenVoorStudentBySearch(this.searchForm.controls["Title"].value);
-  }
-
-  viewOpdracht(id: number){
-    this.router.navigate(['opdracht-stemmen'], { queryParams: { opdrachtId:id } })
+      }
+    } else {
+      this.contentEditable = false;
+      if (this.searchForm.controls["Title"].value != "") {
+        this.getOpdrachtenBySearch();
+      } else {
+        this.getOpdrachten();
+      }
+    }
   }
 
 
-  getOpdrachten(){
-    this.opdrachten = this.OpdrachtService.getOpdrachtenVoorStudent();
+  getOpdrachtenBySearch() {
+    if (this.contentEditable == true) {
+      if (this.searchForm.controls["Title"].value != "") {
+        this.OpdrachtService.getOpdrachtenVoorStudentBySearchOpen(this.searchForm.controls["Title"].value)
+          .subscribe(result => {
+            this.opdrachten.next(result.sort(function (a, b) { return b.interest - a.interest }));
+          });
+      } else {
+        this.getOpdrachten();
+      }
+    } else {
+      if (this.searchForm.controls["Title"].value != "") {
+        this.OpdrachtService.getOpdrachtenVoorStudentBySearch(this.searchForm.controls["Title"].value)
+          .subscribe(result => {
+            this.opdrachten.next(result.sort(function (a, b) { return b.interest - a.interest }));
+          });
+      } else {
+        this.getOpdrachtenOpen();
+      }
+    }
   }
 
-  getOpdrachtenOpen(){
-    this.opdrachten = this.OpdrachtService.getOpdrachtenVoorStudentOpen();
+  viewOpdracht(id: number) {
+    this.router.navigate(['opdracht-stemmen'], { queryParams: { opdrachtId: id } })
   }
 
-  
+
+  getOpdrachten() {
+    this.OpdrachtService.getOpdrachtenVoorStudent().subscribe(result => {
+      console.log(result);
+      this.opdrachten.next(result.sort(function (a, b) { return b.interest - a.interest }));
+    });
+  }
+
+  getOpdrachtenOpen() {
+    this.OpdrachtService.getOpdrachtenVoorStudentOpen().subscribe(result => {
+      this.opdrachten.next(result.sort(function (a, b) { return b.interest - a.interest }));
+      console.log(result);
+    });
+  }
+
+
 
   ngOnInit() {
 
-    if(this.contentEditable == false){
+    if (this.contentEditable == false) {
       this.getOpdrachten();
-    }else{
+    } else {
       this.getOpdrachtenOpen();
     }
   }

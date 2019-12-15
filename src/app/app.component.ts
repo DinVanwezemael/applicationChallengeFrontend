@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
     this._authenticationService.profielFoto.subscribe(result => {
       this.profilePicture = result;
     })
+
   }
 
   mobileNav() {

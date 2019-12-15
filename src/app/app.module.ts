@@ -41,10 +41,7 @@ import { OpdrachtMakerComponent } from './opdracht-maker/opdracht-maker.componen
 import { MakerReviewComponent } from './maker-review/maker-review.component';
 import { SchrijfMakerreviewComponent } from './maker-review/schrijf-makerreview/schrijf-makerreview.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
-<<<<<<< HEAD
 import { VerifyUserComponent } from './authentication/verify-user/verify-user.component';
-=======
->>>>>>> 1eab5e70b66ce6f3f3d735fa153acfed0894acc5
 
 
 const appRoutes: Routes = [
