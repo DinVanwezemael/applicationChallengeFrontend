@@ -201,13 +201,19 @@ export class AdminComponent implements OnInit {
     });
   } */
 
-  makerModal(contentMaker, m: UserLogin) {
+  makerModal(m: UserLogin) {
       console.log(m);
       this._adminService.maker.next(m);
       this.router.navigate(['makerForm']);
   }
 
-  bedrijfModal(contentBedrijf, b: UserLogin) {
+  bedrijfModal(b: UserLogin) {
+    console.log(b);
+    this._adminService.bedrijf.next(b);
+    this.router.navigate(['bedrijfForm']);
+}
+
+/*   bedrijfModal(contentBedrijf, b: UserLogin) {
     this.gebruiker = b;
     this._BedrijfTagService.getWhereBedrijfId(b.bedrijfId).subscribe(result => {
       this.bedrijfTags = result;
@@ -237,7 +243,7 @@ export class AdminComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
     console.log(this.bedrijfForm)
-  }
+  } */
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -255,7 +261,8 @@ export class AdminComponent implements OnInit {
   }
 
   addBedrijf() {
-    this.router.navigate(['bedrijfForm']);    
+    this._adminService.bedrijf.next(null);
+    this.router.navigate(['bedrijfForm']);  
   }
 
   updateOpdracht(o: Opdracht) {

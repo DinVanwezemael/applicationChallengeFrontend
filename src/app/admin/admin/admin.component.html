@@ -10,7 +10,7 @@
                 <input class="form-control" type="text" placeholder="Zoek.." name="searchNickname"
                     aria-label="gebruiksnaam" [(ngModel)]="makerFilter.username">
             </form>
-            <div class="card" (click)="makerModal(contentMaker, maker)"
+            <div class="card" (click)="makerModal(maker)"
                 *ngFor="let maker of makers | filterBy:makerFilter">
                 <div class="card-body">
                     <h3 class="card-title font-weight-bold">{{maker.username}}</h3>
@@ -32,7 +32,7 @@
                 <input class="form-control" type="text" placeholder="Bedrijfsnaam" name="search"
                     aria-label="bedrijfsnaam" [(ngModel)]="bedrijfFilter.bedrijf.naam">
             </form>
-            <div class="card p-2" (click)="bedrijfModal(contentBedrijf, bedrijf)"
+            <div class="card p-2" (click)="bedrijfModal(bedrijf)"
                 *ngFor="let bedrijf of bedrijven | filterBy:bedrijfFilter">
                 <div class="card-body">
                     <h3 class="card-title font-weight-bold">{{bedrijf.username}}</h3>
@@ -66,7 +66,7 @@
                     <div style="text-align: center;">
                     <ngb-rating max="{{review.score}}" [(rate)]="review.score" [readonly]="true">
                         <ng-template let-fill="fill" let-index="index">
-                          <span class="star" [class.filled]="fill === 100"><i style="color: #F7BC07; font-size: 40px;" class="fas fa-star"></i></span>
+                          <span class="star" [class.filled]="fill === 100"><i style="color: #F7BC07; font-size: 30px;" class="fas fa-star"></i></span>
                         </ng-template>
                       </ngb-rating>
                       </div>
@@ -112,8 +112,8 @@
     <div class="modal-body">
         <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label *ngIf="review.naarBedrijf">ontvanger: {{review.bedrijf.naam}} (bedrijf)</label>
-                <label *ngIf="!review.naarBedrijf">ontvanger:
+                <label *ngIf="review.naarBedrijf">Ontvanger: {{review.bedrijf.naam}} (bedrijf)</label>
+                <label *ngIf="!review.naarBedrijf">Ontvanger:
                     {{review.maker.voornaam + " " + review.maker.achternaam}}</label>
                 <br />
                 <label>Score: </label>
