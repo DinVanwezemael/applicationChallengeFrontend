@@ -4,72 +4,73 @@
 
 
   <div class="row">
-<div class="col-md-6">
-  <form [formGroup]="searchForm" (ngSubmit)="getOpdrachtenBySearch()" *ngIf="currentRole != 'Admin'"
-  class="d-none d-sm-inline-block form-inline  navbar-search">
-  <div class="input-group">
-    <input type="text" class="form-control bg-white border-0 small" placeholder="Search for..."
-      aria-label="Search" aria-describedby="basic-addon2" formControlName="Title">
-    <div class="input-group-append">
-      <button class="btn btn-primary" type="submit">
-        <i class="fas fa-search fa-sm"></i>
-      </button>
+    <div class="col-md-6">
+      <form [formGroup]="searchForm" (ngSubmit)="getOpdrachtenBySearch()" *ngIf="currentRole != 'Admin'"
+        class="d-none d-sm-inline-block form-inline  navbar-search">
+        <div class="input-group">
+          <input type="text" class="form-control bg-white border-0 small" placeholder="Zoek..." aria-label="Search"
+            aria-describedby="basic-addon2" formControlName="Title">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search fa-sm"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <div class="custom-control custom-checkbox mr-sm-2">
+        <input checked="checked" (change)="toggleEditable($event)" type="checkbox" class="custom-control-input"
+          id="customControlAutosizing">
+        <label class="custom-control-label" for="customControlAutosizing">Enkel open opdrachten weergeven</label>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <br>
+  <div *ngIf="!contentEditable">
+    <div *ngFor="let opdracht of (opdrachten | filter:searchText | async) ">
+      <div class="card" (click)="viewOpdracht(opdracht.id)">
+        <div class="card-body">
+          <h5 *ngIf="opdracht.titel" class="card-title font-weight-bold">{{opdracht.titel}}
+            <span *ngIf="opdracht.open" class="badge badge-success">Open</span >
+            <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
+          </h5>
+          <h6 *ngIf="opdracht.bedrijf.naam" class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
+          <p *ngIf="opdracht.omschrijving" class="card-text">{{opdracht.omschrijving}}</p>
+          <div>
+            <span *ngFor="let tag of opdracht.tags" class="tag badge badge-success">{{tag.tag?.naam}}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</form>
-</div>
 
 
-<div class="search-hero">
-  <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
-</div>
 
-
-<div class="col-md-6">
-  <div class="custom-control custom-checkbox mr-sm-2">
-    <input (change)="toggleEditable($event)" type="checkbox" class="custom-control-input" id="customControlAutosizing">
-    <label class="custom-control-label" for="customControlAutosizing">Enkel open opdrachten weergeven</label>
-  </div>
-
-
-</div>
-
-  </div>
-       
-
-      
-      <br>
-<div *ngIf="!contentEditable">
-      <div *ngFor="let opdracht of (opdrachten | filter:searchText | async) ">
-    <div class="card" (click)="viewOpdracht(opdracht.id)">
+  <div *ngIf="contentEditable">
+    <div *ngFor="let opdracht of (opdrachten | async) ">
+      <div class="card" (click)="viewOpdracht(opdracht.id)">
         <div class="card-body">
-          <h5 class="card-title font-weight-bold">{{opdracht.titel}}
+          <h5 *ngIf="opdracht.titel" class="card-title font-weight-bold">{{opdracht.titel}}
             <span *ngIf="opdracht.open" class="badge badge-success">Open</span>
             <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
           </h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
-          <p class="card-text">{{opdracht.omschrijving}}</p>
+          <h6 *ngIf="opdracht.bedrijf.naam" class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
+          <p *ngIf="opdracht.omschrijving" class="card-text">{{opdracht.omschrijving}}</p>
+          <div>
+            <span *ngFor="let tag of opdracht.tags" class="tag badge badge-success">{{tag.tag.naam}}</span>
+          </div>
         </div>
       </div>
-      </div>
-</div>
-
-
-
-<div *ngIf="contentEditable">
-  <div  *ngFor="let opdracht of (opdrachten | async) ">
-        <div class="card" (click)="viewOpdracht(opdracht.id)">
-            <div class="card-body">
-              <h5 class="card-title font-weight-bold">{{opdracht.titel}}
-                <span *ngIf="opdracht.open" class="badge badge-success">Open</span>
-                <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
-              </h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
-              <p class="card-text">{{opdracht.omschrijving}}</p>
-            </div>
-          </div>
-          </div>
-          </div>
+    </div>
+  </div>
 </div>
 <br>
 <br>

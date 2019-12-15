@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Opdracht } from '../models/opdracht.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { OpdrachtMaker } from '../models/opdracht-maker.model';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { OpdrachtMaker } from '../models/opdracht-maker.model';
 export class OpdrachtService {
 
   constructor(private http:HttpClient) { }
+
   getWhereId(Id:number): Observable<Opdracht> {
     return this.http.get<Opdracht>("https://localhost:44341/api/opdracht/"+Id);
   }
@@ -35,7 +36,11 @@ export class OpdrachtService {
   }
 
   getOpdrachtenVoorStudentBySearch(title: string): Observable<Opdracht[]>{
-    return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht/search" + title);
+    return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht/search/" + title);
+  }
+
+  getOpdrachtenVoorStudentBySearchOpen(title: string): Observable<Opdracht[]>{
+    return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht/searchOpen/" + title);
   }
 
   newOpdracht(opdracht:Opdracht): Observable<Opdracht> {

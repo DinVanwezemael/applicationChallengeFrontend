@@ -14,6 +14,7 @@ export class Opdracht {
         public opdrachtMakers: OpdrachtMaker[],
         public bedrijf:Bedrijf,
         public open:boolean,
-        public klaar:boolean
+        public klaar:boolean,
+        public interest:number
     ){}
 }
