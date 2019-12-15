@@ -24,7 +24,19 @@ import { Bedrijf } from 'src/app/models/bedrijf.model';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
+  styles: [`
+    .star {
+      font-size: 50px;
+      color: #b0c4de;
+    }
+    .filled {
+      color: #F7BC07;
+    }
+    .filled.bad {
+      color: #ff1e1e;
+    }
+  `]
 })
 export class AdminComponent implements OnInit {
   makers: UserLogin[] = [];

@@ -1,3 +1,4 @@
+<div class="container">
 <ngb-tabset>
     <!-- Makers tab-->
     <ngb-tab title="Makers">
@@ -12,8 +13,10 @@
             <div class="card" (click)="makerModal(contentMaker, maker)"
                 *ngFor="let maker of makers | filterBy:makerFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{maker.username}}</h5>
-                    <p>{{maker.maker.voornaam + " " + maker.maker.achternaam}}</p>
+                    <h3 class="card-title font-weight-bold">{{maker.username}}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted font-italic">{{maker.maker.voornaam + " " + maker.maker.achternaam}}</h6>
+                    <br>
+                    <p>{{maker.maker.biografie}}</p>
                 </div>
             </div>
         </ng-template>
@@ -32,9 +35,10 @@
             <div class="card p-2" (click)="bedrijfModal(contentBedrijf, bedrijf)"
                 *ngFor="let bedrijf of bedrijven | filterBy:bedrijfFilter">
                 <div class="card-body">
-                    <h5 class="card-title">{{bedrijf.username}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">
+                    <h3 class="card-title font-weight-bold">{{bedrijf.username}}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted font-italic">
                         {{bedrijf.bedrijf.naam}}</h6>
+                        <br>
                     <p>{{bedrijf.bedrijf.biografie}}</p>
                 </div>
             </div>
@@ -51,13 +55,19 @@
             <div class="card" (click)="reviewModal(contentReview, review)"
                 *ngFor="let review of reviews | filterBy: reviewerFilter">
                 <div class="card-body">
-                    <h5 class="card-title" *ngIf="review.naarBedrijf">{{review.maker.voornaam + " " + review.maker.achternaam}}</h5>
-                    <h5 class="card-title" *ngIf="!review.naarBedrijf">{{review.bedrijf.naam}} (bedrijf)</h5>
-                    <ngb-rating [(rate)]="review.score" [readonly]="true">
+                    <h3 class="card-title font-weight-bold" *ngIf="review.naarBedrijf">{{review.maker.voornaam + " " + review.maker.achternaam}}</h3>
+                    <h3 class="card-title font-weight-bold" *ngIf="!review.naarBedrijf">{{review.bedrijf.naam}} (bedrijf)</h3>
+                    <!-- <ngb-rating [(rate)]="review.score" [readonly]="true">
                         <ng-template let-fill="fill">
-                            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                            <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
                         </ng-template>
-                    </ngb-rating>
+                    </ngb-rating> -->
+
+                    <ngb-rating max="{{review.score}}" [(rate)]="review.score" [readonly]="true">
+                        <ng-template let-fill="fill" let-index="index">
+                          <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
+                        </ng-template>
+                      </ngb-rating>
                     <p>{{review.reviewTekst}}</p>
                 </div>
             </div>
@@ -351,3 +361,4 @@
              (click)="modal.close('Save click'); updateBedrijf(gebruiker)">Opslaan</button>
     </div>
 </ng-template>
+</div>
