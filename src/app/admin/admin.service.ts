@@ -10,6 +10,8 @@ import { UserLogin } from '../models/user-login.model';
 @Injectable()
 export class AdminService {
   maker = new BehaviorSubject<any>(null);
+  bedrijf = new BehaviorSubject<any>(null);
+
   constructor(private _httpClient: HttpClient) { 
 
   }
@@ -93,5 +95,9 @@ export class AdminService {
   
   editMaker(id: number, data: {}) {
     return this._httpClient.put<any>("https://localhost:44341/api/userLogin/EditLoginMaker/" + id, data);
+  }
+
+  editBedrijf(id: number, data: {}) {
+    return this._httpClient.put<any>("https://localhost:44341/api/userLogin/EditLoginBedrijf/" + id, data);
   }
 }

@@ -10,7 +10,7 @@
                 <input class="form-control" type="text" placeholder="Zoek.." name="searchNickname"
                     aria-label="gebruiksnaam" [(ngModel)]="makerFilter.username">
             </form>
-            <div class="card" (click)="makerModal(contentMaker, maker)"
+            <div class="card" (click)="makerModal(maker)"
                 *ngFor="let maker of makers | filterBy:makerFilter">
                 <div class="card-body">
                     <h3 class="card-title font-weight-bold">{{maker.username}}</h3>
@@ -32,7 +32,7 @@
                 <input class="form-control" type="text" placeholder="Bedrijfsnaam" name="search"
                     aria-label="bedrijfsnaam" [(ngModel)]="bedrijfFilter.bedrijf.naam">
             </form>
-            <div class="card p-2" (click)="bedrijfModal(contentBedrijf, bedrijf)"
+            <div class="card p-2" (click)="bedrijfModal(bedrijf)"
                 *ngFor="let bedrijf of bedrijven | filterBy:bedrijfFilter">
                 <div class="card-body">
                     <h3 class="card-title font-weight-bold">{{bedrijf.username}}</h3>

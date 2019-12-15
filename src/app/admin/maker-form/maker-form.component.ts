@@ -115,7 +115,7 @@ export class MakerFormComponent implements OnInit {
       this.formStudent.value.geboortedatum.year + ' 00:00:00'
 
     var maker = {
-      id: null,
+      id: 0,
       voornaam: this.formStudent.value.voornaam,
       achternaam: this.formStudent.value.achternaam,
       biografie: this.formStudent.value.biografie,
@@ -129,7 +129,7 @@ export class MakerFormComponent implements OnInit {
     }
 
     var userLogin = {
-      id: null,
+      id: 0,
       username: this.formStudent.value.username,
       password: this.formStudent.value.password,
       email: this.formStudent.value.email,
@@ -188,7 +188,7 @@ export class MakerFormComponent implements OnInit {
         this.formStudent.value.geboortedatum.year + ' 00:00:00'
   
       var maker = {
-        id: this._adminService.maker.value.maker.id,
+        id: +this._adminService.maker.value.maker.id,
         voornaam: this.formStudent.value.voornaam,
         achternaam: this.formStudent.value.achternaam,
         biografie: this.formStudent.value.biografie,
@@ -202,7 +202,7 @@ export class MakerFormComponent implements OnInit {
       }
   
       var userLogin = {
-        id: this._adminService.maker.value.id,
+        id: +this._adminService.maker.value.id,
         username: this.formStudent.value.username,
         password: this.formStudent.value.password,
         email: this.formStudent.value.email,
@@ -268,3 +268,4 @@ export class MakerFormComponent implements OnInit {
     }, 100);
   }
 }
+
