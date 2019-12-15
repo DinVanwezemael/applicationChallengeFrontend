@@ -48,6 +48,10 @@ export class AdminService {
     return this._httpClient.delete<Maker>("https://localhost:44341/api/maker/" + makerId);
   }
   
+  deleteBedrijf(bedrijfId: number) {
+    return this._httpClient.delete<Bedrijf>("https://localhost:44341/api/bedrijf/" + bedrijfId);
+  }
+  
   deleteSkillMakerWhereMakerId(makerId: number) {
     return this._httpClient.delete<any>("https://localhost:44341/api/skillmaker/makerid/" + makerId);
   }
@@ -62,6 +66,10 @@ export class AdminService {
   
   deleteReviewWhereMakerId(makerId: number) {
     return this._httpClient.delete<any>("https://localhost:44341/api/review/makerid/" + makerId);
+  }
+  
+  deleteReviewWhereBedrijfId(bedrijfId: number) {
+    return this._httpClient.delete<any>("https://localhost:44341/api/review/bedrijfid/" + bedrijfId);
   }
 
   updateReview(reviewId: number, review: Review) {

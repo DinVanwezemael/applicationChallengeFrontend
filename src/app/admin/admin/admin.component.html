@@ -1,4 +1,5 @@
 <ngb-tabset>
+    <!-- Makers tab-->
     <ngb-tab title="Makers">
         <ng-template ngbTabContent>
             <form>
@@ -17,6 +18,8 @@
             </div>
         </ng-template>
     </ngb-tab>
+
+    <!-- Bedrijven tab-->
     <ngb-tab title="Bedrijven">
         <ng-template ngbTabContent>
             <form>
@@ -37,6 +40,8 @@
             </div>
         </ng-template>
     </ngb-tab>
+
+    <!-- Reviews tab-->
     <ngb-tab title="Reviews">
         <ng-template ngbTabContent>
             <form>
@@ -58,6 +63,8 @@
             </div>
         </ng-template>
     </ngb-tab>
+
+    <!-- Opdrachten tab-->
     <ngb-tab title="Opdrachten">
         <ng-template ngbTabContent>
             <form>
@@ -134,29 +141,29 @@
 
             <div class="form-group">
                 <label for="">Omschrijving:</label>
-                <input type="text" [(ngModel)]="opdracht.omschrijving" class="form-control" placeholder="Omschrijving"
+                <input type="text" [value]="opdracht.omschrijving" class="form-control" placeholder="Omschrijving"
                     formControlName="Omschrijving">
             </div>
 
 
             <div class="form-group">
                 <label for="Straat">Straat:</label>
-                <input type="text" [(ngModel)]="opdracht.straat" class="form-control" placeholder="Straat"
+                <input type="text" [value]="opdracht.straat" class="form-control" placeholder="Straat"
                     formControlName="Straat">
                 <label for="StraatNr">StraatNummer:</label>
-                <input type="text" [(ngModel)]="opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                <input type="text" [value]="opdracht.straatNr" class="form-control" placeholder="StraatNr"
                     formControlName="StraatNr">
                 <label for="Postcode">Postcode:</label>
-                <input type="text" [(ngModel)]="opdracht.postcode" class="form-control" placeholder="Postcode"
+                <input type="text" [value]="opdracht.postcode" class="form-control" placeholder="Postcode"
                     formControlName="Postcode">
                 <label for="Woonplaats">Woonplaats:</label>
-                <input type="text" [(ngModel)]="opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                <input type="text" [value]="opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
                     formControlName="Woonplaats">
             </div>
 
-            <input type="hidden" [(ngModel)]="opdracht.id" formControlName="Id">
-            <input type="hidden" [(ngModel)]="opdracht.bedrijfId" formControlName="BedrijfId">
-            <input type="hidden" [(ngModel)]="opdracht.opden" formControlName="Open">
+            <input type="hidden" [value]="opdracht.id" formControlName="Id">
+            <input type="hidden" [value]="opdracht.bedrijfId" formControlName="BedrijfId">
+            <input type="hidden" [value]="opdracht.opden" formControlName="Open">
 
             <label>Tags:</label>
             <div *ngFor="let opdrachtTag of opdrachtTags">
@@ -166,7 +173,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger"
-            (click)="modal.close('Save click'); deleteOpdracht()">Verwijderen</button>
+            (click)="modal.close('Save click'); deleteOpdracht(opdracht)">Verwijderen</button>
         <button type="submit" class="btn btn-primary"
             (click)="modal.close('Save click'); updateOpdracht(opdracht)">Opslaan</button>
     </div>
@@ -296,6 +303,18 @@
             </div>
 
             <div class="form-group">
+                <label for="">Gebruikersnaam:</label>
+                <input type="text" [value]="gebruiker.username" class="form-control" placeholder="Gebruikersnaam"
+                    formControlName="Nickname">
+            </div>
+            
+            <div class="form-group">
+                <label for="">Email:</label>
+                <input type="text" [value]="gebruiker.email" class="form-control" placeholder="Email"
+                    formControlName="Email">
+            </div>
+
+            <div class="form-group">
                 <label for="Straat">Straat:</label>
                 <input type="text" [value]="gebruiker.bedrijf.straat" class="form-control" placeholder="Straat"
                     formControlName="Straat">
@@ -319,16 +338,16 @@
 
             <input type="hidden" [value]="gebruiker.bedrijf.id" formControlName="Id">
             <input type="hidden" [value]="gebruiker.bedrijf.foto" formControlName="Foto">
-            <tag-input [(ngModel)]='tags' formControlName="Tags">
-                <tag-input-dropdown [zIndex]="99999" [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
-                </tag-input-dropdown>
-            </tag-input>
+            <label>Tags:</label>
+            <div *ngFor="let bedrijfTag of bedrijfTags">
+                <span class="badge badge-pill badge-info">{{bedrijfTag.tag.naam}}</span>
+            </div>
         </form>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-danger"
             (click)="modal.close('Save click'); deleteBedrijf(gebruiker)">Verwijderen</button>
         <button type="submit" class="btn btn-primary"
-            (click)="modal.close('Save click'); updateBedrijf(gebruiker)">Opslaan</button>
+             (click)="modal.close('Save click'); updateBedrijf(gebruiker)">Opslaan</button>
     </div>
 </ng-template>
