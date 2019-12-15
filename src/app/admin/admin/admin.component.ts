@@ -36,7 +36,7 @@ import { Bedrijf } from 'src/app/models/bedrijf.model';
     .filled.bad {
       color: #ff1e1e;
     }
-  `]
+  `] 
 })
 export class AdminComponent implements OnInit {
   makers: UserLogin[] = [];
@@ -244,14 +244,18 @@ export class AdminComponent implements OnInit {
   }
 
   addMaker() {
-    this.router.navigate(['makerForm'])
+    this.router.navigate(['makerForm']);
+    this.toastService.show('De maker is aangemaakt!', { classname: 'bg-success text-light', delay: 10000 });
   }
 
   addBedrijf() {
-    this.router.navigate(['bedrijfForm'])
+    this.router.navigate(['bedrijfForm']);
+      this.toastService.show('Het bedrijf is aangemaakt!', { classname: 'bg-success text-light', delay: 10000 });
+    
   }
 
   updateOpdracht(o: Opdracht) {
+    //efficient
     if (this.opdrachtForm.get('Titel').value != "" && this.opdrachtForm.get('Titel').value != null) {
       o.titel = this.opdrachtForm.get('Titel').value;
     }
@@ -271,7 +275,14 @@ export class AdminComponent implements OnInit {
       o.woonPlaats = this.opdrachtForm.get('Woonplaats').value;
     }
     let opdracht = new Opdracht(o.id, o.titel, o.omschrijving, o.bedrijfId, o.straat, o.straatNr, o.postcode, o.woonPlaats, o.opdrachtMakers, o.bedrijf, o.open, o.klaar, o.interest);
-    this._adminService.updateOpdracht(o.id, opdracht).subscribe();
+    this._adminService.updateOpdracht(o.id, opdracht).subscribe(
+      result => {
+        this.toastService.show('De opdracht is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
+      },
+      err => {
+        this.toastService.show('De opdracht is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
+      }
+    );
     this.opdrachtForm.reset();
     setTimeout(() => {
       this.ngOnInit()
@@ -281,7 +292,13 @@ export class AdminComponent implements OnInit {
   updateReview(r: Review) {
     r.reviewTekst = this.reviewForm.get('reviewTekst').value;
     let review = new Review(r.id, r.makerId, r.bedrijfId, r.score, r.reviewTekst, r.naarBedrijf, r.maker);
-    this._adminService.updateReview(r.id, review).subscribe();
+    this._adminService.updateReview(r.id, review).subscribe(
+    result => {
+      this.toastService.show('De review is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
+    },
+    err => {
+      this.toastService.show('De review is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
+    });
     this.reviewForm.reset()
     setTimeout(() => {
       this.ngOnInit()
@@ -335,7 +352,12 @@ export class AdminComponent implements OnInit {
         this.toastService.show('Gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
       }
     });
-    this._adminService.updateMaker(g.makerId, g.maker).subscribe();
+    this._adminService.updateMaker(g.makerId, g.maker).subscribe(result => {
+      this.toastService.show('De maker is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
+    },
+    err => {
+      this.toastService.show('De maker is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
+    });
     this.makerForm.reset();
     setTimeout(() => {
       this.ngOnInit()
@@ -370,7 +392,12 @@ export class AdminComponent implements OnInit {
   }
 
   deleteReview(id: number) {
-    this._adminService.deleteReview(id).subscribe();
+    this._adminService.deleteReview(id).subscribe(result => {
+      this.toastService.show('De review is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
+    },
+    err => {
+      this.toastService.show('De review is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
+    });
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
@@ -384,6 +411,10 @@ export class AdminComponent implements OnInit {
     this._adminService.deleteReviewWhereMakerId(gebruiker.makerId).subscribe();
     this._adminService.deleteMakerTagWhereMakerId(gebruiker.makerId).subscribe();
     this._adminService.deleteMaker(gebruiker.makerId).subscribe();
+
+      this.toastService.show('De maker is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
+    
+
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
@@ -391,7 +422,12 @@ export class AdminComponent implements OnInit {
 
   deleteOpdracht(o: Opdracht) {
     console.log(o)
-    this._opdrachtService.deleteOpdracht(o.id).subscribe();
+    this._opdrachtService.deleteOpdracht(o.id).subscribe(result => {
+      this.toastService.show('De opdracht is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
+    },
+    err => {
+      this.toastService.show('De opdracht is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
+    });
     setTimeout(() => {
       this.ngOnInit()
     }, 150);
@@ -402,5 +438,8 @@ export class AdminComponent implements OnInit {
     this._adminService.deleteBedrijf(gebruiker.bedrijfId).subscribe();
     this._BedrijfTagService.deleteAllWhereBedrijfId(gebruiker.bedrijfId).subscribe();
     this._adminService.deleteReviewWhereBedrijfId(gebruiker.bedrijfId).subscribe();
+
+      this.toastService.show('Het bedrijf is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
+    
   }
 }
