@@ -229,7 +229,7 @@ export class AdminComponent implements OnInit {
     if(this.opdrachtForm.get('Woonplaats').value != "" && this.opdrachtForm.get('Woonplaats').value != null){
       o.woonPlaats = this.opdrachtForm.get('Woonplaats').value;
     }
-    let opdracht = new Opdracht(o.id, o.titel, o.omschrijving, o.bedrijfId, o.straat, o.straatNr, o.postcode, o.woonPlaats, o.opdrachtMakers, o.bedrijf, o.open, o.klaar);
+    let opdracht = new Opdracht(o.id, o.titel, o.omschrijving, o.bedrijfId, o.straat, o.straatNr, o.postcode, o.woonPlaats, o.opdrachtMakers, o.bedrijf, o.open, o.klaar, null);
     this._adminService.updateOpdracht(o.id, opdracht).subscribe();
     this.opdrachtForm.reset();
     setTimeout(() => {
