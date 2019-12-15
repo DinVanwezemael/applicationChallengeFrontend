@@ -140,7 +140,10 @@
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
                 <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
                 <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
-                <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+                <tag-input [(ngModel)]='tags' formControlName="Tags">
+                    <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                    </tag-input-dropdown>
+                </tag-input>
 
                 <div class="divider"></div>
                 <br>
@@ -148,7 +151,7 @@
                 <button type="button" (click)="editOpdrachtDetails()"
                     class="btn btn-danger btn-lg btn-block">Annuleer</button>
                 <br>
-            </form>
+            </form> 
 
         </div>
         <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
@@ -181,7 +184,10 @@
                 <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
                     formControlName="Woonplaats">
             </div>
-            <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+            <tag-input [(ngModel)]='tags' formControlName="Tags">
+                <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                </tag-input-dropdown>
+            </tag-input>
             <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
             <input type="hidden" [(ngModel)]="bedrijfId" formControlName="BedrijfId">
             <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">

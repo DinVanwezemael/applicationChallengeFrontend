@@ -15,7 +15,7 @@ export class OpdrachtTagService {
   deleteAllWhereBedrijfId(Id:number): Observable<OpdrachtTag[]> {
     return this.http.delete<OpdrachtTag[]>("https://localhost:44341/api/opdrachttag/"+Id);
   };
-  newOpdrachtTag(opdrachtTag:OpdrachtTag): Observable<OpdrachtTag> {
+  newOpdrachtTag(opdrachtTag:OpdrachtTag) {
     return this.http.post<OpdrachtTag>("https://localhost:44341/api/opdrachttag/", opdrachtTag);
   };
 }

@@ -13,6 +13,7 @@ import { OpdrachtMakerService } from '../services/opdracht-maker.service';
 import { removeSummaryDuplicates } from '@angular/compiler';
 import { OpdrachtMaker } from '../models/opdracht-maker.model';
 import { Maker } from '../models/maker.model';
+import { AuthenticateService } from '../authentication/services/authenticate.service';
 
 @Component({
   selector: 'app-opdracht-detail',
@@ -29,7 +30,11 @@ export class OpdrachtDetailComponent implements OnInit {
   tags: TagObject[];
   bedrijfId: number;
   opdrachtmakers;
-  constructor(private _OpdrachtService: OpdrachtService,private _OpdrachtMakerService:OpdrachtMakerService, private _TagService: TagService, private _OpdrachtTagService: OpdrachtTagService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) { }
+  tagItems = [];
+  newOpdrachtId;
+
+
+  constructor(private _OpdrachtService: OpdrachtService,private _OpdrachtMakerService:OpdrachtMakerService, private _TagService: TagService, private _OpdrachtTagService: OpdrachtTagService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private authenticateService: AuthenticateService) { }
 
   ngOnInit() {
     this.route.queryParams
@@ -48,7 +53,7 @@ export class OpdrachtDetailComponent implements OnInit {
               result.forEach(opdrachtTag => {
                 var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.id);
                 tagHelper.push(tagObject)
-              });
+              }); 
               this.tags = tagHelper;
             })
           });
@@ -85,6 +90,12 @@ export class OpdrachtDetailComponent implements OnInit {
       Tags: new FormControl('', Validators.required),
       Open:new FormControl('',Validators.required)
     })
+
+    this.authenticateService.getTags().subscribe(result => {
+      result.forEach(function(item) {
+        this.tagItems.push(new TagObject(item.naam, item.id))
+      }, this)
+    });
   }
   AccepteerMaker(id:number,oldOpdrachtMaker:OpdrachtMaker){
     const opdrachtMaker= oldOpdrachtMaker;
@@ -143,18 +154,46 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
     );
   }
   saveChangesOpdracht() {
-    this._OpdrachtTagService.deleteAllWhereBedrijfId(this.Opdracht.bedrijfId).subscribe(result => {
-      this.tags.forEach(tag => {
-        var newTag = new Tag(0, tag.display);
-        this._TagService.newTag(newTag).subscribe(result => {
-          var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
-          this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {
-            this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {}
-            )
-          })
-        })
-      });
-    })
+    var tag = this.opdrachtForm.controls[('Tags')].value;
+  
+
+    this._OpdrachtTagService.deleteAllWhereBedrijfId(this.opdrachtForm.controls[('Id')].value).subscribe(
+      result => {
+        tag.forEach(tag => {
+          console.log(tag.display + " " + tag.value);
+          var naamt = tag.display;
+          if(tag.value == tag.display){
+            
+            let tag: Tag = {
+              naam : naamt,
+              id: 0
+            }
+
+            this._TagService.newTag(tag).subscribe(
+              result => {
+
+                let tagOpdracht: OpdrachtTag = new OpdrachtTag(0,this.opdrachtForm.controls[('Id')].value,result.id,null,null)
+                this._OpdrachtTagService.newOpdrachtTag(tagOpdracht).subscribe();
+              }
+            );
+          }
+          else{
+            let tagOpdracht: OpdrachtTag = new OpdrachtTag(0,this.opdrachtForm.controls[('Id')].value,tag.value,null,null)
+
+            this._OpdrachtTagService.newOpdrachtTag(tagOpdracht).subscribe();
+          }
+
+          this.editOpdracht = false;
+          
+          
+        });
+      }
+    );
+
+
+
+
+
     this._OpdrachtService.editOpdracht(this.opdrachtForm.controls['Id'].value, this.opdrachtForm.value).subscribe(
       result => {
         this.editOpdracht = false;
@@ -173,17 +212,51 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
 
     this._OpdrachtService.newOpdracht(this.newOpdrachtForm.value).subscribe(
       result => {
-        this.Opdracht = result;
-          this.tags.forEach(tag => {
-            var newTag = new Tag(0, tag.display);
-            this._TagService.newTag(newTag).subscribe(result => {
-              var opdrachtTag = new OpdrachtTag(0, this.Opdracht.id, result.id, null, null)
-              this._OpdrachtTagService.newOpdrachtTag(opdrachtTag).subscribe(result => {
-                this._OpdrachtTagService.getWhereBedrijfId(this.Opdracht.id).subscribe(result => {
-                })
-              })
-            })
-          });
+        
+        this.newOpdrachtId = result.id;
+        console.log(this.newOpdrachtId);
+        console.log(this.newOpdrachtForm.controls[('Tags')].value);
+      
+        var tag = this.newOpdrachtForm.controls[('Tags')].value;
+  
+
+        tag.forEach(tag => {
+          console.log(tag.display + " " + tag.value);
+          var naamt = tag.display;
+          if(tag.value == tag.display){
+            
+            let tag: Tag = {
+              naam : naamt,
+              id: 0
+            }
+
+            this._TagService.newTag(tag).subscribe(
+              result => {
+
+                let tagOpdracht: OpdrachtTag = new OpdrachtTag(0,this.newOpdrachtId,result.id,null,null)
+                this._OpdrachtTagService.newOpdrachtTag(tagOpdracht).subscribe();
+              }
+            );
+          }
+          else{
+            
+            let tagOpdracht: OpdrachtTag = new OpdrachtTag(0,this.newOpdrachtId,tag.value,null,null)
+            console.log(tagOpdracht);
+
+            
+            this._OpdrachtTagService.newOpdrachtTag(tagOpdracht).subscribe(
+              result => {
+                console.log(result);
+              }
+            );
+          }
+
+          this.editOpdracht = false;
+          
+          
+        });
+
+
           this.router.navigate(["bedrijfOpdrachten"]);
       },
       err => {

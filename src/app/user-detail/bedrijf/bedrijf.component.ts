@@ -129,9 +129,9 @@ export class BedrijfComponent implements OnInit {
         this.bedrijfid = result.id;
         this._BedrijfTagService.getWhereBedrijfId(result.id).subscribe(result => {
           this.bedrijfTags = result;
+          console.log(result);
           var tagHelper: Array<TagObject> = [];
           result.forEach(bedrijfTag => {
-            console.log(bedrijfTag);
             var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.id);
             tagHelper.push(tagObject)
           });
