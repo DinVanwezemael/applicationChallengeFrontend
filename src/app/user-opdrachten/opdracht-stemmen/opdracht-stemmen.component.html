@@ -1,49 +1,58 @@
 <div class="container">
 
         <div *ngIf="!triggered" class="col-md-12 text-center">
-                <img [src]="profielfoto" alt="Alternate Text" class="img-responsive text-center"
-                width="300" height="300" />
+                <img *ngIf="profielfoto" [src]="profielfoto" alt="Alternate Text" class="img-responsive text-center"
+                        width="300" height="300" />
         </div>
 
 
         <div class="col-md-12">
-                <h2 class="mg-20">{{opdracht.titel}}
-                        <span *ngIf="opdracht.open" class="badge badge-success">Open</span>
-                        <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
+                <h2 class="mg-20">{{opdracht?.titel}}
+                        <span *ngIf="opdracht?.open" class="badge badge-success">Open</span>
+                        <span *ngIf="!opdracht?.open" class="badge badge-danger">Gesloten</span>
                 </h2>
                 <div class="font-weight-bold bedrijf-link" (click)="viewBedrijf(opdracht.bedrijfId)">
-                   {{opdracht.bedrijf.naam}} <!-- <span style="color: #F7BC07!important;" [innerHTML]="stars"></span> -->
+                        {{opdracht?.bedrijf.naam}}
+                        <!-- <span style="color: #F7BC07!important;" [innerHTML]="stars"></span> -->
 
-                   <ng-template class="bedrijf-link" #t let-fill="fill">
-                        <span class="star" [class.full]="fill === 100">
-                          <span class="half" [style.width.%]="fill"><i class="fas fa-star"></i></span><i class="fas fa-star"></i>
-                        </span>
-                      </ng-template>
-                      
-                      <ngb-rating [(rate)]="gemiddeldeReviewScore" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                        <ng-template class="bedrijf-link" #t let-fill="fill">
+                                <span class="star" [class.full]="fill === 100">
+                                        <span class="half" [style.width.%]="fill"><i class="fas fa-star"></i></span><i
+                                                class="fas fa-star"></i>
+                                </span>
+                        </ng-template>
+
+                        <ngb-rating [(rate)]="gemiddeldeReviewScore" [starTemplate]="t" [readonly]="true" max="5">
+                        </ngb-rating>
 
 
-                   
-                   <i class="fas fa-chevron-right"></i>
+
+                        <i class="fas fa-chevron-right"></i>
                 </div>
-        
-        
+
+
                 <div class="info">
                         <span class="font-weight-bold font-italic">Omschrijving:</span>
-                        {{opdracht.omschrijving}}
+                        {{opdracht?.omschrijving}}
                 </div>
 
                 <div class="info">
                         <span class="font-weight-bold font-italic">Locatie:</span>
-                        {{opdracht.straat}} {{opdracht.straatNr}}, {{opdracht.postcode}} {{opdracht.woonPlaats}}
+                        {{opdracht?.straat}} {{opdracht?.straatNr}}, {{opdracht?.postcode}} {{opdracht?.woonPlaats}}
                 </div>
                 <div class="info" *ngFor="let opdrachtTag of opdrachtTags">
-                        <span class="badge badge-pill badge-info">{{opdrachtTag.tag.naam}}</span>
-                    </div>
+                        <span class="badge badge-pill badge-info">{{opdrachtTag?.tag.naam}}</span>
+                </div>
                 <div class="divider"></div>
                 <br>
-                <button *ngIf="!voted && opdracht.open" (click)="deelnemen()" class="btn btn-primary btn-lg btn-block">Deelnemen</button>
-                <button *ngIf="voted && opdracht.open" (click)="uitschrijvenOpdracht(opdrachtmakerid)" class="btn btn-danger btn-lg btn-block">Uitschrijven</button>
+                <button *ngIf="!voted && opdracht?.open" (click)="deelnemen()"
+                        class="btn btn-primary btn-lg btn-block">Deelnemen</button>
+                <button *ngIf="voted && opdracht?.open" (click)="uitschrijvenOpdracht(opdrachtmakerid)"
+                        class="btn btn-danger btn-lg btn-block">
+                        Uitschrijven
+                        <div *ngIf="voted && opdracht?.open && !deelneming" class="small">Deelneming aangevraagd</div>
+
+                </button>
                 <br>
-            </div> 
+        </div>
 </div>

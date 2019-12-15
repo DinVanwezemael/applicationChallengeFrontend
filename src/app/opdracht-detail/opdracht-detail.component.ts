@@ -94,9 +94,8 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
 })
   }
   MaakWinnaar(opdrachtmaker:OpdrachtMaker){
-console.log(opdrachtmaker.opdrachtId)
 this.Opdracht.klaar=true;
-  this._OpdrachtService.sluitOpdracht(opdrachtmaker.opdrachtId,opdrachtmaker).subscribe(
+  this._OpdrachtService.sluitOpdracht(opdrachtmaker.opdrachtId).subscribe(
     result => {
     });
   }

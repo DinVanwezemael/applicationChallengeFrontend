@@ -16,9 +16,9 @@
   </table> -->
 
 <div class="container">
-  <h2 class="cust-titel font-weight-bold">Opdrachten van <span class="font-italic">{{bedrijf.naam}}</span></h2>
+  <h2 class="cust-titel font-weight-bold">Opdrachten van <span class="font-italic">{{bedrijf?.naam}}</span></h2>
 
-  <div *ngFor="let opdracht of bedrijf.opdrachten">
+  <div *ngFor="let opdracht of bedrijf?.opdrachten">
     <div class="card" (click)="naarDetails(opdracht.id)">
       <div class="card-body">
         <h5 *ngIf="opdracht.titel" class="card-title font-weight-bold">{{opdracht.titel}}
