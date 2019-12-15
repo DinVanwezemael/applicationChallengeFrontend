@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Opdracht } from '../models/opdracht.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { OpdrachtMaker } from '../models/opdracht-maker.model';
+import { Maker } from '../models/maker.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,9 @@ export class OpdrachtService {
   editOpdracht(Id:number,opdracht: Opdracht): Observable<Opdracht> {
     return this.http.put<Opdracht>("https://localhost:44341/api/opdracht/"+Id,opdracht);
   }
-
+  sluitOpdracht(Id:number,opdrachtmaker: OpdrachtMaker): Observable<Opdracht> {
+    return this.http.put<Opdracht>("https://localhost:44341/api/opdracht/sluitopdracht/"+Id,opdrachtmaker);
+  }
   getOpdrachtenVoorStudent(): Observable<Opdracht[]>{
     return this.http.get<Opdracht[]>("https://localhost:44341/api/opdracht");
   }

@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
 
     this._authenticationService.userInfoObject.subscribe(result => {
       this.userInfo = result;
+      console.log(result);
     })
 
     this._authenticationService.profielFoto.subscribe(result => {

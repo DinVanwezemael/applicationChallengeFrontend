@@ -90,12 +90,13 @@ export class OpdrachtDetailComponent implements OnInit {
     const opdrachtMaker= oldOpdrachtMaker;
     opdrachtMaker.geaccepteerd= true;
 this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=>{ 
+  
 })
   }
-  MaakWinnaar(maker:Maker){
-  const opdracht:Opdracht = this.Opdracht;
-  opdracht.klaar=true;
-  this._OpdrachtService.editOpdracht(opdracht.id, opdracht).subscribe(
+  MaakWinnaar(opdrachtmaker:OpdrachtMaker){
+console.log(opdrachtmaker.opdrachtId)
+this.Opdracht.klaar=true;
+  this._OpdrachtService.sluitOpdracht(opdrachtmaker.opdrachtId,opdrachtmaker).subscribe(
     result => {
     });
   }
