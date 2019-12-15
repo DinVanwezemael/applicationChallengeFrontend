@@ -12,6 +12,12 @@ import { TagObject } from 'src/app/models/tagObject.model';
 import { BedrijfService } from 'src/app/services/bedrijf.service';
 import { TagService } from 'src/app/services/tag.service';
 import { Tag } from 'src/app/models/tag.model';
+import { ToastService } from 'src/app/toast-global/toast-service';
+import { OpdrachtTagService } from 'src/app/services/opdracht-tag.service';
+import { OpdrachtTag } from 'src/app/models/opdrachtTag.model';
+import { AuthenticateService } from 'src/app/authentication/services/authenticate.service';
+import { MakerTagService } from 'src/app/services/maker-tag.service';
+import { MakerTag } from 'src/app/models/maker-tag.model';
 
 @Component({
   selector: 'app-admin',
@@ -26,16 +32,19 @@ export class AdminComponent implements OnInit {
   searchText;
   makerFilter: any = { username: '' };
   bedrijfFilter: any = { bedrijf: {naam: '' }};
-  reviewerFilter = { maker: { nickname: '' }, reviewTekst: '' };
+  reviewerFilter = { maker: {voornaam: ''}};
   opdrachtFilter = { titel: '' };
   closeResult: string;
   review: Review;
   opdracht: Opdracht;
   gebruiker: UserLogin;
   bedrijfTags: BedrijfTag[];
+  opdrachtTags: OpdrachtTag[];
+  makerTags: MakerTag[];
   tags: TagObject[];
   profielfoto
   editBedrijf
+  tagItems = [];
 
   reviewForm = this.fb.group({
     reviewTekst: ['']
@@ -45,14 +54,19 @@ export class AdminComponent implements OnInit {
     Nickname: new FormControl('', Validators.required),
     Voornaam: new FormControl('', Validators.required),
     Achternaam: new FormControl('', Validators.required),
-    Email: new FormControl('', Validators.required),
+    Email: new FormControl('', [Validators.required, Validators.email]),
     Biografie: new FormControl('', Validators.required),
     LinkedInLink: new FormControl('', Validators.required),
     Ervaring: new FormControl('', Validators.required),
     CV: new FormControl('', Validators.required),
     Foto: new FormControl('', Validators.required),
     GeboorteDatum: new FormControl('', Validators.required),
-    Id: new FormControl('', Validators.required)
+    Id: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    Nr: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Stad: new FormControl('', Validators.required),
+    Tags: new FormControl('', Validators.required)
   })
 
   bedrijfForm = this.fb.group({
@@ -68,9 +82,19 @@ export class AdminComponent implements OnInit {
   })
   
   opdrachtForm = this.fb.group({
+    Titel: new FormControl('', Validators.required),
+    Omschrijving: new FormControl('', Validators.required),
+    Postcode: new FormControl('', Validators.required),
+    Woonplaats: new FormControl('', Validators.required),
+    Straat: new FormControl('', Validators.required),
+    StraatNr: new FormControl('', Validators.required),
+    Id: new FormControl('', Validators.required),
+    BedrijfId: new FormControl('', Validators.required),
+    Tags: new FormControl('', Validators.required),
+    Open:new FormControl('',Validators.required)
   });
 
-  constructor(private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService) {
+  constructor(private _MakerTagService: MakerTagService, private _OpdrachtTagService: OpdrachtTagService, private toastService: ToastService, private _adminService: AdminService, private router: Router, private fb: FormBuilder, ngbConfig: NgbRatingConfig, private modalService: NgbModal, private _BedrijfTagService: BedrijfTagService, private _BedrijfService: BedrijfService, private _TagService: TagService, private authenticateService: AuthenticateService) {
     ngbConfig.max = 5;
   }
 
@@ -90,6 +114,12 @@ export class AdminComponent implements OnInit {
     this._adminService.getOpdrachten().subscribe(result => {
       this.opdrachten = result;
     })
+
+    this.authenticateService.getTags().subscribe(result => {
+      result.forEach(function(item) {
+        this.tagItems.push(new TagObject(item.naam, item.id))
+      }, this)
+    });
   }
 
   reviewModal(contentReview, r: Review) {
@@ -105,6 +135,15 @@ export class AdminComponent implements OnInit {
   opdrachtModal(contentOpdracht, o: Opdracht) {
     this.opdracht = o;
     console.log(this.opdracht);
+    this._OpdrachtTagService.getWhereBedrijfId(o.id).subscribe(result => {
+      this.opdrachtTags = result;
+      var tagHelper: Array<TagObject> = [];
+      result.forEach(opdrachtTag => {
+        var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.id);
+        tagHelper.push(tagObject)
+      });
+      this.tags = tagHelper;
+    })
     this.modalService.open(contentOpdracht, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -113,7 +152,19 @@ export class AdminComponent implements OnInit {
   }
   
   makerModal(contentMaker, m: UserLogin) {
+    console.log(this.makerForm)
     this.gebruiker = m;
+    this._MakerTagService.getWhereMakerId(m.makerId).subscribe(result => {
+      this.makerTags = result;
+      var tagHelper: Array<TagObject> = [];
+      result.forEach(makerTag => {
+        console.log(makerTag);
+        var tagObject = new TagObject(makerTag.tag.naam, makerTag.tag.id);
+        tagHelper.push(tagObject)
+      });
+      this.tags = tagHelper;
+      console.log(this.tags);
+    });
     this.modalService.open(contentMaker, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -160,7 +211,30 @@ export class AdminComponent implements OnInit {
   }
 
   updateOpdracht(o: Opdracht) {
-    console.log(o)
+    if(this.opdrachtForm.get('Titel').value != "" && this.opdrachtForm.get('Titel').value != null){
+      o.titel = this.opdrachtForm.get('Titel').value;
+    }
+    if(this.opdrachtForm.get('Omschrijving').value != "" && this.opdrachtForm.get('Omschrijving').value != null){
+      o.omschrijving = this.opdrachtForm.get('Omschrijving').value;
+    }
+    if(this.opdrachtForm.get('Straat').value != "" && this.opdrachtForm.get('Straat').value != null){
+      o.straat = this.opdrachtForm.get('Straat').value;
+    }
+    if(this.opdrachtForm.get('StraatNr').value != "" && this.opdrachtForm.get('StraatNr').value != null){
+      o.straatNr = this.opdrachtForm.get('StraatNr').value;
+    }
+    if(this.opdrachtForm.get('Postcode').value != "" && this.opdrachtForm.get('Postcode').value != null){
+      o.postcode = this.opdrachtForm.get('Postcode').value;
+    }
+    if(this.opdrachtForm.get('Woonplaats').value != "" && this.opdrachtForm.get('Woonplaats').value != null){
+      o.woonPlaats = this.opdrachtForm.get('Woonplaats').value;
+    }
+    let opdracht = new Opdracht(o.id, o.titel, o.omschrijving, o.bedrijfId, o.straat, o.straatNr, o.postcode, o.woonPlaats, o.opdrachtMakers, o.bedrijf, o.open, o.klaar);
+    this._adminService.updateOpdracht(o.id, opdracht).subscribe();
+    this.opdrachtForm.reset();
+    setTimeout(() => {
+      this.ngOnInit()
+    }, 100);
   }
 
   updateReview(r: Review) {
@@ -200,8 +274,28 @@ export class AdminComponent implements OnInit {
     if(this.makerForm.get('Biografie').value != "" && this.makerForm.get('Biografie').value != null){
       g.maker.biografie = this.makerForm.get('Biografie').value;
     }
+    if(this.makerForm.get('Straat').value != "" && this.makerForm.get('Straat').value != null){
+      g.maker.straat = this.makerForm.get('Straat').value;
+    }
+    if(this.makerForm.get('Nr').value != "" && this.makerForm.get('Nr').value != null){
+      g.maker.nr = this.makerForm.get('Nr').value;
+    }
+    if(this.makerForm.get('Postcode').value != "" && this.makerForm.get('Postcode').value != null){
+      g.maker.postcode = this.makerForm.get('Postcode').value;
+    }
+    if(this.makerForm.get('Stad').value != "" && this.makerForm.get('Stad').value != null){
+      g.maker.stad = this.makerForm.get('Stad').value;
+    }
     let gebruiker = new UserLogin(g.id, g.username, g.email, g.userTypeId, g.makerId, g.bedrijfId, g.maker, g.bedrijf);
-    this._adminService.updateUserLogin(g.id, gebruiker).subscribe();
+    this._adminService.updateUserLogin(g.id, gebruiker).subscribe( result => {
+      console.log(result);
+      if(result == null){
+        this.toastService.show('De gebruikersnaam bestaat al!', { classname: 'bg-danger text-light', delay: 10000 });
+      }
+      else{
+        this.toastService.show('Gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
+      }
+    });
     this._adminService.updateMaker(g.makerId, g.maker).subscribe();
     this.makerForm.reset();
     setTimeout(() => {
@@ -249,6 +343,7 @@ export class AdminComponent implements OnInit {
     this._adminService.deleteSkillMakerWhereMakerId(gebruiker.makerId).subscribe();
     this._adminService.deleteOpdrachtMakerWhereMakerId(gebruiker.makerId).subscribe();
     this._adminService.deleteReviewWhereMakerId(gebruiker.makerId).subscribe();
+    this._adminService.deleteMakerTagWhereMakerId(gebruiker.makerId).subscribe();
     this._adminService.deleteMaker(gebruiker.makerId).subscribe();
     setTimeout(() => {
       this.ngOnInit()
