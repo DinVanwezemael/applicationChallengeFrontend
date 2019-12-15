@@ -112,8 +112,8 @@
     <div class="modal-body">
         <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label *ngIf="review.naarBedrijf">ontvanger: {{review.bedrijf.naam}} (bedrijf)</label>
-                <label *ngIf="!review.naarBedrijf">ontvanger:
+                <label *ngIf="review.naarBedrijf">Ontvanger: {{review.bedrijf.naam}} (bedrijf)</label>
+                <label *ngIf="!review.naarBedrijf">Ontvanger:
                     {{review.maker.voornaam + " " + review.maker.achternaam}}</label>
                 <br />
                 <label>Score: </label>
