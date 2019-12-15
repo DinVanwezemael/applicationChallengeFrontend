@@ -105,96 +105,96 @@
             
 
 
-            <div *ngIf="editOpdracht && !newOpdracht" class="col-md-5 text-muted small">
-                <form [formGroup]="opdrachtForm" (ngSubmit)="saveChangesOpdracht()">
-
-                    <div class="form-group">
-                        <label for="">Titel:</label>
-                        <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
-                            formControlName="Titel">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Omschrijving:</label>
-                        <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
-                            placeholder="Omschrijving" formControlName="Omschrijving">
-                    </div>
-
+        </div>
+        <div *ngIf="editOpdracht && !newOpdracht" class="col-md-5 text-muted small">
+            <form [formGroup]="opdrachtForm" (ngSubmit)="saveChangesOpdracht()">
 
                 <div class="form-group">
-                    <label for="Straat">Straat:</label>
-                    <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
-                        formControlName="Straat">
-                    <label for="StraatNr">StraatNummer:</label>
-                    <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
-                        formControlName="StraatNr">
-                    <label for="Postcode">Postcode:</label>
-                    <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
-                        formControlName="Postcode">
-                    <label for="Woonplaats">Woonplaats:</label>
-                    <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
-                        formControlName="Woonplaats">
+                    <label for="">Titel:</label>
+                    <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
+                        formControlName="Titel">
                 </div>
 
-                    <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
-                    <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
-                    <input type="hidden" [(ngModel)]="Opdracht.opden" formControlName="Open">
-                    <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+                <div class="form-group">
+                    <label for="">Omschrijving:</label>
+                    <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
+                        placeholder="Omschrijving" formControlName="Omschrijving">
+                </div>
 
-                    <div class="divider"></div>
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
-                    <button type="button" (click)="editOpdrachtDetails()"
-                        class="btn btn-danger btn-lg btn-block">Annuleer</button>
-                    <br>
-                </form>
 
+            <div class="form-group">
+                <label for="Straat">Straat:</label>
+                <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
+                    formControlName="Straat">
+                <label for="StraatNr">StraatNummer:</label>
+                <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                    formControlName="StraatNr">
+                <label for="Postcode">Postcode:</label>
+                <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
+                    formControlName="Postcode">
+                <label for="Woonplaats">Woonplaats:</label>
+                <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                    formControlName="Woonplaats">
             </div>
-            <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
-                <form [formGroup]="newOpdrachtForm" (ngSubmit)="postOpdracht()">
 
-                    <div class="form-group">
-                        <label for="Titel">Titel:</label>
-                        <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
-                            formControlName="Titel">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Omschrijving">Omschrijving:</label>
-                        <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
-                            placeholder="Omschrijving" formControlName="Omschrijving">
-                    </div>
-
-
-                <div class="form-group">
-                    <label for="Straat">Straat:</label>
-                    <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
-                        formControlName="Straat">
-                    <label for="StraatNr">StraatNummer:</label>
-                    <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
-                        formControlName="StraatNr">
-                    <label for="Postcode">Postcode:</label>
-                    <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
-                        formControlName="Postcode">
-                    <label for="Woonplaats">Woonplaats:</label>
-                    <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
-                        formControlName="Woonplaats">
-                </div>
-                <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
-                <input type="hidden" [(ngModel)]="bedrijfId" formControlName="BedrijfId">
-                <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
+                <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
+                <input type="hidden" [(ngModel)]="Opdracht.opden" formControlName="Open">
+                <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+
+                <div class="divider"></div>
+                <br>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
+                <button type="button" (click)="editOpdrachtDetails()"
+                    class="btn btn-danger btn-lg btn-block">Annuleer</button>
+                <br>
+            </form>
+
+        </div>
+        <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
+            <form [formGroup]="newOpdrachtForm" (ngSubmit)="postOpdracht()">
+
+                <div class="form-group">
+                    <label for="Titel">Titel:</label>
+                    <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
+                        formControlName="Titel">
+                </div>
+
+                <div class="form-group">
+                    <label for="Omschrijving">Omschrijving:</label>
+                    <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
+                        placeholder="Omschrijving" formControlName="Omschrijving">
+                </div>
 
 
-                    <div class="divider"></div>
-                    <br>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
-                    <button type="button" routerLink="/bedrijfOpdrachten"
-                        class="btn btn-danger btn-lg btn-block">Terug</button>
-                    <br>
-                </form>
-
+            <div class="form-group">
+                <label for="Straat">Straat:</label>
+                <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
+                    formControlName="Straat">
+                <label for="StraatNr">StraatNummer:</label>
+                <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                    formControlName="StraatNr">
+                <label for="Postcode">Postcode:</label>
+                <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
+                    formControlName="Postcode">
+                <label for="Woonplaats">Woonplaats:</label>
+                <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                    formControlName="Woonplaats">
             </div>
+            <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+            <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
+            <input type="hidden" [(ngModel)]="bedrijfId" formControlName="BedrijfId">
+            <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
+
+
+                <div class="divider"></div>
+                <br>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
+                <button type="button" routerLink="/bedrijfOpdrachten"
+                    class="btn btn-danger btn-lg btn-block">Terug</button>
+                <br>
+            </form>
+
         </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"

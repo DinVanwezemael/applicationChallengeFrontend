@@ -16,7 +16,7 @@
   </table> -->
 
 <div class="container">
-  <h2 class="cust-titel font-weight-bold">Opdrachten van <span class="font-italic">{{bedrijf?.naam}}</span></h2>
+  <h2 class="cust-titel font-weight-bold">Opdrachten van <span class="font-italic">{{bedrijf?.naam}}</span>        <button class="btn btn-primary btn-lg btn-sm active" (click)="naarDetails()">Nieuwe opdracht</button></h2>
 
     <div *ngFor="let opdracht of bedrijf?.opdrachten">
       <div class="card" (click)="naarDetails(opdracht.id)">
