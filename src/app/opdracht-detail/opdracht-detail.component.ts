@@ -93,9 +93,11 @@ this._OpdrachtMakerService.accepteerDeelname(id,opdrachtMaker).subscribe(result=
   
 })
   }
-  MaakWinnaar(opdrachtmaker:OpdrachtMaker){
-this.Opdracht.klaar=true;
-  this._OpdrachtService.sluitOpdracht(opdrachtmaker.opdrachtId).subscribe(
+  EindigOpdracht(){
+    const opdracht:Opdracht = this.Opdracht;
+    opdracht.open = false;
+    opdracht.klaar = true;
+    this._OpdrachtService.editOpdracht(opdracht.id, opdracht).subscribe(
     result => {
     });
   }

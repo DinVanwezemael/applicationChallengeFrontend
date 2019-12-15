@@ -14,7 +14,7 @@
                 </div>
                 <ng-template #opdrachtKlaar>
                     <h2 class="pb-3 font-weight-bold">{{Opdracht.titel}} <span *ngIf="!Opdracht.open"
-                            class="badge badge-warning">Klaar</span></h2>
+                            class="badge badge-warning">Afgelopen</span></h2>
                 </ng-template>
             </ng-template>
             <div>
@@ -32,13 +32,14 @@
             </div>
             <div class="divider"></div>
             <br>
-            <h4 class="pb-3 font-weight-bold font-italic">Makers:</h4>
-            <span *ngIf="opdrachtmakers.length == 0"> Er zijn nog geen makers die zich aangemeld hebben voor deze
+            <h3 class="pb-3">Makers:</h3>
+            <span *ngIf="opdrachtmakers?.length == 0"> Er zijn nog geen makers die zich aangemeld hebben voor deze
                 opdracht.</span>
+            <div *ngFor="let opdrachtmaker of opdrachtmakers">
 
 
 
-            <!-- <div *ngFor="let opdrachtmaker of opdrachtmakers">
+                <!-- <div *ngFor="let opdrachtmaker of opdrachtmakers">
 
                 <span *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">
                     <div (click)="viewMaker(opdrachtmaker.maker.id)"> {{opdrachtmaker.maker.nickname}} </div>
@@ -57,73 +58,67 @@
                   </ng-template>
             </div> -->
 
-            <ul class="list-group">
-                <li *ngFor="let opdrachtmaker of opdrachtmakers" class="list-group-item">
-                    <div *ngIf="opdrachtmaker.geaccepteerd == false ; else makerOk">
-                        <span (click)="viewMaker(opdrachtmaker.maker.id)"
-                            class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
-                                class="fas fa-chevron-right"></i></span>
-                        <div class="actions">
-                            <button class="btn btn-primary m-1 btn-circle"
-                                (click)="AccepteerMaker(opdrachtmaker.id,opdrachtmaker)"><i
-                                    class="fas fa-check-circle"></i></button>
-                            <button class="btn btn-danger m-1 btn-circle" (click)=VerwijderMaker(opdrachtmaker.id)><i
-                                    class="fas fa-minus-circle"></i></button>
-                        </div>
-                    </div>
-
-
-                    <ng-template #makerOk>
-
-                        <span (click)="viewMaker(opdrachtmaker.maker.id)"
-                            class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
-                                class="fas fa-chevron-right"></i></span>
-                        <div class="actions" *ngIf="Opdracht.klaar == false">
-                            <button class="btn btn-warning btn-circle m-1" (click)=MaakWinnaar(opdrachtmaker)><i
-                                    class="fas fa-trophy"></i></button>
+                <ul class="list-group">
+                    <li *ngFor="let opdrachtmaker of opdrachtmakers" class="list-group-item">
+                        <div *ngIf="opdrachtmaker.geaccepteerd == false">
+                            <span (click)="viewMaker(opdrachtmaker.maker.id)"
+                                class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
+                                    class="fas fa-chevron-right"></i></span>
+                            <div class="actions">
+                                <button class="btn btn-primary m-1 btn-circle"
+                                    (click)="AccepteerMaker(opdrachtmaker.id,opdrachtmaker)"><i
+                                        class="fas fa-check-circle"></i></button>
+                                <button class="btn btn-danger m-1 btn-circle"
+                                    (click)=VerwijderMaker(opdrachtmaker.id)><i
+                                        class="fas fa-minus-circle"></i></button>
+                            </div>
                         </div>
 
-                    </ng-template>
+
+                    </li>
+                </ul>
 
 
-                </li>
-            </ul>
-
-
-            <hr>
-
-            <div *ngIf="Opdracht.open == true; else opdrachtGesloten">
-                <button (click)="SluitOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Sluit opdracht</button>
+                <hr>
             </div>
-            <ng-template #opdrachtGesloten>
-                <div *ngIf="Opdracht.klaar == false">
-                    <button (click)="OpenOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Open
+                <div *ngIf="Opdracht.open == true; else opdrachtGesloten">
+                    <button (click)="SluitOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Sluit
                         opdracht</button>
                 </div>
-            </ng-template>
-            <div *ngIf="Opdracht.klaar == false">
-                <button (click)="editOpdrachtDetails()" class="btn btn-primary btn-lg btn-block mt-3">Bewerken</button>
-            </div>
-            <button href="#" data-toggle="modal" data-target="#deleteModal"
-                class="btn btn-danger btn-lg btn-block mt-3">Verwijderen</button>
-            <br>
-        </div>
-
-
-        <div *ngIf="editOpdracht &&!newOpdracht" class="col-md-5 text-muted small">
-            <form [formGroup]="opdrachtForm" (ngSubmit)="saveChangesOpdracht()">
-
-                <div class="form-group">
-                    <label for="">Titel:</label>
-                    <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
-                        formControlName="Titel">
+                <ng-template #opdrachtGesloten>
+                    <div *ngIf="Opdracht.klaar == false">
+                        <button (click)="OpenOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Open
+                            opdracht</button>
+                    </div>
+                    <div *ngIf="Opdracht.klaar == false">
+                        <button (click)="EindigOpdracht()" class="btn btn-dark btn-lg btn-block mt-3">Eindig
+                            opdracht</button>
+                    </div>
+                </ng-template>
+                <div *ngIf="Opdracht.klaar == false">
+                    <button (click)="editOpdrachtDetails()"
+                        class="btn btn-primary btn-lg btn-block mt-3">Bewerken</button>
                 </div>
+                <button href="#" data-toggle="modal" data-target="#deleteModal"
+                    class="btn btn-danger btn-lg btn-block mt-3">Verwijderen</button>
+                <br>
+            
 
-                <div class="form-group">
-                    <label for="">Omschrijving:</label>
-                    <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
-                        placeholder="Omschrijving" formControlName="Omschrijving">
-                </div>
+
+            <div *ngIf="editOpdracht && !newOpdracht" class="col-md-5 text-muted small">
+                <form [formGroup]="opdrachtForm" (ngSubmit)="saveChangesOpdracht()">
+
+                    <div class="form-group">
+                        <label for="">Titel:</label>
+                        <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
+                            formControlName="Titel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Omschrijving:</label>
+                        <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
+                            placeholder="Omschrijving" formControlName="Omschrijving">
+                    </div>
 
 
                 <div class="form-group">
@@ -141,34 +136,34 @@
                         formControlName="Woonplaats">
                 </div>
 
-                <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
-                <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
-                <input type="hidden" [(ngModel)]="Opdracht.opden" formControlName="Open">
-                <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+                    <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
+                    <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
+                    <input type="hidden" [(ngModel)]="Opdracht.opden" formControlName="Open">
+                    <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
 
-                <div class="divider"></div>
-                <br>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
-                <button type="button" (click)="editOpdrachtDetails()"
-                    class="btn btn-danger btn-lg btn-block">Annuleer</button>
-                <br>
-            </form>
+                    <div class="divider"></div>
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
+                    <button type="button" (click)="editOpdrachtDetails()"
+                        class="btn btn-danger btn-lg btn-block">Annuleer</button>
+                    <br>
+                </form>
 
-        </div>
-        <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
-            <form [formGroup]="newOpdrachtForm" (ngSubmit)="postOpdracht()">
+            </div>
+            <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
+                <form [formGroup]="newOpdrachtForm" (ngSubmit)="postOpdracht()">
 
-                <div class="form-group">
-                    <label for="Titel">Titel:</label>
-                    <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
-                        formControlName="Titel">
-                </div>
+                    <div class="form-group">
+                        <label for="Titel">Titel:</label>
+                        <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
+                            formControlName="Titel">
+                    </div>
 
-                <div class="form-group">
-                    <label for="Omschrijving">Omschrijving:</label>
-                    <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
-                        placeholder="Omschrijving" formControlName="Omschrijving">
-                </div>
+                    <div class="form-group">
+                        <label for="Omschrijving">Omschrijving:</label>
+                        <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
+                            placeholder="Omschrijving" formControlName="Omschrijving">
+                    </div>
 
 
                 <div class="form-group">
@@ -191,14 +186,15 @@
                 <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
 
 
-                <div class="divider"></div>
-                <br>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
-                <button type="button" routerLink="/bedrijfOpdrachten"
-                    class="btn btn-danger btn-lg btn-block">Terug</button>
-                <br>
-            </form>
+                    <div class="divider"></div>
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
+                    <button type="button" routerLink="/bedrijfOpdrachten"
+                        class="btn btn-danger btn-lg btn-block">Terug</button>
+                    <br>
+                </form>
 
+            </div>
         </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
