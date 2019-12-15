@@ -55,7 +55,10 @@
                   
                             <input type="hidden" [(ngModel)]="bedrijf.id"  formControlName="Id">
                             <input type="hidden" [(ngModel)]="bedrijf.foto"  formControlName="Foto">
-                            <tag-input [(ngModel)]='tags' formControlName="Tags"></tag-input>
+                            <tag-input [(ngModel)]='tags' formControlName="Tags">
+                                <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                                </tag-input-dropdown>
+                            </tag-input>
 
         <div class="divider"></div>
         <br>
