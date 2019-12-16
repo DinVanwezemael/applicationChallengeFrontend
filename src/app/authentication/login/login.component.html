@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="d-none d-xs-block">
+  <div class="d-none d-sm-block">
     <img class="logoMain" src="assets/logo_transparent_long2.png" />
   </div>
   <div class="card o-hidden border-0 shadow-lg my-5">
@@ -17,11 +17,6 @@
           <div class="p-5">
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Login</h1>
-            </div>
-            <div class="text-center">
-              <button class="btn btn-link" (click)="devMode(1)">[DEV] Admin</button>
-              <button class="btn btn-link" (click)="devMode(2)">[DEV] Student</button>
-              <button class="btn btn-link" (click)="devMode(3)">[DEV] Bedrijf</button>
             </div>
             <form class="user" [formGroup]="loginForm" (ngSubmit)="onLogin()">
               <div class="form-group row">

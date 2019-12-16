@@ -54,32 +54,6 @@ export class LoginComponent implements OnInit {
     this.login = 3;
   }
 
-  devMode(id: number) {
-    switch (id) {
-      case (1):
-        this.loginForm.setValue({
-          Username: "Admin",
-          Password: "Admin1"
-        })
-        this.onLogin();
-        break;
-      case (2):
-        this.loginForm.setValue({
-          Username: "Student",
-          Password: "Student1"
-        })
-        this.onLogin();
-        break;
-      case (3):
-        this.loginForm.setValue({
-          Username: "Bedrijf",
-          Password: "Bedrijf1"
-        })
-        this.onLogin();
-        break;
-    }
-  }
-
   onLogin() {
     this.submitted = true;
     this.invalid = false;
