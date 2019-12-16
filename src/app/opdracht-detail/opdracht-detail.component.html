@@ -61,8 +61,8 @@
                 <ul class="list-group">
                     <li *ngFor="let opdrachtmaker of opdrachtmakers" class="list-group-item">
                         <div *ngIf="opdrachtmaker.geaccepteerd ==true"><span (click)="viewMaker(opdrachtmaker.maker.id)"
-                            class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
-                                class="fas fa-chevron-right"></i></span></div>
+                                class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
+                                    class="fas fa-chevron-right"></i></span></div>
                         <div *ngIf="opdrachtmaker.geaccepteerd == false">
                             <span (click)="viewMaker(opdrachtmaker.maker.id)"
                                 class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
@@ -84,28 +84,27 @@
 
                 <hr>
             </div>
-                <div *ngIf="Opdracht.open == true; else opdrachtGesloten">
-                    <button (click)="SluitOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Sluit
+            <div *ngIf="Opdracht.open == true; else opdrachtGesloten">
+                <button (click)="SluitOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Sluit
+                    opdracht</button>
+            </div>
+            <ng-template #opdrachtGesloten>
+                <div *ngIf="Opdracht.klaar == false">
+                    <button (click)="OpenOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Open
                         opdracht</button>
                 </div>
-                <ng-template #opdrachtGesloten>
-                    <div *ngIf="Opdracht.klaar == false">
-                        <button (click)="OpenOpdracht()" class="btn btn-primary btn-lg btn-block mt-3">Open
-                            opdracht</button>
-                    </div>
-                    <div *ngIf="Opdracht.klaar == false">
-                        <button (click)="EindigOpdracht()" class="btn btn-dark btn-lg btn-block mt-3">Eindig
-                            opdracht</button>
-                    </div>
-                </ng-template>
                 <div *ngIf="Opdracht.klaar == false">
-                    <button (click)="editOpdrachtDetails()"
-                        class="btn btn-primary btn-lg btn-block mt-3">Bewerken</button>
+                    <button (click)="EindigOpdracht()" class="btn btn-dark btn-lg btn-block mt-3">Eindig
+                        opdracht</button>
                 </div>
-                <button href="#" data-toggle="modal" data-target="#deleteModal"
-                    class="btn btn-danger btn-lg btn-block mt-3">Verwijderen</button>
-                <br>
-            
+            </ng-template>
+            <div *ngIf="Opdracht.klaar == false">
+                <button (click)="editOpdrachtDetails()" class="btn btn-primary btn-lg btn-block mt-3">Bewerken</button>
+            </div>
+            <button href="#" data-toggle="modal" data-target="#deleteModal"
+                class="btn btn-danger btn-lg btn-block mt-3">Verwijderen</button>
+            <br>
+
 
 
         </div>
@@ -115,30 +114,50 @@
                 <div class="form-group">
                     <label for="">Titel:</label>
                     <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
-                        formControlName="Titel">
+                        formControlName="Titel" [ngClass]="{ 'is-invalid': submittedOpdracht && o.Titel.errors}">
+                    <div *ngIf="submittedOpdracht && o.Titel.errors" class="invalid-feedback">
+                        <div *ngIf="o.Titel.errors.required">Verplicht in te vullen.</div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="">Omschrijving:</label>
-                    <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
-                        placeholder="Omschrijving" formControlName="Omschrijving">
+                    <textarea rows="3" type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
+                        placeholder="Omschrijving" formControlName="Omschrijving"
+                        [ngClass]="{ 'is-invalid': submittedOpdracht && o.Omschrijving.errors}"></textarea>
+                    <div *ngIf="submittedOpdracht && o.Omschrijving.errors" class="invalid-feedback">
+                        <div *ngIf="o.Omschrijving.errors.required">Verplicht in te vullen.</div>
+                    </div>
                 </div>
 
 
-            <div class="form-group">
-                <label for="Straat">Straat:</label>
-                <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
-                    formControlName="Straat">
-                <label for="StraatNr">StraatNummer:</label>
-                <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
-                    formControlName="StraatNr">
-                <label for="Postcode">Postcode:</label>
-                <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
-                    formControlName="Postcode">
-                <label for="Woonplaats">Woonplaats:</label>
-                <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
-                    formControlName="Woonplaats">
-            </div>
+                <div class="form-group">
+                    <label for="Straat">Straat:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
+                        formControlName="Straat" [ngClass]="{ 'is-invalid': submittedOpdracht && o.Straat.errors}">
+                    <div *ngIf="submittedOpdracht && o.Straat.errors" class="invalid-feedback">
+                        <div *ngIf="o.Straat.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                    <label for="StraatNr">StraatNummer:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                        formControlName="StraatNr" [ngClass]="{ 'is-invalid': submittedOpdracht && o.StraatNr.errors}">
+                    <div *ngIf="submittedOpdracht && o.StraatNr.errors" class="invalid-feedback">
+                        <div *ngIf="o.StraatNr.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                    <label for="Postcode">Postcode:</label>
+                    <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
+                        formControlName="Postcode" [ngClass]="{ 'is-invalid': submittedOpdracht && o.Postcode.errors}">
+                    <div *ngIf="submittedOpdracht && o.Postcode.errors" class="invalid-feedback">
+                        <div *ngIf="o.Postcode.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                    <label for="Woonplaats">Woonplaats:</label>
+                    <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                        formControlName="Woonplaats"
+                        [ngClass]="{ 'is-invalid': submittedOpdracht && o.Woonplaats.errors}">
+                    <div *ngIf="submittedOpdracht && o.Woonplaats.errors" class="invalid-feedback">
+                        <div *ngIf="o.Woonplaats.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                </div>
 
                 <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
                 <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
@@ -150,50 +169,74 @@
 
                 <div class="divider"></div>
                 <br>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Opslaan</button>
+                <button type="submit" [disabled]="waitOpdracht"
+                    class="btn btn-primary btn-lg btn-block">Opslaan</button>
                 <button type="button" (click)="editOpdrachtDetails()"
                     class="btn btn-danger btn-lg btn-block">Annuleer</button>
                 <br>
-            </form> 
+            </form>
 
         </div>
         <div *ngIf="newOpdracht" class="col-md-5 text-muted small">
             <form [formGroup]="newOpdrachtForm" (ngSubmit)="postOpdracht()">
-
                 <div class="form-group">
-                    <label for="Titel">Titel:</label>
+                    <label for="">Titel:</label>
                     <input type="text" [(ngModel)]="Opdracht.titel" class="form-control" placeholder="Titel"
-                        formControlName="Titel">
+                        formControlName="Titel" [ngClass]="{ 'is-invalid': submittedOpdrachtNew && no.Titel.errors}">
+                    <div *ngIf="submittedOpdrachtNew && no.Titel.errors" class="invalid-feedback">
+                        <div *ngIf="no.Titel.errors.required">Verplicht in te vullen.</div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="Omschrijving">Omschrijving:</label>
-                    <input type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
-                        placeholder="Omschrijving" formControlName="Omschrijving">
+                    <label for="">Omschrijving:</label>
+                    <textarea rows="3" type="text" [(ngModel)]="Opdracht.omschrijving" class="form-control"
+                        placeholder="Omschrijving" formControlName="Omschrijving"
+                        [ngClass]="{ 'is-invalid': submittedOpdrachtNew && no.Omschrijving.errors}"></textarea>
+                    <div *ngIf="submittedOpdrachtNew && no.Omschrijving.errors" class="invalid-feedback">
+                        <div *ngIf="no.Omschrijving.errors.required">Verplicht in te vullen.</div>
+                    </div>
                 </div>
 
 
-            <div class="form-group">
-                <label for="Straat">Straat:</label>
-                <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
-                    formControlName="Straat">
-                <label for="StraatNr">StraatNummer:</label>
-                <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
-                    formControlName="StraatNr">
-                <label for="Postcode">Postcode:</label>
-                <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
-                    formControlName="Postcode">
-                <label for="Woonplaats">Woonplaats:</label>
-                <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
-                    formControlName="Woonplaats">
-            </div>
-            <tag-input [(ngModel)]='tags' formControlName="Tags">
-                <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
-                </tag-input-dropdown>
-            </tag-input>
-            <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
-            <input type="hidden" [(ngModel)]="bedrijfId" formControlName="BedrijfId">
-            <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
+                <div class="form-group">
+                    <label for="Straat">Straat:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straat" class="form-control" placeholder="Straat"
+                        formControlName="Straat" [ngClass]="{ 'is-invalid': submittedOpdrachtNew && no.Straat.errors}">
+                    <div *ngIf="submittedOpdrachtNew && no.Straat.errors" class="invalid-feedback">
+                        <div *ngIf="no.Straat.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                    <label for="StraatNr">StraatNummer:</label>
+                    <input type="text" [(ngModel)]="Opdracht.straatNr" class="form-control" placeholder="StraatNr"
+                        formControlName="StraatNr"
+                        [ngClass]="{ 'is-invalid': submittedOpdrachtNew && no.StraatNr.errors}">
+                    <div *ngIf="submittedOpdrachtNew && no.StraatNr.errors" class="invalid-feedback">
+                        <div *ngIf="no.StraatNr.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                    <label for="Postcode">Postcode:</label>
+                    <input type="text" [(ngModel)]="Opdracht.postcode" class="form-control" placeholder="Postcode"
+                        formControlName="Postcode"
+                        [ngClass]="{ 'is-invalid': submittedOpdrachtNew && no.Postcode.errors}">
+                    <div *ngIf="submittedOpdrachtNew && no.Postcode.errors" class="invalid-feedback">
+                        <div *ngIf="no.Postcode.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                    <label for="Woonplaats">Woonplaats:</label>
+                    <input type="text" [(ngModel)]="Opdracht.woonPlaats" class="form-control" placeholder="Woonplaats"
+                        formControlName="Woonplaats"
+                        [ngClass]="{ 'is-invalid': submittedOpdrachtNew && no.Woonplaats.errors}">
+                    <div *ngIf="submittedOpdrachtNew && no.Woonplaats.errors" class="invalid-feedback">
+                        <div *ngIf="no.Woonplaats.errors.required">Verplicht in te vullen.</div>
+                    </div>
+                </div>
+
+                <input type="hidden" [(ngModel)]="Opdracht.id" formControlName="Id">
+                <input type="hidden" [(ngModel)]="Opdracht.bedrijfId" formControlName="BedrijfId">
+                <input type="hidden" [(ngModel)]="Opdracht.open" formControlName="Open">
+                <tag-input [(ngModel)]='tags' formControlName="Tags">
+                    <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                    </tag-input-dropdown>
+                </tag-input>
+
 
 
                 <div class="divider"></div>
