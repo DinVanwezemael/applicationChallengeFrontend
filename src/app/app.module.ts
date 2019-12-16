@@ -42,6 +42,7 @@ import { MakerReviewComponent } from './maker-review/maker-review.component';
 import { SchrijfMakerreviewComponent } from './maker-review/schrijf-makerreview/schrijf-makerreview.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 import { VerifyUserComponent } from './authentication/verify-user/verify-user.component';
+import { OpdrachtFormComponent } from './admin/opdracht-form/opdracht-form.component';
 
 
 const appRoutes: Routes = [
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
   { path: 'userdetail', component: UserDetailComponent },
   { path: 'adminHome', component: AdminComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'makerForm', component: MakerFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
+  { path: 'opdrachtForm', component: OpdrachtFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'bedrijfForm', component: BedrijfFormComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'}},
   { path: 'bedrijfOpdrachten', component: BedrijfOpdrachtenComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
   { path: 'opdrachtDetail', component: OpdrachtDetailComponent, canActivate:[RoleGuard],data: {expectedRole:'Bedrijf'}},
