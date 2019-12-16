@@ -161,25 +161,6 @@ export class AdminComponent implements OnInit {
     this.ngOnInit();
   }
 
-  /* opdrachtModal(contentOpdracht, o: Opdracht) {
-    this.opdracht = o;
-    console.log(this.opdracht);
-    this._OpdrachtTagService.getWhereBedrijfId(o.id).subscribe(result => {
-      this.opdrachtTags = result;
-      var tagHelper: Array<TagObject> = [];
-      result.forEach(opdrachtTag => {
-        var tagObject = new TagObject(opdrachtTag.tag.naam, opdrachtTag.tag.id);
-        tagHelper.push(tagObject)
-      });
-      this.tags = tagHelper;
-    })
-    this.modalService.open(contentOpdracht, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
- */
   opdrachtModal(o: Opdracht) {
     console.log(o);
     this._adminService.opdracht.next(o);
@@ -220,41 +201,6 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['bedrijfForm']);
   }
 
-  updateOpdracht(o: Opdracht) {
-    //efficient
-    if (this.opdrachtForm.get('Titel').value != "" && this.opdrachtForm.get('Titel').value != null) {
-      o.titel = this.opdrachtForm.get('Titel').value;
-    }
-    if (this.opdrachtForm.get('Omschrijving').value != "" && this.opdrachtForm.get('Omschrijving').value != null) {
-      o.omschrijving = this.opdrachtForm.get('Omschrijving').value;
-    }
-    if (this.opdrachtForm.get('Straat').value != "" && this.opdrachtForm.get('Straat').value != null) {
-      o.straat = this.opdrachtForm.get('Straat').value;
-    }
-    if (this.opdrachtForm.get('StraatNr').value != "" && this.opdrachtForm.get('StraatNr').value != null) {
-      o.straatNr = this.opdrachtForm.get('StraatNr').value;
-    }
-    if (this.opdrachtForm.get('Postcode').value != "" && this.opdrachtForm.get('Postcode').value != null) {
-      o.postcode = this.opdrachtForm.get('Postcode').value;
-    }
-    if (this.opdrachtForm.get('Woonplaats').value != "" && this.opdrachtForm.get('Woonplaats').value != null) {
-      o.woonPlaats = this.opdrachtForm.get('Woonplaats').value;
-    }
-    let opdracht = new Opdracht(o.id, o.titel, o.omschrijving, o.bedrijfId, o.straat, o.straatNr, o.postcode, o.woonPlaats, o.opdrachtMakers, o.bedrijf, o.open, o.klaar, o.interest);
-    this._adminService.updateOpdracht(o.id, opdracht).subscribe(
-      result => {
-        this.toastService.show('De opdracht is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
-      },
-      err => {
-        this.toastService.show('De opdracht is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
-      }
-    );
-    this.opdrachtForm.reset();
-    setTimeout(() => {
-      this.ngOnInit()
-    }, 100);
-  }
-
   updateReview(r: Review) {
     r.reviewTekst = this.reviewForm.get('reviewTekst').value;
     let review = new Review(r.id, r.makerId, r.bedrijfId, r.score, r.reviewTekst, r.naarBedrijf, r.maker);
@@ -282,18 +228,5 @@ export class AdminComponent implements OnInit {
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
-  }
-
-  deleteOpdracht(o: Opdracht) {
-    console.log(o)
-    this._opdrachtService.deleteOpdracht(o.id).subscribe(result => {
-      this.toastService.show('De opdracht is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
-    },
-      err => {
-        this.toastService.show('De opdracht is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
-      });
-    setTimeout(() => {
-      this.ngOnInit()
-    }, 150);
   }
 }
