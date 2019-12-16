@@ -60,6 +60,9 @@
 
                 <ul class="list-group">
                     <li *ngFor="let opdrachtmaker of opdrachtmakers" class="list-group-item">
+                        <div *ngIf="opdrachtmaker.geaccepteerd ==true"><span (click)="viewMaker(opdrachtmaker.maker.id)"
+                            class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
+                                class="fas fa-chevron-right"></i></span></div>
                         <div *ngIf="opdrachtmaker.geaccepteerd == false">
                             <span (click)="viewMaker(opdrachtmaker.maker.id)"
                                 class="list-title">{{opdrachtmaker.maker.voornaam}} {{opdrachtmaker.maker.achternaam}}<i
