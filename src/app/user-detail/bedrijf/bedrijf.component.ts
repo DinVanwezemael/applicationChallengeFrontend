@@ -74,7 +74,6 @@ export class BedrijfComponent implements OnInit {
       result => {
       },
       err => {
-        alert("username bestaat al");
       }
     )
   

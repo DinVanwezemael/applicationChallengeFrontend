@@ -48,7 +48,6 @@ export class MakerComponent implements OnInit {
     Biografie: new FormControl('', Validators.required),
     LinkedInLink: new FormControl('', Validators.required),
     Ervaring: new FormControl('', Validators.required),
-    CV: new FormControl('', Validators.required),
     Foto: new FormControl('', Validators.required),
     GeboorteDatum: new FormControl('', Validators.required),
     Id: new FormControl('', Validators.required),
@@ -74,6 +73,27 @@ export class MakerComponent implements OnInit {
     console.log(this.userForm.controls[('Tags')].value);
 
     var tag = this.userForm.controls[('Tags')].value;
+
+    let vmaker: Maker = {
+      achternaam: this.userForm.controls[('Achternaam')].value,
+      biografie: this.userForm.controls[('Biografie')].value,
+      ervaring: this.userForm.controls[('Ervaring')].value,
+      foto: this.userForm.controls[('Foto')].value,
+      geboorteDatum: this.userForm.controls[('GeboorteDatum')].value,
+      id:this.userForm.controls[('Id')].value,
+      linkedInLink: this.userForm.controls[('LinkedInLink')].value,
+      nr: this.userForm.controls[('Nr')].value,
+      postcode: this.userForm.controls[('Postcode')].value,
+      stad: this.userForm.controls[('Stad')].value,
+      straat: this.userForm.controls[('Straat')].value,
+      voornaam:this.userForm.controls[('Voornaam')].value,
+    }
+
+    this._MakerService.updateMakerMaker(vmaker).subscribe(
+      result => {
+        this.haalMakerOp();
+      }
+      );
 
   
 
@@ -126,6 +146,12 @@ export class MakerComponent implements OnInit {
         });
       }
     );
+
+    
+
+
+    
+    console.log("put");
 
     
 
