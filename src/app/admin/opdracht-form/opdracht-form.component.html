@@ -1,0 +1,83 @@
+<div class="container">
+    <h3 class="font-weight-bold">Opdracht aanpassen</h3>
+    <div class="small">Gemaakt door {{bedrijf}}</div>
+    <hr>
+    <form class="user" [formGroup]="formOpdracht" (ngSubmit)="onSubmitOpdracht()">
+        <h5 class="h5 text-gray-900 mb-2">Algemene informatie</h5>
+        <div class="form-group row">
+            <div class="col-sm-12 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" required id="title" placeholder="Titel"
+                    formControlName="titel" [ngClass]="{ 'is-invalid': submittedOpdracht && o.titel.errors}">
+                <div *ngIf="submittedOpdracht && o.titel.errors" class="invalid-feedback">
+                    <div *ngIf="o.titel.errors.required">Verplicht in te vullen.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-12 mb-3 mb-sm-0">
+                <textarea type="text" class="form-control form-control-user form-control-textarea" rows="3" id="bio"
+                    placeholder="Omschrijving" formControlName="omschrijving" [ngClass]="{ 'is-invalid': submittedOpdracht && o.omschrijving.errors}"></textarea>
+                <div *ngIf="submittedOpdracht && o.omschrijving.errors" class="invalid-feedback">
+                    <div *ngIf="o.omschrijving.errors.required">Verplicht in te vullen.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tags" class="col-sm-4 col-form-label">Extra tags: (Javascript, .NET, ..)</label>
+            <div class="col-sm-8 mb-3 mb-sm-0">
+                <tag-input class="test" [(ngModel)]='tagsObject' formControlName="tags" [theme]="'centtask-theme'">
+                    <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="tagItems">
+                    </tag-input-dropdown>
+                </tag-input>
+            </div>
+        </div>
+        <br>
+        <h5 class="h5 text-gray-900 mb-2">Locatie</h5>
+        <div class="form-group row">
+            <div class="col-sm-8 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="straat" placeholder="Straat"
+                    formControlName="straat" [ngClass]="{ 'is-invalid': submittedOpdracht && o.straat.errors }">
+                <div *ngIf="submittedOpdracht && o.straat.errors" class="invalid-feedback">
+                    <div *ngIf="o.straat.errors.required">Verplicht in te vullen.</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control form-control-user" id="nr" placeholder="Nr." formControlName="nr"
+                    [ngClass]="{ 'is-invalid': submittedOpdracht && o.nr.errors }">
+                <div *ngIf="submittedOpdracht && o.nr.errors" class="invalid-feedback">
+                    <div *ngIf="o.nr.errors.required">Verplicht in te vullen.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-8 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="stad" placeholder="Stad"
+                    formControlName="stad" [ngClass]="{ 'is-invalid': submittedOpdracht && o.stad.errors }">
+                <div *ngIf="submittedOpdracht && o.stad.errors" class="invalid-feedback">
+                    <div *ngIf="o.stad.errors.required">Verplicht in te vullen.</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control form-control-user" id="postcode" placeholder="Postcode"
+                    formControlName="postcode" [ngClass]="{ 'is-invalid': submittedOpdracht && o.postcode.errors }">
+                <div *ngIf="submittedOpdracht && o.postcode.errors" class="invalid-feedback">
+                    <div *ngIf="o.postcode.errors.required">Verplicht in te vullen.</div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group row">
+            <button type="button" (click)="back()" class="btn btn-primary btn-user col-sm-2 mx-auto backButton">
+                <i class="fas fa-lg fa-arrow-left"></i>
+            </button>
+            <button (click)="removeOpdracht()" [disabled]="waitOpdracht" type="button"
+                class="btn btn-danger col-sm-3 btn-user mx-auto">
+                Verwijderen
+            </button>
+            <button [disabled]="waitOpdracht" type="submit" class="btn btn-success col-sm-3 btn-user mx-auto">
+                Bevestigen
+            </button>
+        </div>
+    </form>
+
+</div>

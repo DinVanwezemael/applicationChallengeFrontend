@@ -36,7 +36,7 @@ import { Bedrijf } from 'src/app/models/bedrijf.model';
     .filled.bad {
       color: #ff1e1e;
     }
-  `] 
+  `]
 })
 export class AdminComponent implements OnInit {
   makers: UserLogin[] = [];
@@ -161,7 +161,7 @@ export class AdminComponent implements OnInit {
     this.ngOnInit();
   }
 
-  opdrachtModal(contentOpdracht, o: Opdracht) {
+  /* opdrachtModal(contentOpdracht, o: Opdracht) {
     this.opdracht = o;
     console.log(this.opdracht);
     this._OpdrachtTagService.getWhereBedrijfId(o.id).subscribe(result => {
@@ -179,71 +179,26 @@ export class AdminComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+ */
+  opdrachtModal(o: Opdracht) {
+    console.log(o);
+    this._adminService.opdracht.next(o);
+    this.router.navigate(['opdrachtForm']);
+  }
 
-  /* makerModal(contentMaker, m: UserLogin) {
-    console.log(this.makerForm)
-    this.gebruiker = m;
-    this._MakerTagService.getWhereMakerId(m.makerId).subscribe(result => {
-      this.makerTags = result;
-      var tagHelper: Array<TagObject> = [];
-      result.forEach(makerTag => {
-        console.log(makerTag);
-        var tagObject = new TagObject(makerTag.tag.naam, makerTag.tag.id);
-        tagHelper.push(tagObject)
-      });
-      this.tags = tagHelper;
-      console.log(this.tags);
-    });
-    this.modalService.open(contentMaker, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  } */
 
   makerModal(m: UserLogin) {
-      console.log(m);
-      this._adminService.maker.next(m);
-      this.router.navigate(['makerForm']);
+    console.log(m);
+    this._adminService.maker.next(m);
+    this.router.navigate(['makerForm']);
   }
 
   bedrijfModal(b: UserLogin) {
     console.log(b);
     this._adminService.bedrijf.next(b);
     this.router.navigate(['bedrijfForm']);
-}
+  }
 
-/*   bedrijfModal(contentBedrijf, b: UserLogin) {
-    this.gebruiker = b;
-    this._BedrijfTagService.getWhereBedrijfId(b.bedrijfId).subscribe(result => {
-      this.bedrijfTags = result;
-      var tagHelper: Array<TagObject> = [];
-      result.forEach(bedrijfTag => {
-        console.log(bedrijfTag);
-        var tagObject = new TagObject(bedrijfTag.tag.naam, bedrijfTag.tag.id);
-        tagHelper.push(tagObject)
-      });
-      this.tags = tagHelper;
-      console.log(this.tags);
-    });
-    this.bedrijfForm.controls['Id'].setValue(b.bedrijf.id);
-    this.bedrijfForm.controls['Naam'].setValue(b.bedrijf.naam);
-    this.bedrijfForm.controls['Postcode'].setValue(b.bedrijf.postcode);
-    this.bedrijfForm.controls['Stad'].setValue(b.bedrijf.stad);
-    this.bedrijfForm.controls['Straat'].setValue(b.bedrijf.straat);
-    this.bedrijfForm.controls['Nr'].setValue(b.bedrijf.nr);
-    this.bedrijfForm.controls['Biografie'].setValue(b.bedrijf.biografie);
-    this.bedrijfForm.controls['Foto'].setValue(b.bedrijf.foto);
-    this.bedrijfForm.controls['Email'].setValue(b.email);
-    this.bedrijfForm.controls['Nickname'].setValue(b.username);
-
-    this.modalService.open(contentBedrijf, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    console.log(this.bedrijfForm)
-  } */
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -262,7 +217,7 @@ export class AdminComponent implements OnInit {
 
   addBedrijf() {
     this._adminService.bedrijf.next(null);
-    this.router.navigate(['bedrijfForm']);  
+    this.router.navigate(['bedrijfForm']);
   }
 
   updateOpdracht(o: Opdracht) {
@@ -304,128 +259,26 @@ export class AdminComponent implements OnInit {
     r.reviewTekst = this.reviewForm.get('reviewTekst').value;
     let review = new Review(r.id, r.makerId, r.bedrijfId, r.score, r.reviewTekst, r.naarBedrijf, r.maker);
     this._adminService.updateReview(r.id, review).subscribe(
-    result => {
-      this.toastService.show('De review is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
-    },
-    err => {
-      this.toastService.show('De review is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
-    });
+      result => {
+        this.toastService.show('De review is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
+      },
+      err => {
+        this.toastService.show('De review is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
+      });
     this.reviewForm.reset()
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
   }
 
-  updateMaker(g: UserLogin) {
-    if (this.makerForm.get('Nickname').value != "" && this.makerForm.get('Nickname').value != null) {
-      g.username = this.makerForm.get('Nickname').value;
-    }
-    if (this.makerForm.get('Email').value != "" && this.makerForm.get('Email').value != null) {
-      g.email = this.makerForm.get('Email').value;
-    }
-    if (this.makerForm.get('Voornaam').value != "" && this.makerForm.get('Voornaam').value != null) {
-      g.maker.voornaam = this.makerForm.get('Voornaam').value;
-    }
-    if (this.makerForm.get('Achternaam').value != "" && this.makerForm.get('Achternaam').value != null) {
-      g.maker.achternaam = this.makerForm.get('Achternaam').value;
-    }
-    if (this.makerForm.get('GeboorteDatum').value != "" && this.makerForm.get('GeboorteDatum').value != null) {
-      g.maker.geboorteDatum = this.makerForm.get('GeboorteDatum').value;
-    }
-    if (this.makerForm.get('Ervaring').value != "" && this.makerForm.get('Ervaring').value != null) {
-      g.maker.ervaring = this.makerForm.get('Ervaring').value;
-    }
-    if (this.makerForm.get('LinkedInLink').value != "" && this.makerForm.get('LinkedInLink').value != null) {
-      g.maker.linkedInLink = this.makerForm.get('LinkedInLink').value;
-    }
-    if (this.makerForm.get('Biografie').value != "" && this.makerForm.get('Biografie').value != null) {
-      g.maker.biografie = this.makerForm.get('Biografie').value;
-    }
-    if (this.makerForm.get('Straat').value != "" && this.makerForm.get('Straat').value != null) {
-      g.maker.straat = this.makerForm.get('Straat').value;
-    }
-    if (this.makerForm.get('Nr').value != "" && this.makerForm.get('Nr').value != null) {
-      g.maker.nr = this.makerForm.get('Nr').value;
-    }
-    if (this.makerForm.get('Postcode').value != "" && this.makerForm.get('Postcode').value != null) {
-      g.maker.postcode = this.makerForm.get('Postcode').value;
-    }
-    if (this.makerForm.get('Stad').value != "" && this.makerForm.get('Stad').value != null) {
-      g.maker.stad = this.makerForm.get('Stad').value;
-    }
-    let gebruiker = new UserLogin(g.id, g.username, g.email, g.userTypeId, g.makerId, g.bedrijfId, g.maker, g.bedrijf);
-    this._adminService.updateUserLogin(g.id, gebruiker).subscribe(result => {
-      console.log(result);
-      if (result == null) {
-        this.toastService.show('De gebruikersnaam bestaat al!', { classname: 'bg-danger text-light', delay: 10000 });
-      }
-      else {
-        this.toastService.show('Gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
-      }
-    });
-    this._adminService.updateMaker(g.makerId, g.maker).subscribe(result => {
-      this.toastService.show('De maker is geupdate!', { classname: 'bg-success text-light', delay: 10000 });
-    },
-    err => {
-      this.toastService.show('De maker is niet geupdate!', { classname: 'bg-danger text-light', delay: 10000 });
-    });
-    this.makerForm.reset();
-    setTimeout(() => {
-      this.ngOnInit()
-    }, 100);
-  }
-
-  updateBedrijf(g: UserLogin) {
-    console.log(this.bedrijfForm)
-    g.username = this.bedrijfForm.get('Nickname').value
-    g.email = this.bedrijfForm.get('Email').value
-
-    let gebruiker = new UserLogin(g.id, g.username, g.email, g.userTypeId, g.makerId, g.bedrijfId, g.maker, g.bedrijf);
-    this._adminService.updateUserLogin(g.id, gebruiker).subscribe(result => {
-      console.log(result);
-      if (result == null) {
-        this.toastService.show('De gebruikersnaam bestaat al!', { classname: 'bg-danger text-light', delay: 10000 });
-      }
-      else {
-        this.toastService.show('Gegevens zijn aangepast!', { classname: 'bg-success text-light', delay: 10000 });
-      }
-    });
-    this._BedrijfService.updateBedrijf(this.bedrijfForm.controls['Id'].value, this.bedrijfForm.value).subscribe(
-      result => {
-      },
-      err => {
-        alert("username bestaat al");
-      }
-    )
-    setTimeout(() => {
-      this.ngOnInit()
-    }, 100);
-  }
 
   deleteReview(id: number) {
     this._adminService.deleteReview(id).subscribe(result => {
       this.toastService.show('De review is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
     },
-    err => {
-      this.toastService.show('De review is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
-    });
-    setTimeout(() => {
-      this.ngOnInit()
-    }, 100);
-  }
-
-  deleteMaker(gebruiker: UserLogin) {
-    console.log(gebruiker.makerId)
-    this._adminService.deleteUserLogin(gebruiker.id).subscribe();
-    this._adminService.deleteSkillMakerWhereMakerId(gebruiker.makerId).subscribe();
-    this._adminService.deleteOpdrachtMakerWhereMakerId(gebruiker.makerId).subscribe();
-    this._adminService.deleteReviewWhereMakerId(gebruiker.makerId).subscribe();
-    this._adminService.deleteMakerTagWhereMakerId(gebruiker.makerId).subscribe();
-    this._adminService.deleteMaker(gebruiker.makerId).subscribe();
-
-      this.toastService.show('De maker is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
-    
-
+      err => {
+        this.toastService.show('De review is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
+      });
     setTimeout(() => {
       this.ngOnInit()
     }, 100);
@@ -436,21 +289,11 @@ export class AdminComponent implements OnInit {
     this._opdrachtService.deleteOpdracht(o.id).subscribe(result => {
       this.toastService.show('De opdracht is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
     },
-    err => {
-      this.toastService.show('De opdracht is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
-    });
+      err => {
+        this.toastService.show('De opdracht is niet verwijderd!', { classname: 'bg-danger text-light', delay: 10000 });
+      });
     setTimeout(() => {
       this.ngOnInit()
     }, 150);
-  }
-
-  deleteBedrijf(gebruiker: UserLogin){
-    this._adminService.deleteUserLogin(gebruiker.id).subscribe();
-    this._adminService.deleteBedrijf(gebruiker.bedrijfId).subscribe();
-    this._BedrijfTagService.deleteAllWhereBedrijfId(gebruiker.bedrijfId).subscribe();
-    this._adminService.deleteReviewWhereBedrijfId(gebruiker.bedrijfId).subscribe();
-
-      this.toastService.show('Het bedrijf is verwijderd!', { classname: 'bg-success text-light', delay: 10000 });
-    
   }
 }

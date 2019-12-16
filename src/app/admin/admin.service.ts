@@ -11,6 +11,7 @@ import { UserLogin } from '../models/user-login.model';
 export class AdminService {
   maker = new BehaviorSubject<any>(null);
   bedrijf = new BehaviorSubject<any>(null);
+  opdracht = new BehaviorSubject<any>(null);
 
   constructor(private _httpClient: HttpClient) { 
 
@@ -54,6 +55,14 @@ export class AdminService {
   
   deleteBedrijf(bedrijfId: number) {
     return this._httpClient.delete<Bedrijf>("https://localhost:44341/api/bedrijf/" + bedrijfId);
+  }
+
+  deleteOpdracht(id: number) {
+    return this._httpClient.delete<Opdracht>("https://localhost:44341/api/opdracht/" + id);
+  }
+
+  editOpdracht(id: number, data: {}) {
+    return this._httpClient.put<any>("https://localhost:44341/api/opdracht/EditOpdracht/" + id, data);
   }
   
   deleteSkillMakerWhereMakerId(makerId: number) {
