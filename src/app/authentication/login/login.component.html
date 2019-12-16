@@ -48,8 +48,7 @@
                 class="btn btn-primary btn-user btn-block col-sm-6 mx-auto">
                 Login
               </button>
-              <hr>
-              <button type="button" (click)="authFB()" class="btn btn-facebook btn-user btn-block col-12 mx-auto">
+              <button type="button" [disabled]="true" (click)="authFB()" class="btn btn-facebook btn-user btn-block col-sm-6 mx-auto">
                 <i class="fab fa-facebook-f fa-fw"></i> Login als maker via Facebook
               </button> 
             </form>
