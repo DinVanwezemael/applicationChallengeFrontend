@@ -17,6 +17,7 @@ export class BedrijfTagService {
     return this.http.delete<BedrijfTag[]>("https://localhost:44341/api/bedrijftag/"+Id);
   };
   newBedrijfTag(bedrijfTag:BedrijfTag): Observable<BedrijfTag> {
+    console.log(bedrijfTag);
     return this.http.post<BedrijfTag>("https://localhost:44341/api/bedrijftag/", bedrijfTag);
   };
 }

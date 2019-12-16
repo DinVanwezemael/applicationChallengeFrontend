@@ -35,6 +35,7 @@ profielfoto;
 gemiddeldeReviewScore;
 stars;
 username
+dob = "";
 
   ngOnInit() {
     this.route.queryParams
@@ -51,11 +52,12 @@ username
           else{
             this.profielfoto = "https://localhost:44341/images/"+result.foto;
           }
+          
+    this.dob = this.maker.geboorteDatum.toString().replace('T00:00:00', '');
         });
       }
 
     });
-
   } 
 
   viewReviews(makerId){

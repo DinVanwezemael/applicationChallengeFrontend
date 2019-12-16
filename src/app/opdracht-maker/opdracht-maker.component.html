@@ -6,8 +6,8 @@
         </div>
 
 
-        <div class="col-md-12">
-                <h2 class="mg-20">{{maker.voornaam}} {{maker.achternaam}}
+        <div class="col-md-12 profile">
+                <h2 class="mg-20">{{maker?.voornaam}} {{maker?.achternaam}}
                 </h2>
                 <div class="font-weight-bold maker-link" (click)="viewReviews(maker.id)">
                         <ng-template class="maker-link" #s let-fill="fill">
@@ -23,18 +23,26 @@
                 </div>
 
 
-                <!-- <div class="info">
-                        <span class="font-weight-bold font-italic">LinkedIn:</span>
-                        {{maker.linkedInLink}}
-                </div> -->
+                <div class="info">
+                        <span class="font-weight-bold font-italic">LinkedIn: </span>
+                        <a href="{{maker?.linkedInLink}}" target="_blank">{{maker?.linkedInLink}}</a>
+                </div>
 
                 <div class="info">
-                        <span class="font-weight-bold font-italic">Biografie:</span>
-                        {{maker.biografie}}
+                        <span class="font-weight-bold font-italic">Biografie: </span>
+                        {{maker?.biografie}}
                 </div>
                 <div class="info">
-                        <span class="font-weight-bold font-italic">Ervaring:</span>
-                        {{maker.ervaring}}
+                        <span class="font-weight-bold font-italic">Ervaring: </span>
+                        {{maker?.ervaring}}
+                </div>
+                <div class="info">
+                        <span class="font-weight-bold font-italic">Geboorte-datum: </span>
+                        {{dob}}
+                </div>
+                <div class="info">
+                        <span class="font-weight-bold font-italic">Regio: </span>
+                        {{maker?.stad}}
                 </div>
 
         </div>
