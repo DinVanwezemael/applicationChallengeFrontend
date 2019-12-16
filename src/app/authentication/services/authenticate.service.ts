@@ -174,4 +174,8 @@ export class AuthenticateService {
     var verifyUser = {id: id}
     return this._httpClient.post("https://localhost:44341/api/userLogin/verifyUser", verifyUser);
   }
+
+  authFB(token: {}) {
+    return this._httpClient.post("https://localhost:44341/api/userLogin/authFB", token);
+  }
 }

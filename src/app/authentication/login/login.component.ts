@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { BedrijfService } from 'src/app/services/bedrijf.service';
 import * as jwtDecode from 'jwt-decode';
+import { FbAuthService } from '../services/fb-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,13 @@ export class LoginComponent implements OnInit {
   profielfoto
   invalidVerified = false;
 
-  constructor(private fb: FormBuilder, private _authenticationService: AuthenticateService, private router: Router, private appComponent: AppComponent, private _BedrijfService: BedrijfService) { }
+  constructor(private FbAuthService: FbAuthService,  private fb: FormBuilder, private _authenticationService: AuthenticateService, private router: Router, private appComponent: AppComponent, private _BedrijfService: BedrijfService) 
+  {
+  this.FbAuthService.afAuth.user.subscribe(user => {
+    console.log(user);
+    })
+   }
+   
   loginForm: FormGroup;
   registerForm: FormGroup;
 
@@ -29,6 +36,10 @@ export class LoginComponent implements OnInit {
     })
 
    // this.getUserDetails();
+  }
+
+  authFB() {
+    this.FbAuthService.facebookAuth();
   }
 
   enableRegister() {
