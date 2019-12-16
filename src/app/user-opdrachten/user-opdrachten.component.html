@@ -35,12 +35,12 @@
 
   <br>
   <div *ngIf="!contentEditable">
-    <div *ngFor="let opdracht of (opdrachten | filter:searchText | async) ">
+    <div *ngFor="let opdracht of (opdrachten | async) ">
       <div class="card" (click)="viewOpdracht(opdracht.id)">
         <div class="card-body">
           <h5 *ngIf="opdracht.titel" class="card-title font-weight-bold">{{opdracht.titel}}
             <span *ngIf="opdracht.open" class="badge badge-success">Open</span >
-            <span *ngIf="!opdracht.open && !opdracht.klaar" class="badge badge-secondary">Gesloten</span>
+            <span *ngIf="!opdracht.open && !opdracht.klaar" class="badge badge-warning">Gesloten</span>
             <span *ngIf="!opdracht.open && opdracht.klaar" class="badge badge-danger">Afgelopen</span>
           </h5>
           <h6 *ngIf="opdracht.bedrijf.naam" class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
@@ -60,13 +60,14 @@
       <div class="card" (click)="viewOpdracht(opdracht.id)">
         <div class="card-body">
           <h5 *ngIf="opdracht.titel" class="card-title font-weight-bold">{{opdracht.titel}}
-            <span *ngIf="opdracht.open" class="badge badge-success">Open</span>
-            <span *ngIf="!opdracht.open" class="badge badge-danger">Gesloten</span>
+            <span *ngIf="opdracht.open" class="badge badge-success">Open</span >
+              <span *ngIf="!opdracht.open && !opdracht.klaar" class="badge badge-warning">Gesloten</span>
+              <span *ngIf="!opdracht.open && opdracht.klaar" class="badge badge-danger">Afgelopen</span>
           </h5>
           <h6 *ngIf="opdracht.bedrijf.naam" class="card-subtitle mb-2 text-muted">{{opdracht.bedrijf.naam}}</h6>
           <p *ngIf="opdracht.omschrijving" class="card-text">{{opdracht.omschrijving}}</p>
           <div>
-            <span *ngFor="let tag of opdracht.tags" class="tag badge badge-success">{{tag.tag.naam}}</span>
+            <span *ngFor="let tag of opdracht.tags" class="tag badge badge-success">{{tag.tag?.naam}}</span>
           </div>
         </div>
       </div>

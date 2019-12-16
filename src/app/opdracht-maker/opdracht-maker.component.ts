@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MakerService } from '../services/maker.service';
 import { Maker } from '../models/maker.model';
+import * as jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-opdracht-maker',
@@ -33,6 +34,8 @@ maker:Maker;
 profielfoto;
 gemiddeldeReviewScore;
 stars;
+username
+
   ngOnInit() {
     this.route.queryParams
     .subscribe(params => {
@@ -40,7 +43,7 @@ stars;
       if(params.makerId !=null){
         this._MakerService.getMakerWhereId(params.makerId).subscribe(result => {
           this.maker = result;
-          console.log(result.nickname)
+          console.log(result)
           this.getReviewScore(result.id);
           if(result.foto == null){
             this.profielfoto = "https://api.adorable.io/avatars/285/" + result.id + "@adorable.png";
@@ -52,7 +55,8 @@ stars;
       }
 
     });
-  }
+
+  } 
 
   viewReviews(makerId){
     this.router.navigate(['maker-review'], { queryParams: { makerId:makerId } });

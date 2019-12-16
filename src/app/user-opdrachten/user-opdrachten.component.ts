@@ -76,6 +76,7 @@ export class UserOpdrachtenComponent implements OnInit {
 
   getOpdrachtenOpen() {
     this.OpdrachtService.getOpdrachtenVoorStudentOpen().subscribe(result => {
+      console.log(result);
       this.opdrachten.next(result.sort(function (a, b) { return b.interest - a.interest }));
       console.log(result);
     });
